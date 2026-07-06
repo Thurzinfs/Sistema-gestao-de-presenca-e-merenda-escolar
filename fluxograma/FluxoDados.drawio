@@ -45,7 +45,7 @@
             <mxPoint x="550" y="530" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Uayajjxd6L8t2Ifeyt_z-100" parent="Uayajjxd6L8t2Ifeyt_z-15" style="whiteSpace=wrap;html=1;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" value="Relatorios" vertex="1">
+        <mxCell id="Uayajjxd6L8t2Ifeyt_z-100" parent="Uayajjxd6L8t2Ifeyt_z-15" style="whiteSpace=wrap;html=1;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" value="Relatorios&lt;br&gt;(WAHA/Web )" vertex="1">
           <mxGeometry height="40" width="120" x="140" y="370" as="geometry" />
         </mxCell>
         <mxCell id="Uayajjxd6L8t2Ifeyt_z-39" parent="1" style="swimlane;startSize=20;horizontal=1;containerType=tree;" value="base de fluxo" vertex="1">
@@ -200,6 +200,11 @@
         </mxCell>
         <mxCell id="p4bOWDgI_U6f9PFFP3V9-1" edge="1" parent="Uayajjxd6L8t2Ifeyt_z-63" source="Uayajjxd6L8t2Ifeyt_z-65" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;startArrow=none;endArrow=none;" target="p4bOWDgI_U6f9PFFP3V9-2" value="">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="1VCpnXTuFQUR2gpdk5pk-1" connectable="0" parent="p4bOWDgI_U6f9PFFP3V9-1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Docker" vertex="1">
+          <mxGeometry relative="1" x="-0.1321" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="p4bOWDgI_U6f9PFFP3V9-2" parent="Uayajjxd6L8t2Ifeyt_z-63" style="whiteSpace=wrap;html=1;treeFolding=1;treeMoving=1;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;startArrow&quot;:&quot;none&quot;,&quot;endArrow&quot;:&quot;none&quot;};" value="WAHA" vertex="1">
           <mxGeometry height="40" width="120" x="690" y="60" as="geometry" />
