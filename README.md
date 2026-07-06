@@ -181,3 +181,164 @@ Detalha o ciclo de uma leitura individual, do momento da captura até a geraçã
   - **6a.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica e orienta o usuário a tentar novamente.
 - **Requisitos Especiais:** Horários devem ser validados no formato HH:MM; número de WhatsApp deve seguir o padrão internacional E.164 (ex: +5511999999999); interface não precisa ser responsiva para mobile, já que o cadastro é feito uma vez, em ambiente administrativo.
 - **Frequência:** Baixa — realizado uma única vez na implantação do sistema, com edições pontuais e raras depois (ex: mudança de horário de corte ou de número da cantina).
+
+---
+
+## Padrão de Commits
+
+Este projeto segue o padrão **[Conventional Commits](https://www.conventionalcommits.org/)**, que ajuda a manter um histórico de commits organizado, legível e que facilita a geração automática de changelogs.
+
+### Estrutura básica
+
+```
+<tipo>(<escopo opcional>): <descrição curta>
+```
+
+Exemplo:
+```
+feat(auth): adiciona login via Google
+```
+
+### Tipos de commit
+
+| Tipo | Quando usar |
+|------|-------------|
+| **feat** | Adição de uma nova funcionalidade para o usuário |
+| **fix** | Correção de um bug |
+| **docs** | Alterações apenas na documentação (README, comentários, wiki) |
+| **style** | Mudanças que não afetam a lógica do código (formatação, espaços, ponto e vírgula) |
+| **refactor** | Alteração no código que não corrige bug nem adiciona funcionalidade, apenas melhora a estrutura |
+| **perf** | Mudança de código focada em melhorar performance |
+| **test** | Adição ou correção de testes automatizados |
+| **build** | Alterações que afetam o sistema de build ou dependências externas (npm, webpack, etc.) |
+| **ci** | Mudanças em arquivos e scripts de integração contínua (GitHub Actions, CI/CD) |
+| **chore** | Tarefas de manutenção que não alteram código de produção (configs, scripts internos) |
+| **revert** | Reverte um commit anterior |
+
+### Boas práticas ao commitar
+
+- **Use o imperativo**: escreva "adiciona", "corrige", "remove" em vez de "adicionado", "corrigido".
+- **Um commit, uma responsabilidade**: evite misturar várias alterações não relacionadas no mesmo commit.
+- **Commits pequenos e frequentes**: facilita revisão e reduz conflitos de merge.
+- **Nunca commit direto na `main`/`master`**: sempre trabalhe em branches específicas.
+
+### Padrão de branches
+
+| Prefixo | Uso |
+|---------|-----|
+| `feature/` | Novas funcionalidades (ex: `feature/login-google`) |
+| `fix/` | Correções de bugs (ex: `fix/erro-cadastro`) |
+| `hotfix/` | Correções urgentes em produção |
+| `chore/` | Tarefas de manutenção/configuração |
+| `docs/` | Alterações apenas de documentação |
+
+---
+
+## Como contribuir
+
+Siga os passos abaixo para configurar o projeto localmente e começar a contribuir.
+
+### Pré-requisitos
+ 
+- [Python 3.12+](https://www.python.org/) instalado
+- [uv](https://docs.astral.sh/uv/getting-started/installation/) instalado
+```bash
+# instalar o uv (caso ainda não tenha)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+ 
+### 1. Clone o repositório
+ 
+```bash
+git clone https://github.com/seu-usuario/nome-do-repositorio.git
+```
+ 
+### 2. Acesse a pasta do projeto
+ 
+```bash
+cd nome-do-repositorio
+```
+ 
+### 3. Instale as dependências com o uv
+ 
+O `uv` cria e gerencia automaticamente o ambiente virtual (`.venv`) com base no `pyproject.toml` / `uv.lock`.
+ 
+```bash
+uv sync
+```
+ 
+### 4. Ative o ambiente virtual (opcional)
+ 
+O `uv run` já executa os comandos dentro do ambiente automaticamente, mas se preferir ativar manualmente:
+ 
+```bash
+source .venv/bin/activate   # Linux/macOS
+.venv\Scripts\activate      # Windows
+```
+ 
+### 5. Configure as variáveis de ambiente
+ 
+```bash
+cp .env.example .env
+```
+ 
+Edite o arquivo `.env` com as configurações necessárias (banco de dados, chaves, etc.).
+ 
+### 6. Aplique as migrações do Django
+ 
+```bash
+uv run manage.py migrate
+```
+ 
+### 7. Suba o servidor de desenvolvimento
+ 
+```bash
+uv run manage.py runserver
+```
+ 
+A API estará disponível em `http://localhost:8000`, com a documentação automática do Django Ninja em `http://localhost:8000/api/docs`.
+ 
+### 8. Crie uma branch a partir da `main`
+ 
+```bash
+git checkout main
+git pull origin main
+git checkout -b feature/nome-da-sua-feature
+```
+ 
+### 9. Faça suas alterações e commit seguindo o padrão
+ 
+```bash
+git add .
+git commit -m "feat: adiciona funcionalidade X"
+```
+ 
+### 10. Envie sua branch para o repositório remoto
+ 
+```bash
+git push origin feature/nome-da-sua-feature
+```
+ 
+### 11. Abra um Pull Request
+ 
+- Acesse o repositório no GitHub/GitLab.
+- Abra um Pull Request da sua branch para a `main`.
+- Descreva claramente o que foi feito e, se possível, referencie a issue relacionada.
+- Aguarde a revisão de outro(a) desenvolvedor(a) antes do merge.
+### Dicas úteis com o uv
+ 
+| Comando | Descrição |
+|---------|-----------|
+| `uv add <pacote>` | Adiciona uma nova dependência ao projeto |
+| `uv add --dev <pacote>` | Adiciona uma dependência apenas de desenvolvimento |
+| `uv remove <pacote>` | Remove uma dependência |
+| `uv sync` | Sincroniza o ambiente com o `uv.lock` |
+| `uv lock` | Atualiza o arquivo de lock de dependências |
+| `uv run <comando>` | Executa um comando dentro do ambiente virtual do projeto |
+ 
+### Checklist antes de abrir o PR
+
+- [ ] O código segue os padrões de estilo do projeto
+- [ ] Os testes passam localmente
+- [ ] A documentação foi atualizada (se necessário)
+- [ ] Os commits seguem o padrão Conventional Commits
