@@ -147,6 +147,140 @@ Detalha o ciclo de uma leitura individual, do momento da captura até a geraçã
 
 ---
 
+## Entidades e Módulos
+ 
+### Módulo `school`
+ 
+#### `School`
+ 
+Representa a instituição de ensino e concentra as configurações gerais usadas pelos demais módulos.
+ 
+| Campo | Descrição |
+|---|---|
+| `id` | Identificador único da escola |
+| `name` | Nome da instituição |
+| `time_closing_presence` | Horário de corte para presença dentro do prazo (ex: 09:00) |
+| `time_send_snack_morning` | Horário de envio automático do relatório do lanche da manhã via WhatsApp |
+| `time_send_lunch` | Horário de envio automático do relatório do almoço via WhatsApp |
+| `time_send_snack_afternoon` | Horário de envio automático do relatório do lanche da tarde via WhatsApp |
+| `number_whats` | Número de WhatsApp da cantina, destino dos relatórios automáticos |
+| `created_at` | Data e hora de criação do registro |
+ 
+#### `Manager`
+ 
+Representa os usuários do sistema (gestores) — Direção, Coordenador, Monitor e Cantina.
+ 
+| Campo | Descrição |
+|---|---|
+| `id` | Identificador único do gestor |
+| `school_id` | Escola à qual o gestor pertence |
+| `role` | Perfil de acesso (`direction`, `coordinator`, `monitor`, `canteen`), define as permissões dentro do sistema |
+| `name` | Nome do gestor |
+| `email` | E-mail usado para login, único no sistema |
+| `password` | Senha de acesso, armazenada com hash |
+| `active` | Indica se o gestor ainda está ativo (exclusão lógica) |
+| `created_at` | Data e hora de criação do registro |
+ 
+### Módulo `academic`
+ 
+#### `Classroom`
+ 
+Representa uma turma da escola, usada para agrupar os alunos.
+ 
+| Campo | Descrição |
+|---|---|
+| `id` | Identificador único da turma |
+| `school_id` | Escola à qual a turma pertence |
+| `name` | Nome/identificação da turma (ex: "9º Ano A") |
+| `active` | Indica se a turma ainda está em funcionamento (exclusão lógica) |
+| `created_at` | Data e hora de criação do registro |
+ 
+#### `Student`
+ 
+Representa o aluno, identificado unicamente pelo QR code de sua carteirinha estudantil.
+ 
+| Campo | Descrição |
+|---|---|
+| `id` | Identificador único do aluno |
+| `classroom_id` | Turma à qual o aluno pertence |
+| `name` | Nome do aluno |
+| `RA` | Registro acadêmico/matrícula do aluno, único no sistema |
+| `qr_code` | Código único gerado para a carteirinha estudantil, usado na leitura |
+| `active` | Indica se o aluno ainda está matriculado (exclusão lógica) |
+| `created_at` | Data e hora de criação do registro |
+ 
+### Módulo `presence`
+ 
+Núcleo do sistema — registra o evento bruto de leitura e as duas interpretações derivadas dele: presença e contagem de refeição.
+ 
+#### `Readings`
+ 
+Log bruto de cada leitura realizada na máquina da entrada. Nunca é apagado, funciona como auditoria de tudo que já aconteceu.
+ 
+| Campo | Descrição |
+|---|---|
+| `id` | Identificador único da leitura |
+| `student_id` | Aluno identificado na leitura |
+| `moment` | Momento do dia em que a leitura ocorreu (`snack_morning`, `lunch`, `snack_afternoon`) |
+| `date_time` | Data e hora exatas da leitura |
+ 
+#### `Frequency`
+ 
+Registro de presença — um único registro por aluno, por dia, gerado a partir da primeira leitura.
+ 
+| Campo | Descrição |
+|---|---|
+| `id` | Identificador único do registro de presença |
+| `student_id` | Aluno referente à presença |
+| `date` | Data da presença |
+| `on_time` | Indica se a leitura ocorreu dentro do horário de corte da escola (`time_closing_presence`) |
+| `reading_id` | Leitura que originou este registro de presença |
+ 
+#### `Register_Snack`
+ 
+Registro de refeição — um registro por aluno, por dia, por momento (lanche manhã, almoço, lanche tarde são contados separadamente).
+ 
+| Campo | Descrição |
+|---|---|
+| `id` | Identificador único do registro de refeição |
+| `student_id` | Aluno referente à refeição |
+| `date` | Data da refeição |
+| `moment` | Momento a que se refere este registro (`snack_morning`, `lunch`, `snack_afternoon`) |
+| `type_snack` | Tipo de porção escolhida (`normal` ou `little`) — preenchido apenas quando `moment` é `lunch` |
+| `reading_id` | Leitura que originou este registro de refeição |
+ 
+### Módulo `canteen`
+ 
+#### `Daily_Menu`
+ 
+Cardápio cadastrado pela cantina para um dia específico.
+ 
+| Campo | Descrição |
+|---|---|
+| `id` | Identificador único do cardápio do dia |
+| `school_id` | Escola à qual o cardápio pertence |
+| `date` | Data a que se refere o cardápio |
+| `main_course` | Descrição do prato principal servido |
+| `manager_id` | Gestor da cantina que cadastrou o cardápio |
+| `created_at` | Data e hora de criação do registro |
+ 
+### Módulo `notifications`
+ 
+#### `Logs_Whats`
+ 
+Log de cada tentativa de envio automático de relatório via WhatsApp — permite auditar sucesso ou falha de envio.
+ 
+| Campo | Descrição |
+|---|---|
+| `id` | Identificador único do log de envio |
+| `school_id` | Escola referente ao envio |
+| `date` | Data referente ao relatório enviado |
+| `status` | Resultado do envio (`success` ou `failed`) |
+| `message` | Texto exato da mensagem enviada (ou que tentou ser enviada) |
+| `sent_on` | Data e hora em que o envio foi realizado |
+
+---
+
 ## Roadmap
  
 1. **MVP**: cadastro (escola, gestores, turmas, alunos, dispositivos), importação em massa e geração de carteirinhas, aplicação de leitura no computador da entrada, regras de presença e refeição, relatórios básicos, envio via WhatsApp.
