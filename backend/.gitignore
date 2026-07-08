@@ -14,3 +14,7 @@ wheels/
 .sqlite
 .$*.bkp
 .$*.dtmp
+
+.sqlite
+
+media/
