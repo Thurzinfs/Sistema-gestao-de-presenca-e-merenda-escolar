@@ -291,6 +291,8 @@ Log de cada tentativa de envio automático de relatório via WhatsApp — permit
 
 ## Casos de Usos - UC
 
+### Escola
+ 
 #### UC01: Cadastrar Escola
  
 - **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
@@ -315,18 +317,364 @@ Log de cada tentativa de envio automático de relatório via WhatsApp — permit
   - **6a.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica e orienta o usuário a tentar novamente.
 - **Requisitos Especiais:** Horários devem ser validados no formato HH:MM; número de WhatsApp deve seguir o padrão internacional E.164 (ex: +5511999999999); interface não precisa ser responsiva para mobile, já que o cadastro é feito uma vez, em ambiente administrativo.
 - **Frequência:** Baixa — realizado uma única vez na implantação do sistema, com edições pontuais e raras depois (ex: mudança de horário de corte ou de número da cantina).
-
 #### UC02: Retornar Escola
-
+ 
 - **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
-- **Nivel:** Objetivo do Usuario
-- **Ator Primario:** Direção
-- **Interessados e Interesses:** 
-  - **Direção:** quer visualizar os dados cadastrais da Escola.
-  - **Sistema:** dados retornados assim que entidade e cadastrada.
-- **Pré-condições:** escola pre cadastrada no sistema.
-- **Cenario de Sucesso Principal:** 
-  1. Retorno esquematizado de dados a gestao
+- **Nível:** Subfunção
+- **Ator Primário:** Gestor autenticado (qualquer perfil)
+- **Interessados e Interesses:**
+  - **Gestor:** quer consultar os dados e configurações da escola (horários de corte, horários de envio, número de WhatsApp da cantina) para se orientar no uso do sistema.
+  - **Sistema:** precisa desses dados tanto para telas administrativas quanto para aplicar regras de negócio (ex: usar `time_closing_presence` ao processar uma leitura).
+- **Pré-condições:** Escola já cadastrada (UC01); usuário autenticado.
+- **Cenário de Sucesso Principal:**
+  1. Gestor acessa a área de configurações da escola.
+  2. Sistema busca o registro da escola cadastrada.
+  3. Sistema exibe os dados da escola (nome, horários de corte e de envio, número de WhatsApp).
+- **Extensões:**
+  - **2a.** Nenhuma escola cadastrada ainda: sistema informa que a configuração inicial não foi realizada e orienta a Direção a executar o UC01.
+  - **2b.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica e orienta tentar novamente.
+- **Requisitos Especiais:** Consulta somente leitura; não expõe nenhum dado de outro gestor ou aluno, apenas os dados da própria escola.
+- **Frequência:** Alta — usada tanto internamente por outras telas e fluxos (ex: exibir horário de corte) quanto em consultas administrativas pontuais.
+#### UC03: Atualizar Escola
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Objetivo do usuário
+- **Ator Primário:** Direção
+- **Interessados e Interesses:**
+  - **Direção:** quer poder corrigir ou ajustar configurações da escola (ex: mudar o horário de corte, trocar o número de WhatsApp da cantina) sem precisar recriar o cadastro.
+  - **Coordenador, Monitor, Cantina:** são afetados pelas mudanças (ex: novo horário de corte muda o comportamento da leitura no dia seguinte).
+- **Pré-condições:** Escola já cadastrada; usuário autenticado com perfil Direção.
+- **Cenário de Sucesso Principal:**
+  1. Direção acessa a área de configurações administrativas.
+  2. Sistema exibe o formulário preenchido com os dados atuais da escola.
+  3. Direção altera um ou mais campos (nome, horários, número de WhatsApp).
+  4. Direção confirma a atualização.
+  5. Sistema valida os dados informados.
+  6. Sistema atualiza o registro e exibe confirmação de sucesso.
+- **Extensões:**
+  - **5a.** Campo obrigatório deixado em branco: sistema exibe erro no campo, mantém os demais preenchidos.
+  - **5b.** Horário em formato inválido: sistema recusa e sinaliza o campo.
+  - **5c.** Número de WhatsApp em formato inválido: sistema recusa e orienta o formato esperado.
+  - **6a.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica e orienta tentar novamente.
+- **Requisitos Especiais:** Mesmas validações de formato do UC01 (horário HH:MM, WhatsApp em E.164); alteração de horário de corte só afeta leituras futuras, nunca reprocessa registros de `Frequency` já existentes.
+- **Frequência:** Baixa — ajustes pontuais e raros ao longo do ano letivo.
+#### UC04: Deletar Escola
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Objetivo do usuário
+- **Ator Primário:** Direção
+- **Interessados e Interesses:**
+  - **Direção:** quer poder remover o cadastro da escola em caso de descontinuação total do uso do sistema.
+  - **Sistema:** precisa garantir que a exclusão não deixe dados órfãos (gestores, turmas, alunos, cardápios e logs vinculados a uma escola inexistente).
+- **Pré-condições:** Escola cadastrada; usuário autenticado com perfil Direção.
+- **Cenário de Sucesso Principal:**
+  1. Direção acessa a área de configurações administrativas.
+  2. Direção seleciona a opção de excluir a escola.
+  3. Sistema solicita confirmação explícita, alertando que a ação é irreversível.
+  4. Direção confirma.
+  5. Sistema verifica se existem registros dependentes (gestores, turmas, cardápios, logs de envio).
+  6. Sistema exclui o registro da escola.
+  7. Sistema exibe confirmação da exclusão.
+- **Extensões:**
+  - **5a.** Existem registros dependentes: sistema recusa a exclusão e informa que é necessário remover ou desativar os registros dependentes antes de excluir a escola.
+  - **6a.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica e orienta tentar novamente.
+- **Requisitos Especiais:** Como as chaves estrangeiras que apontam para `School` usam `on_delete=PROTECT`, a exclusão só é tecnicamente possível se não houver nenhum gestor, turma, cardápio ou log vinculado — na prática, um caso raríssimo para uma escola em uso real. **Recomenda-se avaliar a adição de um campo `active` em `School`**, seguindo o mesmo padrão de exclusão lógica já usado em `Manager`, `Classroom` e `Student`, em vez de depender de exclusão física.
+- **Frequência:** Muito rara — só se aplicaria em cenário de descontinuação total do sistema.
+### Turma
+ 
+#### UC05: Cadastrar Turma
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Objetivo do usuário
+- **Ator Primário:** Coordenador
+- **Interessados e Interesses:**
+  - **Coordenador:** quer organizar os alunos em turmas para facilitar o cadastro e a consulta de presença.
+  - **Monitor:** depende das turmas existirem para localizar alunos durante o uso diário do sistema.
+  - **Sistema:** precisa de uma turma válida para poder vincular alunos a ela.
+- **Pré-condições:** Escola já cadastrada; usuário autenticado com perfil Coordenador ou Direção.
+- **Cenário de Sucesso Principal:**
+  1. Coordenador acessa a área de turmas.
+  2. Sistema exibe a lista de turmas já cadastradas e a opção "Adicionar turma".
+  3. Coordenador seleciona "Adicionar turma".
+  4. Sistema exibe formulário (nome, turno).
+  5. Coordenador preenche os dados e confirma.
+  6. Sistema valida os dados informados.
+  7. Sistema cria o registro da turma, vinculado à escola.
+  8. Sistema exibe confirmação de sucesso.
+- **Extensões:**
+  - **6a.** Nome em branco: sistema exibe erro no campo, mantém os demais preenchidos.
+  - **6b.** Já existe turma com esse nome na mesma escola: sistema recusa e informa duplicidade.
+  - **7a.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica.
+- **Requisitos Especiais:** Nome da turma deve ser único dentro da mesma escola (`UniqueConstraint(escola, nome)`).
+- **Frequência:** Média — concentrada no início do ano letivo, com cadastros esporádicos ao longo do ano.
+#### UC06: Listar Turmas
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Subfunção
+- **Ator Primário:** Coordenador, Monitor ou Direção
+- **Interessados e Interesses:**
+  - **Coordenador, Monitor, Direção:** precisam ver todas as turmas existentes para navegar até os alunos, gerar relatórios, ou escolher uma turma antes de cadastrar um novo aluno.
+  - **Sistema:** usa essa listagem como base para diversas outras telas.
+- **Pré-condições:** Usuário autenticado.
+- **Cenário de Sucesso Principal:**
+  1. Gestor acessa a área de turmas.
+  2. Sistema busca todas as turmas cadastradas na escola, podendo filtrar por turno ou nome.
+  3. Sistema exibe a lista de turmas (nome, turno, quantidade de alunos vinculados, status ativo).
+- **Extensões:**
+  - **2a.** Nenhuma turma cadastrada: sistema exibe lista vazia com opção de cadastrar a primeira (UC05).
+  - **2b.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica.
+- **Requisitos Especiais:** Por padrão, retorna apenas turmas ativas (`active=true`), a menos que explicitamente solicitado incluir as inativas; suporta paginação caso o número de turmas cresça.
+- **Frequência:** Alta — consulta recorrente ao longo do uso diário do sistema.
+#### UC07: Retornar Turma
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Subfunção
+- **Ator Primário:** Coordenador, Monitor ou Direção
+- **Interessados e Interesses:**
+  - **Coordenador, Monitor, Direção:** querem ver os detalhes de uma turma específica, geralmente antes de editá-la ou para consultar os alunos vinculados a ela.
+- **Pré-condições:** Turma já cadastrada; usuário autenticado.
+- **Cenário de Sucesso Principal:**
+  1. Gestor seleciona uma turma específica a partir da listagem (UC06).
+  2. Sistema busca o registro daquela turma pelo identificador.
+  3. Sistema exibe os dados detalhados da turma (nome, turno, status, quantidade de alunos ativos vinculados).
+- **Extensões:**
+  - **2a.** Turma não encontrada (identificador inválido ou removida): sistema exibe erro "turma não encontrada".
+  - **2b.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica.
+- **Requisitos Especiais:** Retorna também a contagem de alunos ativos vinculados, para dar contexto rápido ao gestor sem precisar de uma segunda consulta.
+- **Frequência:** Alta — consultada sempre que o gestor acessa uma turma específica.
+#### UC08: Atualizar Turma
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Objetivo do usuário
+- **Ator Primário:** Coordenador
+- **Interessados e Interesses:**
+  - **Coordenador:** quer corrigir dados de uma turma (nome, turno) ou encerrar seu funcionamento (desativação) ao final do ano letivo.
+- **Pré-condições:** Turma já cadastrada; usuário autenticado com perfil Coordenador ou Direção.
+- **Cenário de Sucesso Principal:**
+  1. Coordenador acessa a turma desejada (UC07).
+  2. Sistema exibe o formulário preenchido com os dados atuais.
+  3. Coordenador altera nome, turno ou status (ativo/inativo).
+  4. Coordenador confirma.
+  5. Sistema valida os dados.
+  6. Sistema atualiza o registro e exibe confirmação.
+- **Extensões:**
+  - **5a.** Nome duplicado dentro da mesma escola: sistema recusa.
+  - **6a.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica.
+- **Requisitos Especiais:** Desativar uma turma (`active=false`) não apaga os alunos vinculados a ela — apenas remove a turma das listagens padrão (ver UC06).
+- **Frequência:** Baixa a média — ajustes pontuais (mudança de turno, encerramento de turma ao fim do ano).
+### Gestor
+ 
+#### UC09: Cadastrar Gestor
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Objetivo do usuário
+- **Ator Primário:** Direção
+- **Interessados e Interesses:**
+  - **Direção:** quer conceder acesso ao sistema para a equipe (coordenadores, monitores, cantina).
+  - **Sistema:** precisa de credenciais válidas e de um perfil definido para aplicar as regras de permissão.
+- **Pré-condições:** Escola já cadastrada; usuário autenticado com perfil Direção.
+- **Cenário de Sucesso Principal:**
+  1. Direção acessa a área de gestores.
+  2. Sistema exibe a lista de gestores cadastrados e a opção "Adicionar gestor".
+  3. Direção seleciona "Adicionar gestor".
+  4. Sistema exibe formulário (nome, e-mail, senha, perfil).
+  5. Direção preenche os dados e confirma.
+  6. Sistema valida os dados informados.
+  7. Sistema cria o registro do gestor, armazenando a senha com hash.
+  8. Sistema exibe confirmação de sucesso.
+- **Extensões:**
+  - **6a.** E-mail já cadastrado: sistema recusa por duplicidade.
+  - **6b.** Campo obrigatório em branco: sistema exibe erro no campo.
+  - **6c.** Senha não atende aos requisitos mínimos de segurança: sistema recusa e orienta os requisitos.
+  - **7a.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica.
+- **Requisitos Especiais:** Senha nunca é armazenada nem retornada em texto puro; e-mail deve ser único no sistema; apenas o perfil Direção pode cadastrar novos gestores.
+- **Frequência:** Baixa a média — concentrada no início de uso do sistema, com cadastros esporádicos por troca de equipe.
+#### UC10: Retornar Gestor(es)
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Subfunção
+- **Ator Primário:** Direção
+- **Interessados e Interesses:**
+  - **Direção:** quer consultar quem tem acesso ao sistema e com qual perfil.
+- **Pré-condições:** Usuário autenticado com perfil Direção.
+- **Cenário de Sucesso Principal:**
+  1. Direção acessa a área de gestores.
+  2. Sistema busca os gestores cadastrados na escola.
+  3. Sistema exibe a lista (nome, e-mail, perfil, status ativo), sem expor a senha.
+- **Extensões:**
+  - **2a.** Nenhum gestor além de quem está logado: sistema exibe a lista contendo apenas o próprio usuário.
+  - **2b.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica.
+- **Requisitos Especiais:** O campo `password` nunca é incluído na resposta; apenas o perfil Direção acessa a listagem completa de gestores.
+- **Frequência:** Baixa — consulta administrativa, fora do fluxo operacional diário.
+#### UC11: Atualizar Gestor
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Objetivo do usuário
+- **Ator Primário:** Direção
+- **Interessados e Interesses:**
+  - **Direção:** quer corrigir dados de um gestor, mudar seu perfil de acesso, ou revogar seu acesso (desativação) quando ele deixa a equipe.
+- **Pré-condições:** Gestor já cadastrado; usuário autenticado com perfil Direção.
+- **Cenário de Sucesso Principal:**
+  1. Direção acessa o gestor desejado.
+  2. Sistema exibe o formulário preenchido com os dados atuais (exceto senha).
+  3. Direção altera nome, perfil ou status (ativo/inativo).
+  4. Direção confirma.
+  5. Sistema valida os dados.
+  6. Sistema atualiza o registro e exibe confirmação.
+- **Extensões:**
+  - **5a.** E-mail alterado para um já existente: sistema recusa por duplicidade.
+  - **6a.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica.
+- **Requisitos Especiais:** Desativar um gestor (`active=false`) revoga o acesso ao sistema sem apagar seu histórico de ações (cardápios cadastrados, logs, etc.); alteração de senha segue fluxo próprio, fora do escopo deste UC.
+- **Frequência:** Baixa — ajustes pontuais (mudança de perfil, desligamento de um gestor).
+### Cardápio
+ 
+#### UC12: Cadastrar Cardápio
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Objetivo do usuário
+- **Ator Primário:** Cantina
+- **Interessados e Interesses:**
+  - **Cantina:** quer registrar o que será servido no dia.
+  - **Direção, Coordenador:** acompanham o planejamento da alimentação.
+  - **Sistema:** usa o cardápio cadastrado para compor o relatório mensal de movimentação (Fase 2).
+- **Pré-condições:** Escola já cadastrada; usuário autenticado com perfil Cantina (ou superior).
+- **Cenário de Sucesso Principal:**
+  1. Cantina acessa a área de cardápio.
+  2. Sistema exibe a opção "Cadastrar cardápio do dia".
+  3. Cantina informa a data e o prato principal.
+  4. Cantina confirma.
+  5. Sistema valida os dados.
+  6. Sistema cria o registro do cardápio, vinculado à escola e ao gestor que o cadastrou.
+  7. Sistema exibe confirmação de sucesso.
+- **Extensões:**
+  - **5a.** Já existe cardápio cadastrado para essa data: sistema recusa e sugere editar o cardápio existente (ver UC14).
+  - **5b.** Campo obrigatório em branco: sistema exibe erro no campo.
+  - **6a.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica.
+- **Requisitos Especiais:** Apenas um cardápio por escola por dia (`UniqueConstraint(escola, data)`).
+- **Frequência:** Alta — cadastro diário, feito rotineiramente pela cantina.
+#### UC13: Retornar Cardápio
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Subfunção
+- **Ator Primário:** Gestor autenticado (qualquer perfil)
+- **Interessados e Interesses:**
+  - **Cantina:** consulta o cardápio já cadastrado antes de atualizar.
+  - **Direção, Coordenador:** acompanham o que está sendo servido.
+- **Pré-condições:** Usuário autenticado.
+- **Cenário de Sucesso Principal:**
+  1. Gestor acessa a área de cardápio.
+  2. Sistema busca o cardápio da data informada (ou de um intervalo de datas).
+  3. Sistema exibe os dados (data, prato principal, quem cadastrou).
+- **Extensões:**
+  - **2a.** Nenhum cardápio cadastrado para a data consultada: sistema informa que ainda não foi cadastrado.
+  - **2b.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica.
+- **Requisitos Especiais:** Suporta consulta por data única ou por intervalo de datas, para uso futuro no relatório mensal da Fase 2.
+- **Frequência:** Alta — consultada diariamente pela cantina e ocasionalmente pela gestão.
+#### UC14: Atualizar Cardápio
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Objetivo do usuário
+- **Ator Primário:** Cantina
+- **Interessados e Interesses:**
+  - **Cantina:** quer corrigir um erro de digitação ou uma mudança de última hora no prato do dia.
+- **Pré-condições:** Cardápio do dia já cadastrado; usuário autenticado com perfil Cantina (ou superior).
+- **Cenário de Sucesso Principal:**
+  1. Cantina acessa o cardápio do dia desejado.
+  2. Sistema exibe o formulário preenchido com os dados atuais.
+  3. Cantina altera o prato principal.
+  4. Cantina confirma.
+  5. Sistema valida os dados.
+  6. Sistema atualiza o registro e exibe confirmação.
+- **Extensões:**
+  - **5a.** Campo em branco: sistema exibe erro no campo.
+  - **6a.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica.
+- **Requisitos Especiais:** A data do cardápio não pode ser alterada nesta operação — para mudar a data, cadastra-se um novo cardápio (UC12); alterações devem ser feitas preferencialmente antes do horário de envio automático do relatório via WhatsApp, para refletir corretamente na mensagem enviada.
+- **Frequência:** Baixa — usada apenas para corrigir erro de digitação ou mudança de última hora.
+### Presença
+ 
+>  OBS: `Reading`, `Frequency` e `Register_Snack` não tem um "cadastrar" independente para cada uma — elas nascem de uma única ação física - o aluno passar a carteirinha - O UC15 descreve esse fluxo completo; os UCs seguintes cobrem a listagem de cada uma das três tabelas gravadas por ele.
+ 
+#### UC15: Registrar Leitura (Presença e Refeição)
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Objetivo do usuário
+- **Ator Primário:** Aluno (via máquina de leitura fixa na entrada da escola)
+- **Interessados e Interesses:**
+  - **Aluno:** quer que sua presença e, quando aplicável, sua refeição sejam registradas rapidamente, sem atrapalhar a fila.
+  - **Monitor:** acompanha a máquina no dia a dia e intervém em caso de falha de leitura.
+  - **Cantina:** depende desse registro para saber quantos alunos vão comer em cada momento e de qual tipo de porção.
+  - **Sistema:** precisa aplicar corretamente as regras de dedução (presença só na primeira leitura do dia, contagem separada por momento, tipo de refeição só no almoço).
+- **Pré-condições:** Aluno já cadastrado e vinculado a uma turma; carteirinha física em mãos; máquina de leitura operante.
+- **Cenário de Sucesso Principal:**
+  1. Aluno aproxima a carteirinha da câmera da máquina.
+  2. Sistema lê o QR code e identifica o aluno correspondente.
+  3. Sistema registra a leitura bruta (`Reading`), com o momento do dia identificado.
+  4. Sistema verifica se é a primeira leitura do aluno no dia: em caso positivo, cria o registro de `Frequency`, calculando se está dentro do horário de corte (`on_time`).
+  5. Sistema verifica se já existe registro de refeição para aquele aluno, data e momento: em caso negativo, cria o registro de `Register_Snack`.
+  6. Se o momento identificado for o almoço, sistema exibe as opções "Normal" / "Pouco" na página, para o aluno escolher o tipo de porção.
+  7. Sistema exibe confirmação visual de sucesso; a tela se limpa automaticamente para a leitura do próximo aluno.
+- **Extensões:**
+  - **2a.** QR code não reconhecido (carteirinha danificada ou mal posicionada): sistema exibe erro de leitura e orienta nova tentativa ou emissão de carteirinha provisória.
+  - **2b.** QR code não corresponde a nenhum aluno cadastrado e ativo: sistema recusa e sinaliza carteirinha inválida.
+  - **4a.** Não é a primeira leitura do dia: sistema não cria novo registro de `Frequency`, mas a leitura bruta é registrada normalmente (auditoria).
+  - **5a.** Já existe registro de refeição para aquele momento: sistema não cria novo registro (evita duplicidade), mas a leitura bruta é registrada normalmente.
+  - **6a.** Aluno segue para a fila sem selecionar o tipo de porção: `type_snack` permanece em branco; nos relatórios, é assumido como "normal" por padrão.
+  - **7a.** Falha de conexão com o banco de dados: sistema orienta tentar novamente.
+- **Requisitos Especiais:** A leitura deve ocorrer em poucos segundos por aluno, para não gerar fila; a tela deve resetar automaticamente, sem exigir interação extra do aluno ou de um monitor.
+- **Frequência:** Altíssima — é a operação mais executada do sistema, repetida centenas de vezes por dia (3 momentos × todos os alunos presentes).
+#### UC16: Listar Leituras
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Subfunção
+- **Ator Primário:** Monitor, Coordenador ou Direção
+- **Interessados e Interesses:**
+  - **Monitor, Coordenador, Direção:** querem auditar o histórico bruto de leituras (ex: investigar uma reclamação, conferir se uma leitura realmente aconteceu).
+- **Pré-condições:** Usuário autenticado.
+- **Cenário de Sucesso Principal:**
+  1. Gestor acessa a área de auditoria de leituras.
+  2. Sistema busca as leituras registradas, filtrando obrigatoriamente por aluno e/ou por data.
+  3. Sistema exibe a lista de leituras (aluno, momento, data e hora).
+- **Extensões:**
+  - **2a.** Nenhuma leitura encontrada para o filtro aplicado: sistema exibe lista vazia.
+  - **2b.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica.
+- **Requisitos Especiais:** É o único registro que nunca é "filtrado por sucesso" — toda leitura aparece aqui, inclusive as que não geraram presença ou refeição por já existir um registro no mesmo dia/momento; por gerar grande volume de dados, a consulta exige paginação e pelo menos um filtro obrigatório (aluno ou intervalo de data), para evitar consultas muito amplas.
+- **Frequência:** Baixa — usada apenas para auditoria pontual, fora do fluxo operacional diário.
+#### UC17: Listar Frequência
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Subfunção
+- **Ator Primário:** Coordenador, Monitor ou Direção
+- **Interessados e Interesses:**
+  - **Coordenador, Direção:** acompanham a frequência escolar dos alunos ao longo do tempo.
+  - **Monitor:** consulta a presença do dia corrente, no uso operacional diário.
+- **Pré-condições:** Usuário autenticado.
+- **Cenário de Sucesso Principal:**
+  1. Gestor acessa a área de presença.
+  2. Sistema busca os registros de `Frequency`, podendo filtrar por turma, aluno, data ou status (dentro/fora do prazo).
+  3. Sistema exibe a lista (aluno, data, se está dentro do prazo).
+- **Extensões:**
+  - **2a.** Nenhum registro para o filtro aplicado: sistema exibe lista vazia.
+  - **2b.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica.
+- **Requisitos Especiais:** Filtro por turma cruza com o cadastro acadêmico (`Student` → `Classroom`); a consulta do dia atual deve ser rápida o suficiente para uso operacional (ex: Monitor conferindo quem já chegou em tempo real).
+- **Frequência:** Alta — consultada diariamente pela gestão e pela monitoria.
+#### UC18: Listar Registro de Refeição
+ 
+- **Escopo:** Sistema de Gestão de Presença e Merenda Escolar
+- **Nível:** Subfunção
+- **Ator Primário:** Cantina, Coordenador ou Direção
+- **Interessados e Interesses:**
+  - **Cantina:** precisa da contagem por momento e por tipo de porção para planejar a quantidade de comida a ser preparada.
+  - **Direção, Coordenador:** acompanham o consumo de refeições ao longo do tempo.
+- **Pré-condições:** Usuário autenticado.
+- **Cenário de Sucesso Principal:**
+  1. Gestor acessa a área de refeições.
+  2. Sistema busca os registros de `Register_Snack`, podendo filtrar por data, momento (lanche manhã, almoço, lanche tarde) e tipo de porção.
+  3. Sistema exibe a lista, com contagem agrupada por tipo quando o momento filtrado for o almoço.
+- **Extensões:**
+  - **2a.** Nenhum registro para o filtro aplicado: sistema exibe lista vazia.
+  - **2b.** Falha de conexão com o banco de dados: sistema exibe mensagem de erro genérica.
+- **Requisitos Especiais:** Essa é a consulta que alimenta a mensagem automática enviada via WhatsApp (ver Integração com WhatsApp); deve suportar agregação (contagem total e por tipo), não apenas listagem linha a linha.
+- **Frequência:** Alta — consultada diariamente pela cantina, inclusive de forma automática pelo próprio sistema no envio via WhatsApp.
 
 ---
 
