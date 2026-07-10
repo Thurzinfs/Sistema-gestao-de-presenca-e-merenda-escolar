@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from app.school.application.dtos import ManagerInDTO, ManagerOutDTO, SchoolInDTO, SchoolInUpdateDTO, SchoolOutDTO
+from app.school.application.dtos import ManagerInDTO, ManagerInUpdateDTO, ManagerOutDTO, SchoolInDTO, SchoolInUpdateDTO, SchoolOutDTO
 from app.school.domain.entites import ManagerEntity, SchoolEntity
 from app.school.domain.exceptions import ManagerFieldIsRequiredException, ManagerNotActiveException, ManagerNotFoundException, SchoolNotActiveException, SchoolNotFoundException
 from app.school.domain.repositories import IManagerRepository, ISchoolRepository
@@ -118,4 +118,32 @@ class ResponseManagerByIDUseCase:
         if not manager:
             raise ManagerNotFoundException('manager not found')
         
+        return ManagerOutDTO.from_domain(manager)
+
+
+class UpdateManagerUseCase:
+    def __init__(self, manager_repo: IManagerRepository) -> None:
+        self.manager_repo = manager_repo
+
+    def execute(self, id: UUID, dto: ManagerInUpdateDTO) -> ManagerOutDTO:
+        manager = self.manager_repo.find_by_id(id)
+        if not manager:
+            raise ManagerNotFoundException('manager not found')
+        
+        if manager.active is not False:
+            raise ManagerNotActiveException('manager not is active')
+        
+        if dto.name:
+            manager.change_name(dto.name)
+
+        if dto.email:
+            manager.change_email(dto.email)
+
+        if dto.password:
+            manager.change_password(dto.password)
+
+        if dto.role:
+            manager.change_role(dto.role)
+
+        self.manager_repo.save(manager)
         return ManagerOutDTO.from_domain(manager)
