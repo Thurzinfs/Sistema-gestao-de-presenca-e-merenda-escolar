@@ -113,3 +113,18 @@ class ManagerOut(Schema):
             active=dto.active,
             created_at=dto.created_at,
         )
+
+
+class ManagerUpdate(Schema):
+    role: Optional[ManagerRole] = None
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
+
+    def to_dto(self) -> ManagerInUpdateDTO:
+        return ManagerInUpdateDTO(
+            role=self.role,
+            name=self.name,
+            email=self.email,
+            password=self.password,
+        )
