@@ -53,7 +53,7 @@ class SchoolEntity:
         if not new_number:
             raise ConflictFieldException('required new_number')
         
-        self.number_whats = self.number_whats
+        self.number_whats = new_number
 
 
 @dataclass
