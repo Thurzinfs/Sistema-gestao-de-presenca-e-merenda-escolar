@@ -70,4 +70,18 @@ class UpdateSchoolUseCase:
 
         self.school_repo.save(school)
         return SchoolOutDTO.from_domain(school)
+
+
+class DeactiveSchoolUseCase:
+    def __init__(self, school_repo: ISchoolRepository) -> None:
+        self.school_repo = school_repo
+
+    def execute(self, id: UUID) -> SchoolOutDTO:
+        school = self.school_repo.find_by_id(id)
+        if not school:
+            raise SchoolNotFoundException('school not found')
+
+        school.deactive()
+        self.school_repo.save(school)
+        return SchoolOutDTO.from_domain(school)
     
