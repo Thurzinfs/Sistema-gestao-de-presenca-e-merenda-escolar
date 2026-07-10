@@ -78,3 +78,9 @@ class ManagerOutDTO(BaseModel):
             created_at=model.created_at
         )
 
+
+class ManagerInUpdateDTO(BaseModel):
+    role: Optional[ManagerRole] = None
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
