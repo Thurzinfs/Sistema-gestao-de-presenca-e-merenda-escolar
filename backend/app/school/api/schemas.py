@@ -55,3 +55,20 @@ class SchoolOut(Schema):
             created_at=dto.created_at,
             deleted_at=dto.deleted_at,
         )
+
+
+class SchoolUpdate(Schema):
+    name: Optional[str] = None
+    time_closing_presence: Optional[time] = None
+    time_send_lunch: Optional[time] = None
+    time_send_snack_afternoon: Optional[time] = None
+    number_whats: Optional[str] = None
+
+    def to_dto(self) -> SchoolInUpdateDTO:
+        return SchoolInUpdateDTO(
+            name=self.name,
+            time_closing_presence=self.time_closing_presence,
+            time_send_lunch=self.time_send_lunch,
+            time_send_snack_afternoon=self.time_send_snack_afternoon,
+            number_whats=self.number_whats,
+        )
