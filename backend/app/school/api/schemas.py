@@ -89,3 +89,27 @@ class ManagerIn(Schema):
             email=self.email,
             password=self.password,
         )
+
+
+class ManagerOut(Schema):
+    id: UUID
+    school_id: UUID
+    role: ManagerRole | str
+    name: str
+    email: EmailStr | str
+    password: str
+    active: bool
+    created_at: datetime
+
+    @staticmethod
+    def from_domain(dto: ManagerOutDTO):
+        return ManagerOut(
+            id=dto.id,
+            school_id=dto.school_id,
+            role=dto.role,
+            name=dto.name,
+            email=dto.email,
+            password=dto.password,
+            active=dto.active,
+            created_at=dto.created_at,
+        )
