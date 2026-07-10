@@ -49,6 +49,12 @@ class SchoolEntity:
         
         self.time_send_snack_afternoon = time
 
+    def change_number_whats(self, new_number: str):
+        if not new_number:
+            raise ConflictFieldException('required new_number')
+        
+        self.number_whats = self.number_whats
+
 
 @dataclass
 class ManagerEntity:
