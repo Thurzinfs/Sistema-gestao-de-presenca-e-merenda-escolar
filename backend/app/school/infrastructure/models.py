@@ -2,6 +2,8 @@ from uuid import uuid4
 
 from django.db import models
 
+from app.school.domain.role import ManagerRole
+
 
 class School(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
@@ -16,3 +18,19 @@ class School(models.Model):
     class Meta:
         db_table = 'schools'
 
+
+class Manager(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    school_id = models.ForeignKey(
+        'school.School',
+        on_delete=models.CASCADE,
+    )
+    role = models.CharField(max_length=28, choices=ManagerRole, default=ManagerRole.pending)
+    name = models.CharField(max_length=120)
+    email = models.EmailField()
+    password = models.CharField(max_length=220)
+    active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'managers'
