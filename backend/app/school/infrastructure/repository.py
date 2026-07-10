@@ -46,6 +46,9 @@ class DjangoSchoolRepository(ISchoolRepository):
         
         except School.DoesNotExist:
             return []
+        
+    def verify_exists_school_by_name(self, name: str) -> bool:
+        return Manager.objects.filter(name=name).exists()
     
     def _to_model(self, model: School) -> SchoolEntity:
         return SchoolEntity(
