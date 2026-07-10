@@ -108,3 +108,14 @@ class RegisterManagerUseCase:
         self.manager_repo.save(manager)
         return ManagerOutDTO.from_domain(manager)
     
+
+class ResponseManagerByIDUseCase:
+    def __init__(self, manager_repo: IManagerRepository) -> None:
+        self.manager_repo = manager_repo
+
+    def execute(self, id:UUID):
+        manager = self.manager_repo.find_by_id(id)
+        if not manager:
+            raise ManagerNotFoundException('manager not found')
+        
+        return ManagerOutDTO.from_domain(manager)
