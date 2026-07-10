@@ -19,7 +19,7 @@ class ISchoolRepository(ABC):
         ...
 
     @abstractmethod
-    def verify_exists_school_by_name(self, name: str) -> SchoolEntity | None:
+    def verify_exists_school_by_name(self, name: str) -> bool:
         ...
     
     @abstractmethod
