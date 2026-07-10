@@ -59,7 +59,7 @@ class SchoolEntity:
 @dataclass
 class ManagerEntity:
     id: UUID = field(default_factory=uuid4)
-    school_id: UUID | None = field(default=None)
+    school: UUID | None = field(default=None)
     role: ManagerRole | str = field(default=ManagerRole.pending)
     name: str = field(default='')
     email: EmailStr | str = field(default='')
