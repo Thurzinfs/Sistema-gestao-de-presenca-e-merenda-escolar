@@ -68,7 +68,7 @@ class DjangoManagerRepository(IManagerRepository):
         Manager.objects.update_or_create(
             id=id,
             defaults={
-                'school_id': entity.school_id,
+                'school_id': entity.school,
                 'role': entity.role,
                 'name': entity.name,
                 'email': entity.email,
@@ -117,7 +117,7 @@ class DjangoManagerRepository(IManagerRepository):
     def _to_model(self, model: Manager) -> ManagerEntity:
         return ManagerEntity(
             id=model.id,
-            school_id=model.school_id,
+            school=model.school.id,
             role=model.role,
             email=model.email,
             password=model.password,
