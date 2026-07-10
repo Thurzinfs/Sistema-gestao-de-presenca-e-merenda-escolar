@@ -1,9 +1,9 @@
 from uuid import UUID
 
-from app.school.application.dtos import SchoolInDTO, SchoolInUpdateDTO, SchoolOutDTO
-from app.school.domain.entites import SchoolEntity
-from app.school.domain.exceptions import SchoolNotActiveException, SchoolNotFoundException
-from app.school.domain.repositories import ISchoolRepository
+from app.school.application.dtos import ManagerInDTO, ManagerOutDTO, SchoolInDTO, SchoolInUpdateDTO, SchoolOutDTO
+from app.school.domain.entites import ManagerEntity, SchoolEntity
+from app.school.domain.exceptions import ManagerFieldIsRequiredException, ManagerNotActiveException, ManagerNotFoundException, SchoolNotActiveException, SchoolNotFoundException
+from app.school.domain.repositories import IManagerRepository, ISchoolRepository
 
 
 class RegisterSchoolUseCase:
@@ -84,4 +84,27 @@ class DeactiveSchoolUseCase:
         school.deactive()
         self.school_repo.save(school)
         return SchoolOutDTO.from_domain(school)
+    
+
+class RegisterManagerUseCase:
+    def __init__(self, manager_repo: IManagerRepository) -> None:
+        self.manager_repo = manager_repo
+
+    def execute(self, dto: ManagerInDTO) -> ManagerOutDTO:
+        if self.manager_repo.find_by_email(dto.email):
+            raise ManagerNotFoundException('email already register')
+        
+        if not dto.school_id:
+            raise ManagerFieldIsRequiredException('school id is required')
+        
+        manager = ManagerEntity(
+            name=dto.name,
+            email=dto.email,
+            password=dto.password,
+            role=dto.role,
+            school=dto.school_id
+        )
+
+        self.manager_repo.save(manager)
+        return ManagerOutDTO.from_domain(manager)
     
