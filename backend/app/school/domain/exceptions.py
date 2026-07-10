@@ -7,3 +7,7 @@ class ConflictFieldException(BaseDomainException):
 
 class SchoolNotFoundException(BaseDomainException):
     pass
+
+
+class SchoolNotActiveException(BaseDomainException):
+    pass
