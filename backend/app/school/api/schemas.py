@@ -31,3 +31,27 @@ class SchoolIn(Schema):
             time_send_snack_afternoon=self.time_send_snack_afternoon,
             number_whats=self.number_whats,
         )
+
+
+class SchoolOut(Schema):
+    id: UUID
+    name: str
+    time_closing_presence: time
+    time_send_lunch: time
+    time_send_snack_afternoon: time
+    number_whats: str
+    created_at: datetime
+    deleted_at: datetime
+
+    @staticmethod
+    def from_domain(dto: SchoolOutDTO):
+        return SchoolOut(
+            id=dto.id,
+            name=dto.name,
+            time_closing_presence=dto.time_closing_presence,
+            time_send_lunch=dto.time_send_lunch,
+            time_send_snack_afternoon=dto.time_send_snack_afternoon,
+            number_whats=dto.number_whats,
+            created_at=dto.created_at,
+            deleted_at=dto.deleted_at,
+        )
