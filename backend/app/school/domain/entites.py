@@ -73,3 +73,26 @@ class ManagerEntity:
 
         self.active = True
     
+    def change_role(self, new_role: str):
+        if not new_role:
+            raise ConflictFieldException('required new role')
+        
+        self.role = new_role
+
+    def change_name(self, new_name: str):
+        if not new_name:
+            raise ConflictFieldException('required new name')
+        
+        self.name = new_name
+    
+    def change_email(self, new_email: EmailStr):
+        if not new_email:
+            raise ConflictFieldException('required new email')
+        
+        self.email = new_email
+
+    def change_password(self, new_password: str):
+        if not new_password:
+            raise ConflictFieldException('required new password')
+        
+        self.password = new_password
