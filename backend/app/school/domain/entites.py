@@ -25,3 +25,22 @@ class SchoolEntity:
 
         self.deleted_at = datetime.now()
     
+
+
+@dataclass
+class ManagerEntity:
+    id: UUID = field(default_factory=uuid4)
+    school_id: UUID | None = field(default=None)
+    role: ManagerRole | str = field(default=ManagerRole.pending)
+    name: str = field(default='')
+    email: EmailStr | str = field(default='')
+    password: str = field(default='')
+    active: bool = field(default=True)
+    created_at: datetime = field(default_factory=datetime.now)
+
+    def deactive(self):
+        if self.active == False:
+            raise ConflictFieldException('manager already deactivate')
+
+        self.active = True
+    
