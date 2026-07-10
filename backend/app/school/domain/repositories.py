@@ -37,7 +37,7 @@ class IManagerRepository(ABC):
         ...
     
     @abstractmethod
-    def lists_managers_role_by_role(self) -> List[ManagerEntity]:
+    def lists_managers_role_by_role(self, role: str) -> List[ManagerEntity]:
         ...
 
     @abstractmethod
