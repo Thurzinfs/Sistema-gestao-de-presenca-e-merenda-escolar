@@ -113,10 +113,13 @@ class ResponseManagerByIDUseCase:
     def __init__(self, manager_repo: IManagerRepository) -> None:
         self.manager_repo = manager_repo
 
-    def execute(self, id:UUID):
+    def execute(self, id:UUID) -> ManagerOutDTO:
         manager = self.manager_repo.find_by_id(id)
         if not manager:
             raise ManagerNotFoundException('manager not found')
+        
+        if manager.active is not False:
+            raise ManagerNotActiveException('manager not active')
         
         return ManagerOutDTO.from_domain(manager)
 
