@@ -25,6 +25,29 @@ class SchoolEntity:
 
         self.deleted_at = datetime.now()
     
+    def change_name(self, new_name: str):
+        if not new_name:
+            raise ConflictFieldException('required new name')
+        
+        self.name = new_name
+
+    def change_time_closing_presence(self, time: time):
+        if not time:
+            raise ConflictFieldException('required new time')
+        
+        self.time_closing_presence = time
+
+    def change_time_send_lunch(self, time: time):
+        if not time:
+            raise ConflictFieldException('required new time')
+        
+        self.time_send_lunch = time
+
+    def change_time_snack_afternoon(self, time: time):
+        if not time:
+            raise ConflictFieldException('required new time')
+        
+        self.time_send_snack_afternoon = time
 
 
 @dataclass
