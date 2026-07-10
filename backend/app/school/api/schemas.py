@@ -72,3 +72,20 @@ class SchoolUpdate(Schema):
             time_send_snack_afternoon=self.time_send_snack_afternoon,
             number_whats=self.number_whats,
         )
+
+
+class ManagerIn(Schema):
+    school_id: UUID
+    role: ManagerRole | str
+    name: str
+    email: EmailStr | str
+    password: str
+
+    def to_dto(self) -> ManagerInDTO:
+        return ManagerInDTO(
+            school_id=self.school_id,
+            role=self.role,
+            name=self.name,
+            email=self.email,
+            password=self.password,
+        )
