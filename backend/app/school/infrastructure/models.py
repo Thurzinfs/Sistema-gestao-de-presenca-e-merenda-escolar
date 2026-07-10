@@ -21,7 +21,7 @@ class School(models.Model):
 
 class Manager(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
-    school_id = models.ForeignKey(
+    school = models.ForeignKey(
         'school.School',
         on_delete=models.CASCADE,
     )
