@@ -38,3 +38,11 @@ class SchoolOutDTO(BaseModel):
             deleted_at=model.deleted_at
         )
 
+
+class SchoolInUpdateDTO(BaseModel):
+    name: Optional[str] = None
+    time_closing_presence: Optional[time] = None
+    time_send_lunch: Optional[time] = None
+    time_send_snack_afternoon: Optional[time] = None
+    number_whats: Optional[str] = None
+
