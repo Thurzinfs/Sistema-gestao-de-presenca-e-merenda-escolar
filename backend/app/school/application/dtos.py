@@ -54,3 +54,27 @@ class ManagerInDTO(BaseModel):
     email: EmailStr | str
     password: str
 
+
+class ManagerOutDTO(BaseModel):
+    id: UUID
+    school_id: UUID
+    role: ManagerRole | str
+    name: str
+    email: EmailStr | str
+    password: str
+    active: bool
+    created_at: datetime
+
+    @classmethod
+    def from_domain(cls, model):
+        return cls(
+            id=model.id,
+            school_id=model.school_id,
+            role=model.role,
+            name=model.name,
+            email=model.email,
+            password=model.password,
+            active=model.active,
+            created_at=model.created_at
+        )
+
