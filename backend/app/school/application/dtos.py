@@ -46,3 +46,11 @@ class SchoolInUpdateDTO(BaseModel):
     time_send_snack_afternoon: Optional[time] = None
     number_whats: Optional[str] = None
 
+
+class ManagerInDTO(BaseModel):
+    school_id: UUID
+    role: ManagerRole | str
+    name: str
+    email: EmailStr | str
+    password: str
+
