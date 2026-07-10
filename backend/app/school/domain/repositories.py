@@ -17,6 +17,10 @@ class ISchoolRepository(ABC):
     @abstractmethod
     def find_by_number_whats(self, number: str) -> SchoolEntity | None:
         ...
+
+    @abstractmethod
+    def verify_exists_school_by_name(self, name: str) -> SchoolEntity | None:
+        ...
     
     @abstractmethod
     def lists_schools_actives(self) -> List[SchoolEntity]:
