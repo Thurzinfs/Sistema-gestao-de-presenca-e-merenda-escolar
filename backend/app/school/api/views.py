@@ -32,3 +32,14 @@ def response_school(request, id: UUID):
     school = use_case.execute(id)
 
     return SchoolOut.from_domain(school)
+
+@router_school.patch('/{id}', response={200: SchoolOut})
+@atomic
+def update_school(request, id: UUID, data: SchoolUpdate):
+    dto = data.to_dto()
+
+    use_case = container.update_school_use_case()
+
+    school = use_case.execute(id, dto)
+
+    return SchoolOut.from_domain(school)
