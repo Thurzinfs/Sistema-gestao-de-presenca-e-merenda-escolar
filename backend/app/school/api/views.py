@@ -24,3 +24,11 @@ def register_school(request, data: SchoolIn):
     school = use_case.execute(dto)
 
     return SchoolOut.from_domain(school)
+
+@router_school.get('/{id}', response={200: SchoolOut})
+def response_school(request, id: UUID):
+    use_case = container.response_school_use_case()
+
+    school = use_case.execute(id)
+
+    return SchoolOut.from_domain(school)
