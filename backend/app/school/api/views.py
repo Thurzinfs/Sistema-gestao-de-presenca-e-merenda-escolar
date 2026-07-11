@@ -64,3 +64,11 @@ def register_manager(request, data: ManagerIn):
     manager = use_case.execute(dto)
 
     return ManagerOut.from_domain(manager)
+
+@router_manager.get('/{id}', response={200: ManagerOut})
+def response_manager(request, id: UUID):
+    use_case = container.response_manager_use_case()
+
+    manager = use_case.execute(id)
+
+    return ManagerOut.from_domain(manager)
