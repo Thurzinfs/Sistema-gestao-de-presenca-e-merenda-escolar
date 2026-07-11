@@ -6,15 +6,16 @@ from pydantic import EmailStr
 
 from app.school.domain.exceptions import ConflictFieldException
 from app.school.domain.role import ManagerRole
+from app.school.domain.value_objects import SchoolTimeVO
 
 
 @dataclass
 class SchoolEntity:
     id: UUID = field(default_factory=uuid4)
     name: str = field(default='')
-    time_closing_presence: time | None = field(default=None)
-    time_send_lunch: time | None = field(default=None)
-    time_send_snack_afternoon: time | None = field(default=None)
+    time_closing_presence: SchoolTimeVO | None = field(default=None)
+    time_send_lunch: SchoolTimeVO | None = field(default=None)
+    time_send_snack_afternoon: SchoolTimeVO | None = field(default=None)
     number_whats: str | None = field(default='')
     created_at: datetime = field(default_factory=datetime.now)
     deleted_at: datetime | None = field(default=None)
@@ -35,19 +36,19 @@ class SchoolEntity:
         if not time:
             raise ConflictFieldException('required new time')
         
-        self.time_closing_presence = time
+        self.time_closing_presence = SchoolTimeVO(time)
 
     def change_time_send_lunch(self, time: time):
         if not time:
             raise ConflictFieldException('required new time')
         
-        self.time_send_lunch = time
+        self.time_send_lunch = SchoolTimeVO(time)
 
     def change_time_snack_afternoon(self, time: time):
         if not time:
             raise ConflictFieldException('required new time')
         
-        self.time_send_snack_afternoon = time
+        self.time_send_snack_afternoon = SchoolTimeVO(time)
 
     def change_number_whats(self, new_number: str):
         if not new_number:
@@ -71,7 +72,7 @@ class ManagerEntity:
         if self.active == False:
             raise ConflictFieldException('manager already deactivate')
 
-        self.active = True
+        self.active = False
     
     def change_role(self, new_role: str):
         if not new_role:
