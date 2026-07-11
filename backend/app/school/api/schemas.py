@@ -41,7 +41,7 @@ class SchoolOut(Schema):
     time_send_snack_afternoon: time
     number_whats: str
     created_at: datetime
-    deleted_at: datetime
+    deleted_at: Optional[datetime] = None
 
     @staticmethod
     def from_domain(dto: SchoolOutDTO):
