@@ -72,3 +72,13 @@ def response_manager(request, id: UUID):
     manager = use_case.execute(id)
 
     return ManagerOut.from_domain(manager)
+
+@router_manager.patch('/{id}', response={200: ManagerOut})
+@atomic
+def update_manager(request, id: UUID, data: ManagerUpdate):
+    dto = data.to_dto()
+
+    use_case = container.update_manager_use_case()
+
+    manager = use_case.execute(id, dto)
+    return ManagerOut.from_domain(manager)
