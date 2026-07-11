@@ -43,3 +43,12 @@ def update_school(request, id: UUID, data: SchoolUpdate):
     school = use_case.execute(id, dto)
 
     return SchoolOut.from_domain(school)
+
+@router_school.delete('/{id}', response={200: SchoolOut})
+@atomic
+def deactive_school(request, id: UUID):
+    use_case = container.deactive_school_use_case()
+
+    school = use_case.execute(id)
+
+    return SchoolOut.from_domain(school)
