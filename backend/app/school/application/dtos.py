@@ -23,16 +23,16 @@ class SchoolOutDTO(BaseModel):
     time_send_snack_afternoon: time 
     number_whats: str 
     created_at: datetime 
-    deleted_at: datetime 
+    deleted_at: Optional[datetime] = None 
 
     @classmethod
     def from_domain(cls, model):
         return cls(
             id=model.id,
             name=model.name,
-            time_closing_presence=model.time_closing_presence,
-            time_send_lunch=model.time_send_lunch,
-            time_send_snack_afternoon=model.time_send_snack_afternoon,
+            time_closing_presence=model.time_closing_presence.value,
+            time_send_lunch=model.time_send_lunch.value,
+            time_send_snack_afternoon=model.time_send_snack_afternoon.value,
             number_whats=model.number_whats,
             created_at=model.created_at,
             deleted_at=model.deleted_at
@@ -69,7 +69,7 @@ class ManagerOutDTO(BaseModel):
     def from_domain(cls, model):
         return cls(
             id=model.id,
-            school_id=model.school_id,
+            school_id=model.school,
             role=model.role,
             name=model.name,
             email=model.email,
