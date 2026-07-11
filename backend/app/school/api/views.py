@@ -82,3 +82,12 @@ def update_manager(request, id: UUID, data: ManagerUpdate):
 
     manager = use_case.execute(id, dto)
     return ManagerOut.from_domain(manager)
+
+@router_manager.delete('/{id}', response={200: ManagerOut})
+@atomic
+def deactive_manager(request, id: UUID):
+    use_case = container.deactive_manager_use_case()
+
+    manager = use_case.execute(id)
+
+    return ManagerOut.from_domain(manager)
