@@ -2,8 +2,9 @@ from uuid import UUID
 
 from app.school.application.dtos import ManagerInDTO, ManagerInUpdateDTO, ManagerOutDTO, SchoolInDTO, SchoolInUpdateDTO, SchoolOutDTO
 from app.school.domain.entites import ManagerEntity, SchoolEntity
-from app.school.domain.exceptions import ManagerFieldIsRequiredException, ManagerNotActiveException, ManagerNotFoundException, SchoolNotActiveException, SchoolNotFoundException
+from app.school.domain.exceptions import ConflictFieldException, ManagerFieldIsRequiredException, ManagerNotActiveException, ManagerNotFoundException, SchoolNotActiveException, SchoolNotFoundException
 from app.school.domain.repositories import IManagerRepository, ISchoolRepository
+from app.school.domain.value_objects import SchoolTimeVO
 
 
 class RegisterSchoolUseCase:
@@ -11,14 +12,14 @@ class RegisterSchoolUseCase:
         self.school_repo = school_repo
 
     def execute(self, dto: SchoolInDTO) -> SchoolOutDTO:
-        if not self.school_repo.verify_exists_school_by_name(dto.name):
-            raise SchoolNotFoundException('school not found')
+        if self.school_repo.verify_exists_school_by_name(dto.name):
+            raise ConflictFieldException('school already exists')
         
         school = SchoolEntity(
             name=dto.name,
-            time_closing_presence=dto.time_closing_presence,
-            time_send_lunch=dto.time_send_lunch,
-            time_send_snack_afternoon=dto.time_send_snack_afternoon,
+            time_closing_presence=SchoolTimeVO(dto.time_closing_presence),
+            time_send_lunch=SchoolTimeVO(dto.time_send_lunch),
+            time_send_snack_afternoon=SchoolTimeVO(dto.time_send_snack_afternoon),
             number_whats=dto.number_whats
         )
 
@@ -118,7 +119,7 @@ class ResponseManagerByIDUseCase:
         if not manager:
             raise ManagerNotFoundException('manager not found')
         
-        if manager.active is not False:
+        if manager.active is not True:
             raise ManagerNotActiveException('manager not active')
         
         return ManagerOutDTO.from_domain(manager)
@@ -133,7 +134,7 @@ class UpdateManagerUseCase:
         if not manager:
             raise ManagerNotFoundException('manager not found')
         
-        if manager.active is not False:
+        if manager.active is not True:
             raise ManagerNotActiveException('manager not is active')
         
         if dto.name:
