@@ -52,3 +52,15 @@ def deactive_school(request, id: UUID):
     school = use_case.execute(id)
 
     return SchoolOut.from_domain(school)
+
+
+@router_manager.post('/', response={201: ManagerOut})
+@atomic
+def register_manager(request, data: ManagerIn):
+    dto = data.to_dto()
+
+    use_case = container.register_manager_use_case()
+
+    manager = use_case.execute(dto)
+
+    return ManagerOut.from_domain(manager)
