@@ -3,18 +3,19 @@ from uuid import UUID
 
 from app.school.domain.entites import ManagerEntity, SchoolEntity
 from app.school.domain.repositories import IManagerRepository, ISchoolRepository
+from app.school.domain.value_objects import SchoolTimeVO
 from app.school.infrastructure.models import Manager, School
 
 
 class DjangoSchoolRepository(ISchoolRepository):
     def save(self, entity: SchoolEntity) -> SchoolEntity:
         School.objects.update_or_create(
-            id=id,
+            id=entity.id,
             defaults={
                 'name': entity.name,
-                'time_closing_presence': entity.time_closing_presence,
-                'time_send_lunch': entity.time_send_lunch,
-                'time_send_snack_afternoon': entity.time_send_snack_afternoon,
+                'time_closing_presence': entity.time_closing_presence.value if entity.time_closing_presence else None,
+                'time_send_lunch': entity.time_send_lunch.value if entity.time_send_lunch else None,
+                'time_send_snack_afternoon': entity.time_send_snack_afternoon.value if entity.time_send_snack_afternoon else None,
                 'number_whats': entity.number_whats,
                 'created_at': entity.created_at,
                 'deleted_at': entity.deleted_at
@@ -48,15 +49,15 @@ class DjangoSchoolRepository(ISchoolRepository):
             return []
         
     def verify_exists_school_by_name(self, name: str) -> bool:
-        return Manager.objects.filter(name=name).exists()
+        return School.objects.filter(name=name).exists()
     
     def _to_model(self, model: School) -> SchoolEntity:
         return SchoolEntity(
             id=model.id,
             name=model.name,
-            time_closing_presence=model.time_closing_presence,
-            time_send_lunch=model.time_send_lunch,
-            time_send_snack_afternoon=model.time_send_snack_afternoon,
+            time_closing_presence=SchoolTimeVO(model.time_closing_presence),
+            time_send_lunch=SchoolTimeVO(model.time_send_lunch),
+            time_send_snack_afternoon=SchoolTimeVO(model.time_send_snack_afternoon),
             number_whats=model.number_whats,
             created_at=model.created_at,
             deleted_at=model.deleted_at
@@ -66,7 +67,7 @@ class DjangoSchoolRepository(ISchoolRepository):
 class DjangoManagerRepository(IManagerRepository):
     def save(self, entity: ManagerEntity) -> ManagerEntity:
         Manager.objects.update_or_create(
-            id=id,
+            id=entity.id,
             defaults={
                 'school_id': entity.school,
                 'role': entity.role,
@@ -118,6 +119,7 @@ class DjangoManagerRepository(IManagerRepository):
         return ManagerEntity(
             id=model.id,
             school=model.school.id,
+            name=model.name,
             role=model.role,
             email=model.email,
             password=model.password,
