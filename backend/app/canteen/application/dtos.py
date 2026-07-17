@@ -1,14 +1,15 @@
 from uuid import UUID
 from typing import Optional
 from datetime import datetime, date as Date
+from pydantic import BaseModel
 
-class DailyMenuInDTO():
+class DailyMenuInDTO(BaseModel):
     school: UUID
     date: Date
     main_course: str
     manager: UUID
 
-class DailyMenuOutDTO():
+class DailyMenuOutDTO(BaseModel):
     id: UUID
     date: Date
     main_course: str
@@ -25,6 +26,6 @@ class DailyMenuOutDTO():
             created_at=entity.created_at
         )
     
-class DailyMenuUpdateDTO():
+class DailyMenuUpdateDTO(BaseModel):
     date: Optional[UUID] = None
     main_course: Optional[str] = None
