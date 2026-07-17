@@ -3,7 +3,14 @@ from uuid import UUID
 from ninja import Router
 
 from app.school.api.dependencies import SchoolContainer
-from app.school.api.schemas import ManagerIn, ManagerOut, ManagerUpdate, SchoolIn, SchoolOut, SchoolUpdate
+from app.school.api.schemas import (
+    ManagerIn,
+    ManagerOut,
+    ManagerUpdate,
+    SchoolIn,
+    SchoolOut,
+    SchoolUpdate,
+)
 
 from django.db.transaction import atomic
 
@@ -25,6 +32,7 @@ def register_school(request, data: SchoolIn):
 
     return SchoolOut.from_domain(school)
 
+
 @router_school.get('/{id}', response={200: SchoolOut})
 def response_school(request, id: UUID):
     use_case = container.response_school_use_case()
@@ -32,6 +40,7 @@ def response_school(request, id: UUID):
     school = use_case.execute(id)
 
     return SchoolOut.from_domain(school)
+
 
 @router_school.patch('/{id}', response={200: SchoolOut})
 @atomic
@@ -43,6 +52,7 @@ def update_school(request, id: UUID, data: SchoolUpdate):
     school = use_case.execute(id, dto)
 
     return SchoolOut.from_domain(school)
+
 
 @router_school.delete('/{id}', response={200: SchoolOut})
 @atomic
@@ -65,6 +75,7 @@ def register_manager(request, data: ManagerIn):
 
     return ManagerOut.from_domain(manager)
 
+
 @router_manager.get('/{id}', response={200: ManagerOut})
 def response_manager(request, id: UUID):
     use_case = container.response_manager_use_case()
@@ -72,6 +83,7 @@ def response_manager(request, id: UUID):
     manager = use_case.execute(id)
 
     return ManagerOut.from_domain(manager)
+
 
 @router_manager.patch('/{id}', response={200: ManagerOut})
 @atomic
@@ -82,6 +94,7 @@ def update_manager(request, id: UUID, data: ManagerUpdate):
 
     manager = use_case.execute(id, dto)
     return ManagerOut.from_domain(manager)
+
 
 @router_manager.delete('/{id}', response={200: ManagerOut})
 @atomic

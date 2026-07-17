@@ -25,7 +25,9 @@ class Manager(models.Model):
         'school.School',
         on_delete=models.CASCADE,
     )
-    role = models.CharField(max_length=28, choices=ManagerRole, default=ManagerRole.pending)
+    role = models.CharField(
+        max_length=28, choices=ManagerRole, default=ManagerRole.pending
+    )
     name = models.CharField(max_length=120)
     email = models.EmailField()
     password = models.CharField(max_length=220)

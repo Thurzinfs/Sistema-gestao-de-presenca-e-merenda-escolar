@@ -16,14 +16,14 @@ class SchoolInDTO(BaseModel):
 
 
 class SchoolOutDTO(BaseModel):
-    id: UUID 
-    name: str 
-    time_closing_presence: time 
-    time_send_lunch: time 
-    time_send_snack_afternoon: time 
-    number_whats: str 
-    created_at: datetime 
-    deleted_at: Optional[datetime] = None 
+    id: UUID
+    name: str
+    time_closing_presence: time
+    time_send_lunch: time
+    time_send_snack_afternoon: time
+    number_whats: str
+    created_at: datetime
+    deleted_at: Optional[datetime] = None
 
     @classmethod
     def from_domain(cls, model):
@@ -35,7 +35,7 @@ class SchoolOutDTO(BaseModel):
             time_send_snack_afternoon=model.time_send_snack_afternoon.value,
             number_whats=model.number_whats,
             created_at=model.created_at,
-            deleted_at=model.deleted_at
+            deleted_at=model.deleted_at,
         )
 
 
@@ -75,7 +75,7 @@ class ManagerOutDTO(BaseModel):
             email=model.email,
             password=model.password,
             active=model.active,
-            created_at=model.created_at
+            created_at=model.created_at,
         )
 
 
