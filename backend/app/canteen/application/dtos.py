@@ -7,7 +7,6 @@ class DailyMenuInDTO():
     date: Date
     main_course: str
     manager: UUID
-    created_at: datetime
 
 class DailyMenuOutDTO():
     id: UUID
