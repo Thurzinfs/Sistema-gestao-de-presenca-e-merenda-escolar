@@ -6,3 +6,6 @@ class ConflictFieldCanteenException(BaseDomainException):
 
 class NotFoundCanteenException(BaseDomainException):
     pass
+
+class AlreadyExistsCanteenException(BaseDomainException):
+    pass
