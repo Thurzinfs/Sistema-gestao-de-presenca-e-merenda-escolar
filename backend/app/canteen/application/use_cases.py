@@ -1,7 +1,7 @@
 from uuid import UUID
 from app.canteen.application.dtos import DailyMenuInDTO, DailyMenuOutDTO, DailyMenuUpdateDTO
 from app.canteen.domain.entities import DailyMenuEntity
-from app.canteen.domain.exceptions import NotFoundCanteenException
+from app.canteen.domain.exceptions import AlreadyExistsCanteenException, NotFoundCanteenException
 from app.canteen.domain.repositories import IDailyMenuRepository
 from datetime import date as Date
 
@@ -10,8 +10,8 @@ class RegisterDailyMenuUseCase:
         self.daily_menu_repo = daily_menu_repo
     
     def execute(self, dto: DailyMenuInDTO) -> DailyMenuOutDTO:
-        if not self.daily_menu_repo.verify_by_date(dto.date):
-            raise NotFoundCanteenException('not found daily menu by date')
+        if self.daily_menu_repo.verify_by_date(dto.date):
+            raise AlreadyExistsCanteenException('daily menu already exists by date')
         
         daily_Menu = DailyMenuEntity(
             school=dto.school,
