@@ -9,10 +9,10 @@ class DailyMenuRepository(IDailyMenuRepository):
         DailyMenu.objects.update_or_create(
             id=entity.id,
             defaults={
-                "school": entity.school,
+                "school_id": entity.school,
                 "date": entity.date,
                 "main_course": entity.main_course,
-                "manager": entity.manager,
+                "manager_id": entity.manager,
                 "created_at": entity.created_at
             }
         )
@@ -39,9 +39,9 @@ class DailyMenuRepository(IDailyMenuRepository):
     def to_model(self, model: DailyMenu) -> DailyMenuEntity:
         return DailyMenuEntity(
             id=model.id,
-            school=model.school,
+            school=model.school.id,
             date=model.date,
             main_course=model.main_course,
-            manager=model.manager,
+            manager=model.manager.id,
             created_at=model.created_at
         )
