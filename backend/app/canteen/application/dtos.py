@@ -11,6 +11,7 @@ class DailyMenuInDTO(BaseModel):
 
 class DailyMenuOutDTO(BaseModel):
     id: UUID
+    school: UUID
     date: Date
     main_course: str
     manager: UUID
@@ -20,6 +21,7 @@ class DailyMenuOutDTO(BaseModel):
     def from_domain(cls, entity):
         return cls(
             id=entity.id,
+            school=entity.school,
             date=entity.date,
             main_course=entity.main_course,
             manager=entity.manager,
