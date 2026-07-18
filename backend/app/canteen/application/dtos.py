@@ -29,5 +29,5 @@ class DailyMenuOutDTO(BaseModel):
         )
     
 class DailyMenuUpdateDTO(BaseModel):
-    date: Optional[UUID] = None
+    date: Optional[Date] = None
     main_course: Optional[str] = None
