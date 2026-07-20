@@ -1,6 +1,6 @@
 from ninja import NinjaAPI
 
-from app.school.api.views import router_school, router_manager
+from app.school.api.views import router_school, router_manager, router_auth
 
 
 app = NinjaAPI(
@@ -11,3 +11,4 @@ app = NinjaAPI(
 
 app.add_router('/school', router_school, tags=['School'])
 app.add_router('/school/manager', router_manager, tags=['Manager'])
+app.add_router('/auth', router_auth, tags=['Auth'])
