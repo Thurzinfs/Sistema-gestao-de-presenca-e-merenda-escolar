@@ -34,3 +34,19 @@ class Manager(models.Model):
 
     class Meta:
         db_table = 'managers'
+
+
+class RefreshToken(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False)
+    token = models.CharField(max_length=255, unique=True)
+    revoked = models.BooleanField(default=False)
+    user = models.ForeignKey(
+        'school.Manager',
+        on_delete=models.CASCADE,
+        related_name='refresh_token'
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    expire_at = models.DateTimeField(null=True)
+
+    class Meta:
+        db_table = 'refresh_tokens'
