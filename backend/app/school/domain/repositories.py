@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import List
 from uuid import UUID
 
-from app.school.domain.entites import ManagerEntity, SchoolEntity
+from app.school.domain.entites import ManagerEntity, RefreshTokenEntity, SchoolEntity
 
 
 class ISchoolRepository(ABC):
@@ -48,3 +48,16 @@ class IManagerRepository(ABC):
     def lists_managers_by_actives(self) -> List[ManagerEntity]:
         ...
     
+
+class IRefreshTokenRepository(ABC):
+    @abstractmethod
+    def save(self, entity: RefreshTokenEntity) -> RefreshTokenEntity:
+        ...
+
+    @abstractmethod
+    def find_by_hash(self, hash: str) -> RefreshTokenEntity | None:
+        ...
+
+    @abstractmethod
+    def revoke_all_by_user(self, user_id: UUID) -> None:
+        ...
