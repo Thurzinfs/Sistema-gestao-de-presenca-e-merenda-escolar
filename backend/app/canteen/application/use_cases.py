@@ -1,9 +1,11 @@
+from typing import List
 from uuid import UUID
 from app.canteen.application.dtos import DailyMenuInDTO, DailyMenuOutDTO, DailyMenuUpdateDTO
 from app.canteen.domain.entities import DailyMenuEntity
 from app.canteen.domain.exceptions import AlreadyExistsCanteenException, NotFoundCanteenException
 from app.canteen.domain.repositories import IDailyMenuRepository
 from datetime import date as Date
+from app.canteen.domain.servicies import IPickDatesService
 
 class RegisterDailyMenuUseCase:
     def __init__(self, daily_menu_repo: IDailyMenuRepository):
@@ -52,4 +54,12 @@ class UpdateDailyMenuUseCase:
         
         entity = self.daily_menu_repo.save(entity)
         return DailyMenuOutDTO.from_domain(entity)
+
+class ReturnWithDateRangeUseCase:
+    def __init__(self, pick_dates_service: IPickDatesService):
+        self.pick_dates_service = pick_dates_service
+
+    def execute(self, from_date: Date, to_date: Date) -> List[DailyMenuOutDTO]:
+        entities = self.pick_dates_service.pick_dates(from_date, to_date)
+        return [DailyMenuOutDTO.from_domain(entity) for entity in entities]
         
