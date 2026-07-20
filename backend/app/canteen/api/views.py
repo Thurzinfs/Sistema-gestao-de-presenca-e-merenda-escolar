@@ -18,6 +18,11 @@ def register_daily_menu(request, data: DailyMenuIn):
     response = use_case.execute(dto)
     return 201, DailyMenuOut.from_domain(response)
 
+@router.get('/{id}', response={200: DailyMenuOut})
+def view_by_id(request, id: UUID):
+    use_case = container.return_with_id_use_case()
+    response = use_case.execute(id)
+    return 200, DailyMenuOut.from_domain(response)
 
 @router.get('/', response={200: DailyMenuOut})
 def view_daily_menu(request, date: Date):
