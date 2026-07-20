@@ -7,6 +7,7 @@ from pydantic import EmailStr
 from app.school.domain.exceptions import ConflictFieldException
 from app.school.domain.role import ManagerRole
 from app.school.domain.value_objects import SchoolTimeVO
+from core.exceptions import BaseDomainException
 
 
 @dataclass
@@ -97,3 +98,24 @@ class ManagerEntity:
             raise ConflictFieldException('required new password')
         
         self.password = new_password
+
+
+@dataclass
+class RefreshTokenEntity:
+    id: UUID = field(default_factory=uuid4)
+    token: str = field(default='')
+    revoked: bool = field(default=False)
+    user: UUID | None = field(default=None)
+    created_at: datetime = field(default_factory=datetime.now)
+    expire_at: datetime | None = field(default=None)
+
+    def revoked_token(self):
+        if self.revoked:
+            raise BaseDomainException('token already revoked')
+
+        self.revoked = True
+
+    def is_valid(self) -> bool:
+        if not self.expire_at:
+            return False
+        return not self.revoked and datetime.now() < self.expire_at
