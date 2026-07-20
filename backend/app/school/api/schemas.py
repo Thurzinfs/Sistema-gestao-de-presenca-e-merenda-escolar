@@ -6,6 +6,8 @@ from ninja import Schema
 from pydantic import EmailStr
 
 from app.school.application.dtos import (
+    LoginInDTO,
+    LoginOutDTO,
     ManagerInDTO,
     ManagerInUpdateDTO,
     ManagerOutDTO,
@@ -128,3 +130,26 @@ class ManagerUpdate(Schema):
             email=self.email,
             password=self.password,
         )
+
+
+class LoginIn(Schema):
+    email: EmailStr
+    password: str
+
+    def to_dto(self) -> LoginInDTO:
+        return LoginInDTO(
+            email=str(self.email),
+            password=self.password
+        )
+
+class LoginOut(Schema):
+    access_token: str
+    refresh_token: str
+
+    @staticmethod
+    def from_domain(dto: LoginOutDTO):
+        return LoginOut(
+            access_token=dto.access_token,
+            refresh_token=dto.refresh_token
+        )
+
