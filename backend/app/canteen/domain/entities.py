@@ -2,6 +2,7 @@ from datetime import datetime, date as Date
 from dataclasses import dataclass, field
 from uuid import UUID, uuid4
 
+
 @dataclass
 class DailyMenuEntity:
     id: UUID = field(default_factory=uuid4)
@@ -14,7 +15,7 @@ class DailyMenuEntity:
     def change_date(self, date):
         if date:
             self.date = date
-    
+
     def change_main_course(self, main_course):
         if main_course:
             self.main_course = main_course

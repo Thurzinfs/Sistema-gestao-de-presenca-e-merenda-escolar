@@ -7,7 +7,7 @@ from app.canteen.api.views import router as router_canteen
 app = NinjaAPI(
     title='Gestor de Presença e Merenda Escolar',
     version='0.1.0',
-    docs_url='/docs/'
+    docs_url='/docs/',
 )
 
 app.add_router('/school', router_school, tags=['School'])

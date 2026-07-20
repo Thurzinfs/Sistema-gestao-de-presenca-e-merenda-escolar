@@ -4,8 +4,11 @@ from app.canteen.domain.entities import DailyMenuEntity
 from app.canteen.domain.servicies import IPickDatesService
 from app.canteen.infrastructure.models import DailyMenu
 
+
 class PickDatesService(IPickDatesService):
-    def pick_dates(self, from_date: Date, to_date: Date) -> List[DailyMenuEntity]:
+    def pick_dates(
+        self, from_date: Date, to_date: Date
+    ) -> List[DailyMenuEntity]:
         models = DailyMenu.objects.all()
         dates = [model.date for model in models]
         interval = []
@@ -21,6 +24,7 @@ class PickDatesService(IPickDatesService):
                 date=model.date,
                 main_course=model.main_course,
                 manager=model.manager.id,
-                created_at=model.created_at
-            ) for model in models
+                created_at=model.created_at,
+            )
+            for model in models
         ]

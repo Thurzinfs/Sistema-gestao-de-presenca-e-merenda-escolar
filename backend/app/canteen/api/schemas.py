@@ -5,6 +5,7 @@ from ninja import Schema
 
 from app.canteen.application.dtos import DailyMenuInDTO, DailyMenuUpdateDTO
 
+
 class DailyMenuIn(Schema):
     school: UUID
     date: Date
@@ -13,11 +14,12 @@ class DailyMenuIn(Schema):
 
     def to_dto(self) -> DailyMenuInDTO:
         return DailyMenuInDTO(
-            school = self.school,
-            date = self.date,
-            main_course = self.main_course,
-            manager = self.manager
+            school=self.school,
+            date=self.date,
+            main_course=self.main_course,
+            manager=self.manager,
         )
+
 
 class DailyMenuOut(Schema):
     id: UUID
@@ -35,15 +37,13 @@ class DailyMenuOut(Schema):
             date=entity.date,
             main_course=entity.main_course,
             manager=entity.manager,
-            created_at=entity.created_at
+            created_at=entity.created_at,
         )
+
 
 class DailyMenuUpdate(Schema):
     date: Optional[Date] = None
     main_course: Optional[str] = None
 
     def to_dto(self) -> DailyMenuUpdateDTO:
-        return DailyMenuUpdateDTO(
-            date=self.date,
-            main_course=self.main_course
-        )
+        return DailyMenuUpdateDTO(date=self.date, main_course=self.main_course)

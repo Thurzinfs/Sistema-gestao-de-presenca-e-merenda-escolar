@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'app.school',
-    'app.canteen'
+    'app.canteen',
 ]
 
 MIDDLEWARE = [
@@ -89,7 +89,6 @@ DATABASES = {
         'HOST': 'database',
     }
 }
-
 
 
 # Password validation
