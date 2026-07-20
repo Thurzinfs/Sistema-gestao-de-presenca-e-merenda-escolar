@@ -17,10 +17,10 @@ class PickDatesService(IPickDatesService):
         return [
             DailyMenuEntity(
                 id=model.id,
-                school=model.school,
+                school=model.school.id,
                 date=model.date,
                 main_course=model.main_course,
-                manager=model.manager,
+                manager=model.manager.id,
                 created_at=model.created_at
             ) for model in models
         ]
