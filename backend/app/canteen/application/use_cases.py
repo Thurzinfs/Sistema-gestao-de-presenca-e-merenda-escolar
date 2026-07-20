@@ -81,3 +81,14 @@ class ReturnWithDateRangeUseCase:
 
         entities = self.pick_dates_service.pick_dates(from_date, to_date)
         return [DailyMenuOutDTO.from_domain(entity) for entity in entities]
+
+class ReturnWithIdUseCase:
+    def __init__(self, daily_menu_repo: IDailyMenuRepository):
+        self.daily_menu_repo = daily_menu_repo
+
+    def execute(self, id: UUID) -> DailyMenuOutDTO:
+        daily_menu = self.daily_menu_repo.find_by_id(id)
+        if not daily_menu:
+            raise NotFoundCanteenException('not found this daily menu')
+        
+        return DailyMenuOutDTO.from_domain(daily_menu)
