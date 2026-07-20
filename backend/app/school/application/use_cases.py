@@ -1,10 +1,12 @@
 from uuid import UUID
 
-from app.school.application.dtos import ManagerInDTO, ManagerInUpdateDTO, ManagerOutDTO, SchoolInDTO, SchoolInUpdateDTO, SchoolOutDTO
+from app.school.application.dtos import LoginInDTO, LoginOutDTO, ManagerInDTO, ManagerInUpdateDTO, ManagerOutDTO, SchoolInDTO, SchoolInUpdateDTO, SchoolOutDTO
 from app.school.domain.entites import ManagerEntity, SchoolEntity
 from app.school.domain.exceptions import ConflictFieldException, ManagerFieldIsRequiredException, ManagerNotActiveException, ManagerNotFoundException, SchoolNotActiveException, SchoolNotFoundException
-from app.school.domain.repositories import IManagerRepository, ISchoolRepository
+from app.school.domain.repositories import IManagerRepository, IRefreshTokenRepository, ISchoolRepository
+from app.school.domain.servicies import IHashService, ITokenService
 from app.school.domain.value_objects import SchoolTimeVO
+from core.exceptions import BaseDomainException
 
 
 class RegisterSchoolUseCase:
@@ -40,6 +42,21 @@ class ResponseSchoolUseCase:
             raise SchoolNotActiveException('school not active')
         
         return SchoolOutDTO.from_domain(school)
+    
+
+class ListSchoolActivesUseCase:
+    def __init__(self, school_repo: ISchoolRepository) -> None:
+        self.school_repo = school_repo
+
+    def execute(self):
+        schools = self.school_repo.lists_schools_actives()
+        if not schools:
+            return []
+        
+        return [
+            SchoolOutDTO.from_domain(school)
+            for school in schools
+        ]
     
 
 class UpdateSchoolUseCase:
@@ -88,8 +105,9 @@ class DeactiveSchoolUseCase:
     
 
 class RegisterManagerUseCase:
-    def __init__(self, manager_repo: IManagerRepository) -> None:
+    def __init__(self, manager_repo: IManagerRepository, hash_service: IHashService) -> None:
         self.manager_repo = manager_repo
+        self.hash_service = hash_service
 
     def execute(self, dto: ManagerInDTO) -> ManagerOutDTO:
         if self.manager_repo.find_by_email(dto.email):
@@ -98,10 +116,12 @@ class RegisterManagerUseCase:
         if not dto.school_id:
             raise ManagerFieldIsRequiredException('school id is required')
         
+        password_hash = self.hash_service.hash(dto.password)
+        
         manager = ManagerEntity(
             name=dto.name,
             email=dto.email,
-            password=dto.password,
+            password=password_hash,
             role=dto.role,
             school=dto.school_id
         )
@@ -169,3 +189,29 @@ class DeactiveManagerUseCase:
         self.manager_repo.save(manager)
         return ManagerOutDTO.from_domain(manager)
     
+
+class LoginUseCase:
+    def __init__(self, user_repo: IManagerRepository, token_repo: IRefreshTokenRepository, token_service: ITokenService, hash_service: IHashService) -> None:
+        self.user_repo=user_repo
+        self.token_repo = token_repo
+        self.token_service = token_service
+        self.hash_service = hash_service
+
+    def execute(self, dto: LoginInDTO):
+        user = self.user_repo.find_by_email(dto.email)
+        if not user:
+            raise ManagerNotFoundException('user not found')
+
+        if not user.active:
+            raise ManagerNotActiveException('user inative')
+        
+        if not self.hash_service.verify(dto.password, user.password):
+            raise BaseDomainException('invalid credentials')
+        
+        access_token = self.token_service.generate_access_token(user)
+        (raw_refresh, entity) = self.token_service.generate_refresh_token(user)
+        self.token_repo.save(entity)
+        
+        return LoginOutDTO(
+            access_token=access_token, refresh_token=raw_refresh
+        )
