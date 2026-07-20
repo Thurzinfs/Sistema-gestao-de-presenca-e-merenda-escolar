@@ -2,7 +2,7 @@ from typing import List
 from uuid import UUID
 from app.canteen.application.dtos import DailyMenuInDTO, DailyMenuOutDTO, DailyMenuUpdateDTO
 from app.canteen.domain.entities import DailyMenuEntity
-from app.canteen.domain.exceptions import AlreadyExistsCanteenException, NotFoundCanteenException
+from app.canteen.domain.exceptions import AlreadyExistsCanteenException, InvalidDateFieldCanteenException, NotFoundCanteenException
 from app.canteen.domain.repositories import IDailyMenuRepository
 from datetime import date as Date
 from app.canteen.domain.servicies import IPickDatesService
@@ -60,6 +60,9 @@ class ReturnWithDateRangeUseCase:
         self.pick_dates_service = pick_dates_service
 
     def execute(self, from_date: Date, to_date: Date) -> List[DailyMenuOutDTO]:
+        if from_date > to_date:
+            raise InvalidDateFieldCanteenException('from_date is greater than to_date')
+
         entities = self.pick_dates_service.pick_dates(from_date, to_date)
         return [DailyMenuOutDTO.from_domain(entity) for entity in entities]
         
