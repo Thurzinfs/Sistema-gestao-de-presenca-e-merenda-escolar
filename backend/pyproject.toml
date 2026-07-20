@@ -12,6 +12,7 @@ dependencies = [
     "django-cors-headers>=4.9.0",
     "django-ninja>=1.6.2",
     "dotenv>=0.9.9",
+    "passlib>=1.7.4",
     "psycopg2-binary>=2.9.12",
     "pydantic[email]>=2.13.4",
     "pyjwt>=2.13.0",
