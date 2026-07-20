@@ -15,14 +15,41 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Manager',
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('role', models.CharField(choices=[('PENDING', 'pending'), ('DIRECTION', 'direction'), ('COORDINATOR', 'coordinator'), ('MONITOR', 'monitor'), ('CANTEEN', 'canteen')], default='PENDING', max_length=28)),
+                (
+                    'id',
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                (
+                    'role',
+                    models.CharField(
+                        choices=[
+                            ('PENDING', 'pending'),
+                            ('DIRECTION', 'direction'),
+                            ('COORDINATOR', 'coordinator'),
+                            ('MONITOR', 'monitor'),
+                            ('CANTEEN', 'canteen'),
+                        ],
+                        default='PENDING',
+                        max_length=28,
+                    ),
+                ),
                 ('name', models.CharField(max_length=120)),
                 ('email', models.EmailField(max_length=254)),
                 ('password', models.CharField(max_length=220)),
                 ('active', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('school_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='school.school')),
+                (
+                    'school_id',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='school.school',
+                    ),
+                ),
             ],
             options={
                 'db_table': 'managers',

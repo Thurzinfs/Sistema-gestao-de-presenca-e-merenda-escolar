@@ -9,7 +9,7 @@ class ISchoolRepository(ABC):
     @abstractmethod
     def save(self, entity: SchoolEntity) -> SchoolEntity:
         ...
-    
+
     @abstractmethod
     def find_by_id(self, id: UUID) -> SchoolEntity | None:
         ...
@@ -21,7 +21,7 @@ class ISchoolRepository(ABC):
     @abstractmethod
     def verify_exists_school_by_name(self, name: str) -> bool:
         ...
-    
+
     @abstractmethod
     def lists_schools_actives(self) -> List[SchoolEntity]:
         ...
@@ -31,7 +31,7 @@ class IManagerRepository(ABC):
     @abstractmethod
     def save(self, entity: ManagerEntity) -> ManagerEntity:
         ...
-    
+
     @abstractmethod
     def find_by_id(self, id: UUID) -> ManagerEntity | None:
         ...
@@ -39,7 +39,7 @@ class IManagerRepository(ABC):
     @abstractmethod
     def find_by_email(self, email: str) -> ManagerEntity | None:
         ...
-    
+
     @abstractmethod
     def lists_managers_role_by_role(self, role: str) -> List[ManagerEntity]:
         ...

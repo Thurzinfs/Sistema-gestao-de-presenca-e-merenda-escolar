@@ -19,23 +19,19 @@ class SchoolContainer(containers.DeclarativeContainer):
     )
 
     register_school_use_case = providers.Factory(
-        RegisterSchoolUseCase,
-        school_repo=school_repo
+        RegisterSchoolUseCase, school_repo=school_repo
     )
 
     response_school_use_case = providers.Factory(
-        ResponseSchoolUseCase,
-        school_repo=school_repo
+        ResponseSchoolUseCase, school_repo=school_repo
     )
 
     update_school_use_case = providers.Factory(
-        UpdateSchoolUseCase,
-        school_repo=school_repo
+        UpdateSchoolUseCase, school_repo=school_repo
     )
 
     deactive_school_use_case = providers.Factory(
-        DeactiveSchoolUseCase,
-        school_repo=school_repo
+        DeactiveSchoolUseCase, school_repo=school_repo
     )
 
     manager_repo = providers.Factory(DjangoManagerRepository)
@@ -47,8 +43,7 @@ class SchoolContainer(containers.DeclarativeContainer):
     )
 
     response_manager_use_case = providers.Factory(
-        ResponseManagerByIDUseCase,
-        manager_repo=manager_repo
+        ResponseManagerByIDUseCase, manager_repo=manager_repo
     )
 
     list_schools_use_case = providers.Factory(
@@ -57,13 +52,11 @@ class SchoolContainer(containers.DeclarativeContainer):
     )
 
     update_manager_use_case = providers.Factory(
-        UpdateManagerUseCase,
-        manager_repo=manager_repo
+        UpdateManagerUseCase, manager_repo=manager_repo
     )
 
     deactive_manager_use_case = providers.Factory(
-        DeactiveManagerUseCase,
-        manager_repo=manager_repo
+        DeactiveManagerUseCase, manager_repo=manager_repo
     )
 
     login_use_case = providers.Factory(

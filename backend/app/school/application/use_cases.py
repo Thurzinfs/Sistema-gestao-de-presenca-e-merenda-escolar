@@ -16,13 +16,15 @@ class RegisterSchoolUseCase:
     def execute(self, dto: SchoolInDTO) -> SchoolOutDTO:
         if self.school_repo.verify_exists_school_by_name(dto.name):
             raise ConflictFieldException('school already exists')
-        
+
         school = SchoolEntity(
             name=dto.name,
             time_closing_presence=SchoolTimeVO(dto.time_closing_presence),
             time_send_lunch=SchoolTimeVO(dto.time_send_lunch),
-            time_send_snack_afternoon=SchoolTimeVO(dto.time_send_snack_afternoon),
-            number_whats=dto.number_whats
+            time_send_snack_afternoon=SchoolTimeVO(
+                dto.time_send_snack_afternoon
+            ),
+            number_whats=dto.number_whats,
         )
 
         self.school_repo.save(school)
@@ -37,12 +39,12 @@ class ResponseSchoolUseCase:
         school = self.school_repo.find_by_id(id)
         if not school:
             raise SchoolNotFoundException('school not found')
-        
+
         if school.deleted_at is not None:
             raise SchoolNotActiveException('school not active')
-        
+
         return SchoolOutDTO.from_domain(school)
-    
+
 
 class ListSchoolActivesUseCase:
     def __init__(self, school_repo: ISchoolRepository) -> None:
@@ -67,10 +69,10 @@ class UpdateSchoolUseCase:
         school = self.school_repo.find_by_id(id)
         if not school:
             raise SchoolNotFoundException('school not found')
-        
+
         if school.deleted_at is not None:
             raise SchoolNotActiveException('school not active')
-        
+
         if dto.name:
             school.change_name(dto.name)
 
@@ -102,7 +104,7 @@ class DeactiveSchoolUseCase:
         school.deactive()
         self.school_repo.save(school)
         return SchoolOutDTO.from_domain(school)
-    
+
 
 class RegisterManagerUseCase:
     def __init__(self, manager_repo: IManagerRepository, hash_service: IHashService) -> None:
@@ -112,7 +114,7 @@ class RegisterManagerUseCase:
     def execute(self, dto: ManagerInDTO) -> ManagerOutDTO:
         if self.manager_repo.find_by_email(dto.email):
             raise ManagerNotFoundException('email already register')
-        
+
         if not dto.school_id:
             raise ManagerFieldIsRequiredException('school id is required')
         
@@ -123,25 +125,25 @@ class RegisterManagerUseCase:
             email=dto.email,
             password=password_hash,
             role=dto.role,
-            school=dto.school_id
+            school=dto.school_id,
         )
 
         self.manager_repo.save(manager)
         return ManagerOutDTO.from_domain(manager)
-    
+
 
 class ResponseManagerByIDUseCase:
     def __init__(self, manager_repo: IManagerRepository) -> None:
         self.manager_repo = manager_repo
 
-    def execute(self, id:UUID) -> ManagerOutDTO:
+    def execute(self, id: UUID) -> ManagerOutDTO:
         manager = self.manager_repo.find_by_id(id)
         if not manager:
             raise ManagerNotFoundException('manager not found')
-        
+
         if manager.active is not True:
             raise ManagerNotActiveException('manager not active')
-        
+
         return ManagerOutDTO.from_domain(manager)
 
 
@@ -153,10 +155,10 @@ class UpdateManagerUseCase:
         manager = self.manager_repo.find_by_id(id)
         if not manager:
             raise ManagerNotFoundException('manager not found')
-        
+
         if manager.active is not True:
             raise ManagerNotActiveException('manager not is active')
-        
+
         if dto.name:
             manager.change_name(dto.name)
 
@@ -173,18 +175,18 @@ class UpdateManagerUseCase:
         return ManagerOutDTO.from_domain(manager)
 
 
-class DeactiveManagerUseCase: 
+class DeactiveManagerUseCase:
     def __init__(self, manager_repo: IManagerRepository) -> None:
         self.manager_repo = manager_repo
 
     def execute(self, id: UUID) -> ManagerOutDTO:
         manager = self.manager_repo.find_by_id(id)
         if not manager:
-            raise ManagerNotFoundException("manager not found")
-        
+            raise ManagerNotFoundException('manager not found')
+
         if manager.active is not True:
-            raise ManagerNotActiveException("manager not active")
-        
+            raise ManagerNotActiveException('manager not active')
+
         manager.deactive()
         self.manager_repo.save(manager)
         return ManagerOutDTO.from_domain(manager)
