@@ -9,3 +9,6 @@ class NotFoundCanteenException(BaseDomainException):
 
 class AlreadyExistsCanteenException(BaseDomainException):
     pass
+
+class InvalidDateFieldCanteenException(BaseDomainException):
+    pass
