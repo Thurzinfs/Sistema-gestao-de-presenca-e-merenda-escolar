@@ -57,13 +57,13 @@ def register_leftouvers_lunch(request, data: LeftouversLunchIn):
     return 201, LeftouversLunchOut.from_domain(response)
 
 @leftouverslunch_router.get('/date', response={200: LeftouversLunchOut})
-def view_by_date(request, date: Date):
+def view_by_leftouvers_date(request, date: Date):
     use_case = leftouverslunch_container.return_with_date_leftouvers_lunch_use_case()
     response = use_case.execute(date)
     return 200, LeftouversLunchOut.from_domain(response)
 
 @leftouverslunch_router.get('/{id}', response={200: LeftouversLunchOut})
-def view_by_id(request, id: UUID):
+def view_leftouvers_by_id(request, id: UUID):
     use_case = leftouverslunch_container.return_with_id_leftouvers_lunch_use_case()
     response = use_case.execute(id)
     return 200, LeftouversLunchOut.from_domain(response)
