@@ -17,7 +17,7 @@ from app.canteen.domain.exceptions import (
 from app.canteen.domain.repositories import IDailyMenuRepository, ILeftouversLunchRepository
 from datetime import date as Date
 from app.canteen.domain.servicies import IPickDatesService, IVerifyLeftouverLunchExistsService
-from app.school.domain.repositories import IManagerRepository
+from app.school.domain.repositories import IManagerRepository, ISchoolRepository
 from app.school.domain.role import ManagerRole
 
 
@@ -99,12 +99,16 @@ class ReturnDailyMenuWithIdUseCase:
         return DailyMenuOutDTO.from_domain(daily_menu)
 
 class RegisterLeftouversLunchUseCase:
-    def __init__(self, leftouvers_lunch_repo: ILeftouversLunchRepository, leftouvers_lunch_exists_service: IVerifyLeftouverLunchExistsService, manager_repo: IManagerRepository):
+    def __init__(self, leftouvers_lunch_repo: ILeftouversLunchRepository, leftouvers_lunch_exists_service: IVerifyLeftouverLunchExistsService, manager_repo: IManagerRepository, school_repo: ISchoolRepository):
         self.leftouvers_lunch_repo = leftouvers_lunch_repo
         self.leftouvers_lunch_exists_service = leftouvers_lunch_exists_service
         self.manager_repo = manager_repo
+        self.school_repo = school_repo
 
     def execute(self, dto: LeftouversLunchInDTO) -> LeftouversLunchOutDTO:
+        if not self.school_repo.find_by_id(dto.school):
+            raise NotFoundCanteenException('no school found with this id')
+
         user = self.manager_repo.find_by_id(dto.user)
         if not user:
             raise NotFoundCanteenException('no user found with this id')
