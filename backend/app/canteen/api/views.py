@@ -50,6 +50,7 @@ def update_daily_menu(request, id: UUID, data: DailyMenuUpdate):
     return 200, DailyMenuOut.from_domain(response)
 
 @leftouverslunch_router.post('/', response={201: LeftouversLunchOut})
+@atomic
 def register_leftouvers_lunch(request, data: LeftouversLunchIn):
     use_case = leftouverslunch_container.register_leftouvers_lunch_use_case()
     dto = data.to_dto()
@@ -66,4 +67,12 @@ def view_by_leftouvers_date(request, date: Date):
 def view_leftouvers_by_id(request, id: UUID):
     use_case = leftouverslunch_container.return_with_id_leftouvers_lunch_use_case()
     response = use_case.execute(id)
+    return 200, LeftouversLunchOut.from_domain(response)
+
+@leftouverslunch_router.patch('/{id}', response={200: LeftouversLunchOut})
+@atomic
+def update_leftouvers_lunch(request, id: UUID, data: LeftouversLunchUpdate):
+    use_case = leftouverslunch_container.update_leftouvers_lunch_use_case()
+    dto = data.to_dto()
+    response = use_case.execute(id, dto)
     return 200, LeftouversLunchOut.from_domain(response)
