@@ -125,3 +125,14 @@ class ReturnLeftouversLunchWithIdUseCase:
             raise NotFoundCanteenException('not found leftouvers lunch by id')
 
         return LeftouversLunchOutDTO.from_domain(leftouvers_lunch)
+
+class ReturnLeftouversLunchWithDateUseCase:
+    def __init__(self, leftouvers_lunch_repo: ILeftouversLunchRepository):
+        self.leftouvers_lunch_repo = leftouvers_lunch_repo
+
+    def execute(self, date: Date) -> LeftouversLunchOutDTO:
+        leftouvers_lunch = self.leftouvers_lunch_repo.find_by_date(date)
+        if not leftouvers_lunch:
+            raise NotFoundCanteenException('not found leftouvers lunch by date')
+
+        return LeftouversLunchOutDTO.from_domain(leftouvers_lunch)
