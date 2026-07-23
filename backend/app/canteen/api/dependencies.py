@@ -12,7 +12,7 @@ from app.canteen.application.use_cases import (
 )
 from app.canteen.infrastructure.repository import DailyMenuRepository, LeftouversLunchRepository
 from app.canteen.infrastructure.service import PickDatesService, VerifyLeftouverLunchExistsService
-from app.school.infrastructure.repository import DjangoManagerRepository
+from app.school.infrastructure.repository import DjangoManagerRepository, DjangoSchoolRepository
 
 
 class DailyMenuContainer(containers.DeclarativeContainer):
@@ -43,9 +43,14 @@ class LeftouversLunchContainer(containers.DeclarativeContainer):
     leftouvers_lunch_repo = providers.Factory(LeftouversLunchRepository)
     leftouvers_lunch_exists_service = providers.Factory(VerifyLeftouverLunchExistsService)
     manager_repo = providers.Factory(DjangoManagerRepository)
+    school_repo = providers.Factory(DjangoSchoolRepository)
 
     register_leftouvers_lunch_use_case = providers.Factory(
-        RegisterLeftouversLunchUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo, leftouvers_lunch_exists_service=leftouvers_lunch_exists_service, manager_repo = manager_repo
+        RegisterLeftouversLunchUseCase,
+        leftouvers_lunch_repo=leftouvers_lunch_repo,
+        leftouvers_lunch_exists_service=leftouvers_lunch_exists_service,
+        manager_repo = manager_repo,
+        school_repo = school_repo
     )
     return_with_id_leftouvers_lunch_use_case = providers.Factory(
         ReturnLeftouversLunchWithIdUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo
