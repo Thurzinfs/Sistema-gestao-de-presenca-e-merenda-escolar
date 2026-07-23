@@ -47,12 +47,12 @@ class DailyMenuRepository(IDailyMenuRepository):
             created_at=model.created_at,
         )
 
-class LeftouversRepository(ILeftouversLunchRepository):
+class LeftouversLunchRepository(ILeftouversLunchRepository):
     def save(self, entity: LeftouversLunchEntity) -> LeftouversLunchEntity:
         LeftouversLunch.objects.update_or_create(
             id=entity.id,
             defaults={
-                'school': entity.id,
+                'school': entity.school,
                 'leftouvers_kg': entity.leftouvers_kg,
                 'amount_students': entity.amount_students,
                 'user': entity.user,
