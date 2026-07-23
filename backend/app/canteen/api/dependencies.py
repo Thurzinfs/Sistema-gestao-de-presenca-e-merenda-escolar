@@ -43,13 +43,13 @@ class LeftouversLunchContainer(containers.DeclarativeContainer):
     leftouvers_lunch_exists_service = providers.Factory(VerifyLeftouverLunchExistsService)
 
     register_leftouvers_lunch_use_case = providers.Factory(
-        RegisterLeftouversLunchUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo
+        RegisterLeftouversLunchUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo, leftouvers_lunch_exists_service=leftouvers_lunch_exists_service
     )
     return_with_id_leftouvers_lunch_use_case = providers.Factory(
         ReturnLeftouversLunchWithIdUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo
     )
     return_with_date_leftouvers_lunch_use_case = providers.Factory(
-        ReturnLeftouversLunchWithDateUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo, leftouvers_lunch_exists_service=leftouvers_lunch_exists_service
+        ReturnLeftouversLunchWithDateUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo
     )
     update_leftouvers_lunch_use_case = providers.Factory(
         UpdateLeftouversLunchUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo
