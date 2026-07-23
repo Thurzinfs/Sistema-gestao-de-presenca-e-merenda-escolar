@@ -1,8 +1,8 @@
 from uuid import UUID
-from datetime import date as Date
-from app.canteen.domain.repositories import IDailyMenuRepository
-from app.canteen.domain.entities import DailyMenuEntity
-from app.canteen.infrastructure.models import DailyMenu
+from datetime import date as Date, datetime as Datetime
+from app.canteen.domain.repositories import IDailyMenuRepository, ILeftouversLunchRepository
+from app.canteen.domain.entities import DailyMenuEntity, LeftouversLunchEntity
+from app.canteen.infrastructure.models import DailyMenu, LeftouversLunch
 
 
 class DailyMenuRepository(IDailyMenuRepository):
@@ -45,4 +45,34 @@ class DailyMenuRepository(IDailyMenuRepository):
             main_course=model.main_course,
             manager=model.manager.id,
             created_at=model.created_at,
+        )
+
+class LeftouversRepository(ILeftouversLunchRepository):
+    def save(self, entity: LeftouversLunchEntity) -> LeftouversLunchEntity:
+        LeftouversLunch.objects.update_or_create(
+            id=entity.id,
+            defaults={
+                'school': entity.id,
+                'leftouvers_kg': entity.leftouvers_kg,
+                'amount_students': entity.amount_students,
+                'user': entity.user,
+                'created_at': entity.created_at
+            }
+        )
+        return entity
+
+    def find_by_id(self, id: UUID) -> LeftouversLunchEntity:
+        try:
+            return LeftouversLunch.objects.get(id=id)
+        except LeftouversLunch.DoesNotExist:
+            return None
+
+    def to_model(self, model: LeftouversLunch) -> LeftouversLunchEntity:
+        return LeftouversLunchEntity(
+            id=model.id,
+            school=model.school.id,
+            leftouvers_kg=model.leftouvers_kg,
+            amount_students=model.amount_students,
+            user=model.user.id,
+            created_at=model.created_at
         )
