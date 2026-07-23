@@ -114,3 +114,14 @@ class RegisterLeftouversLunchUseCase:
 
         leftouvers_lunch = self.leftouvers_lunch_repo.save(leftouvers_lunch)
         return LeftouversLunchOutDTO.from_domain(leftouvers_lunch)
+
+class ReturnLeftouversLunchWithIdUseCase:
+    def __init__(self, leftouvers_lunch_repo: ILeftouversLunchRepository):
+        self.leftouvers_lunch_repo = leftouvers_lunch_repo
+
+    def execute(self, id: UUID) -> LeftouversLunchOutDTO:
+        leftouvers_lunch = self.leftouvers_lunch_repo.find_by_id(id)
+        if not leftouvers_lunch:
+            raise NotFoundCanteenException('not found leftouvers lunch by id')
+
+        return LeftouversLunchOutDTO.from_domain(leftouvers_lunch)
