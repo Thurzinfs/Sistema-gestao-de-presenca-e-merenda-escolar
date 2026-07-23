@@ -2,12 +2,15 @@ from typing import List
 from uuid import UUID
 from ninja import Router
 from django.db.transaction import atomic
-from app.canteen.api.dependencies import DailyMenuContainer
-from app.canteen.api.schemas import DailyMenuIn, DailyMenuOut, DailyMenuUpdate
+from app.canteen.api.dependencies import DailyMenuContainer, LeftouversLunchContainer
+from app.canteen.api.schemas import DailyMenuIn, DailyMenuOut, DailyMenuUpdate, LeftouversLunchIn, LeftouversLunchOut, LeftouversLunchUpdate
 from datetime import date as Date
 
 router = Router()
+leftouverslunch_router = Router()
+
 container = DailyMenuContainer
+leftouverslunch_container = LeftouversLunchContainer
 
 
 @router.post('/', response={201: DailyMenuOut})
@@ -45,3 +48,10 @@ def update_daily_menu(request, id: UUID, data: DailyMenuUpdate):
     dto = data.to_dto()
     response = use_case.execute(id, dto)
     return 200, DailyMenuOut.from_domain(response)
+
+@leftouverslunch_router.post('/', response={201: LeftouversLunchOut})
+def register_leftouvers_lunch(request, data: LeftouversLunchIn):
+    use_case = leftouverslunch_container.register_leftouvers_lunch_use_case()
+    dto = data.to_dto()
+    response = use_case.execute(dto)
+    return 201, LeftouversLunchOut.from_domain(response)
