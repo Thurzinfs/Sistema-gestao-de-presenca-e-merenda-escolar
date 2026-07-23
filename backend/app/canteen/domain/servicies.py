@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from datetime import date
+from datetime import date, datetime as Datetime
 from typing import List
 from app.canteen.domain.entities import DailyMenuEntity
 
@@ -9,4 +9,9 @@ class IPickDatesService(ABC):
     def pick_dates(
         self, from_date: date, to_date: date
     ) -> List[DailyMenuEntity]:
+        ...
+
+class IVerifyLeftouverLunchExistsService(ABC):
+    @abstractmethod
+    def verify(self) -> bool:
         ...
