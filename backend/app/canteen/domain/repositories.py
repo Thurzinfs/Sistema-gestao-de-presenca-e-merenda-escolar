@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from datetime import date
+from datetime import date, datetime as Datetime
 from uuid import UUID
-from app.canteen.domain.entities import DailyMenuEntity
+from app.canteen.domain.entities import DailyMenuEntity, LeftouversLunchEntity
 
 
 class IDailyMenuRepository(ABC):
@@ -23,4 +23,13 @@ class IDailyMenuRepository(ABC):
 
     @abstractmethod
     def verify_by_date(self, date: date) -> bool:
+        ...
+
+class ILeftouversLunchRepository(ABC):
+    @abstractmethod
+    def save(self, leftouvers_lunch: LeftouversLunchEntity) -> LeftouversLunchEntity:
+        ...
+
+    @abstractmethod
+    def find_by_id(self, id: UUID) -> LeftouversLunchEntity | None:
         ...
