@@ -72,7 +72,7 @@ class UpdateDailyMenuUseCase:
         return DailyMenuOutDTO.from_domain(entity)
 
 
-class ReturnWithDateRangeUseCase:
+class ReturnDailyMenuWithDateRangeUseCase:
     def __init__(self, pick_dates_service: IPickDatesService):
         self.pick_dates_service = pick_dates_service
 
@@ -85,7 +85,7 @@ class ReturnWithDateRangeUseCase:
         entities = self.pick_dates_service.pick_dates(from_date, to_date)
         return [DailyMenuOutDTO.from_domain(entity) for entity in entities]
 
-class ReturnWithIdUseCase:
+class ReturnDailyMenuWithIdUseCase:
     def __init__(self, daily_menu_repo: IDailyMenuRepository):
         self.daily_menu_repo = daily_menu_repo
 

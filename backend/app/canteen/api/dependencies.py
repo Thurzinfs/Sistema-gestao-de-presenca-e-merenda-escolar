@@ -2,8 +2,8 @@ from dependency_injector import providers, containers
 from app.canteen.application.use_cases import (
     RegisterDailyMenuUseCase,
     ReturnDailyMenuUseCase,
-    ReturnWithDateRangeUseCase,
-    ReturnWithIdUseCase,
+    ReturnDailyMenuWithDateRangeUseCase,
+    ReturnDailyMenuWithIdUseCase,
     UpdateDailyMenuUseCase,
 )
 from app.canteen.infrastructure.repository import DailyMenuRepository
@@ -27,9 +27,9 @@ class DailyMenuContainer(containers.DeclarativeContainer):
     )
 
     return_with_date_range_use_case = providers.Factory(
-        ReturnWithDateRangeUseCase, pick_dates_service=pick_dates_service
+        ReturnDailyMenuWithDateRangeUseCase, pick_dates_service=pick_dates_service
     )
 
     return_with_id_use_case = providers.Factory(
-        ReturnWithIdUseCase, daily_menu_repo = daily_menu_repo
+        ReturnDailyMenuWithIdUseCase, daily_menu_repo = daily_menu_repo
     )
