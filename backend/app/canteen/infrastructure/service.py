@@ -31,9 +31,9 @@ class PickDatesService(IPickDatesService):
 
 class VerifyLeftouverLunchExistsService(IVerifyLeftouverLunchExistsService):
     def verify(self) -> bool:
-        today = Datetime.now().date()
+        today = Datetime.now().date().month
         for model in LeftouversLunch.objects.all():
-            date_model = model.created_at.date()
+            date_model = model.created_at.date().month
             if date_model == today:
                 return True
         
