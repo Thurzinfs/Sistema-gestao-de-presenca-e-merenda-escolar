@@ -67,6 +67,12 @@ class LeftouversRepository(ILeftouversLunchRepository):
         except LeftouversLunch.DoesNotExist:
             return None
 
+    def find_by_date(self, date: Date) -> LeftouversLunchEntity | None:
+        for model in LeftouversLunch.objects.all():
+            if model.created_at.date() == date:
+                return self.to_model(model)
+        return None
+
     def to_model(self, model: LeftouversLunch) -> LeftouversLunchEntity:
         return LeftouversLunchEntity(
             id=model.id,
