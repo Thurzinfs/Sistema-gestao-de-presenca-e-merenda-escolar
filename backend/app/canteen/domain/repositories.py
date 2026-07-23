@@ -33,3 +33,7 @@ class ILeftouversLunchRepository(ABC):
     @abstractmethod
     def find_by_id(self, id: UUID) -> LeftouversLunchEntity | None:
         ...
+
+    @abstractmethod
+    def find_by_date(self, date: date) -> LeftouversLunchEntity | None:
+        ...
