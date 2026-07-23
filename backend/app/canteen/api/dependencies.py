@@ -5,9 +5,13 @@ from app.canteen.application.use_cases import (
     ReturnDailyMenuWithDateRangeUseCase,
     ReturnDailyMenuWithIdUseCase,
     UpdateDailyMenuUseCase,
+    RegisterLeftouversLunchUseCase,
+    ReturnLeftouversLunchWithIdUseCase,
+    ReturnLeftouversLunchWithDateUseCase,
+    UpdateLeftouversLunchUseCase
 )
-from app.canteen.infrastructure.repository import DailyMenuRepository
-from app.canteen.infrastructure.service import PickDatesService
+from app.canteen.infrastructure.repository import DailyMenuRepository, LeftouversLunchRepository
+from app.canteen.infrastructure.service import PickDatesService, VerifyLeftouverLunchExistsService
 
 
 class DailyMenuContainer(containers.DeclarativeContainer):
@@ -32,4 +36,21 @@ class DailyMenuContainer(containers.DeclarativeContainer):
 
     return_with_id_use_case = providers.Factory(
         ReturnDailyMenuWithIdUseCase, daily_menu_repo = daily_menu_repo
+    )
+
+class LeftouversLunchContainer(containers.DeclarativeContainer):
+    leftouvers_lunch_repo = providers.Factory(LeftouversLunchRepository)
+    leftouvers_lunch_exists_service = providers.Factory(VerifyLeftouverLunchExistsService)
+
+    register_leftouvers_lunch_use_case = providers.Factory(
+        RegisterLeftouversLunchUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo
+    )
+    return_with_id_leftouvers_lunch_use_case = providers.Factory(
+        ReturnLeftouversLunchWithIdUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo
+    )
+    return_with_date_leftouvers_lunch_use_case = providers.Factory(
+        ReturnLeftouversLunchWithDateUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo, leftouvers_lunch_exists_service=leftouvers_lunch_exists_service
+    )
+    update_leftouvers_lunch_use_case = providers.Factory(
+        UpdateLeftouversLunchUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo
     )
