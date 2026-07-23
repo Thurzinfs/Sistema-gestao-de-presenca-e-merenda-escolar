@@ -26,6 +26,7 @@ class LeftouversLunchEntity:
     school: UUID | None = field(default=None)
     leftouvers_kg: int = field(default=0)
     amount_students: int = field(default=0)
+    user: UUID | None = field(default=None)
     created_at: datetime = field(default_factory=datetime.now)
 
     def change_leftouvers_kg(self, leftouvers_kg):
