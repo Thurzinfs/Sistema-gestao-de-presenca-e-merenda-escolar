@@ -35,5 +35,5 @@ class ILeftouversLunchRepository(ABC):
         ...
 
     @abstractmethod
-    def find_by_date(self, date: date) -> LeftouversLunchEntity | None:
+    def find_by_month(self, month: int) -> LeftouversLunchEntity | None:
         ...

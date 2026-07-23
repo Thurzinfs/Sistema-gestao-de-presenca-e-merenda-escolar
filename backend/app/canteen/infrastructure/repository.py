@@ -1,5 +1,5 @@
 from uuid import UUID
-from datetime import date as Date, datetime as Datetime
+from datetime import date as Date
 from app.canteen.domain.repositories import IDailyMenuRepository, ILeftouversLunchRepository
 from app.canteen.domain.entities import DailyMenuEntity, LeftouversLunchEntity
 from app.canteen.infrastructure.models import DailyMenu, LeftouversLunch
@@ -67,9 +67,9 @@ class LeftouversLunchRepository(ILeftouversLunchRepository):
         except LeftouversLunch.DoesNotExist:
             return None
 
-    def find_by_date(self, date: Date) -> LeftouversLunchEntity | None:
+    def find_by_date(self, month: int) -> LeftouversLunchEntity | None:
         for model in LeftouversLunch.objects.all():
-            if model.created_at.date() == date:
+            if model.created_at.date().month == month:
                 return self.to_model(model)
         return None
 
