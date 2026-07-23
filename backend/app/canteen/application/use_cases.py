@@ -4,16 +4,19 @@ from app.canteen.application.dtos import (
     DailyMenuInDTO,
     DailyMenuOutDTO,
     DailyMenuUpdateDTO,
+    LeftouversLunchInDTO,
+    LeftouversLunchOutDTO,
+    LeftouversLunchUpdateDTO
 )
-from app.canteen.domain.entities import DailyMenuEntity
+from app.canteen.domain.entities import DailyMenuEntity, LeftouversLunchEntity
 from app.canteen.domain.exceptions import (
     AlreadyExistsCanteenException,
     InvalidDateFieldCanteenException,
     NotFoundCanteenException,
 )
-from app.canteen.domain.repositories import IDailyMenuRepository
+from app.canteen.domain.repositories import IDailyMenuRepository, ILeftouversLunchRepository
 from datetime import date as Date
-from app.canteen.domain.servicies import IPickDatesService
+from app.canteen.domain.servicies import IPickDatesService, IVerifyLeftouverLunchExistsService
 
 
 class RegisterDailyMenuUseCase:
@@ -92,3 +95,22 @@ class ReturnWithIdUseCase:
             raise NotFoundCanteenException('not found this daily menu')
         
         return DailyMenuOutDTO.from_domain(daily_menu)
+
+class RegisterLeftouversLunchUseCase:
+    def __init__(self, leftouvers_lunch_repo: ILeftouversLunchRepository, leftouvers_lunch_exists_service: IVerifyLeftouverLunchExistsService):
+        self.leftouvers_lunch_repo = leftouvers_lunch_repo
+        self.leftouvers_lunch_exists_service = leftouvers_lunch_exists_service
+
+    def execute(self, dto: LeftouversLunchInDTO) -> LeftouversLunchOutDTO:
+        if self.leftouvers_lunch_exists_service.verify():
+            raise AlreadyExistsCanteenException('a report has already been created today')
+
+        leftouvers_lunch = LeftouversLunchEntity(
+            school=dto.school,
+            leftouvers_kg=dto.leftouvers_kg,
+            amount_students=dto.amount_students,
+            user=dto.user
+        )
+
+        leftouvers_lunch = self.leftouvers_lunch_repo.save(leftouvers_lunch)
+        return LeftouversLunchOutDTO.from_domain(leftouvers_lunch)
