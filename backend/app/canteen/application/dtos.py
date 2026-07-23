@@ -53,10 +53,10 @@ class LeftouversLunchOutDTO(BaseModel):
     def from_domain(cls, entity):
         return cls(
             id=entity.id,
-            school=entity.school.id,
+            school=entity.school,
             leftouvers_kg=entity.leftouvers_kg,
             amount_students=entity.amount_students,
-            user=entity.user.id,
+            user=entity.user,
             created_at=entity.created_at
         )
 
