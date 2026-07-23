@@ -52,10 +52,10 @@ class LeftouversLunchRepository(ILeftouversLunchRepository):
         LeftouversLunch.objects.update_or_create(
             id=entity.id,
             defaults={
-                'school': entity.school,
+                'school_id': entity.school,
                 'leftouvers_kg': entity.leftouvers_kg,
                 'amount_students': entity.amount_students,
-                'user': entity.user,
+                'user_id': entity.user,
                 'created_at': entity.created_at
             }
         )
@@ -63,7 +63,7 @@ class LeftouversLunchRepository(ILeftouversLunchRepository):
 
     def find_by_id(self, id: UUID) -> LeftouversLunchEntity:
         try:
-            return LeftouversLunch.objects.get(id=id)
+            return self.to_model(LeftouversLunch.objects.get(id=id))
         except LeftouversLunch.DoesNotExist:
             return None
 
