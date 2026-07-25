@@ -61,7 +61,7 @@ class LeftouversLunchRepository(ILeftouversLunchRepository):
         )
         return entity
 
-    def find_by_id(self, id: UUID) -> LeftouversLunchEntity:
+    def find_by_id(self, id: UUID) -> LeftouversLunchEntity | None:
         try:
             return self.to_model(LeftouversLunch.objects.get(id=id))
         except LeftouversLunch.DoesNotExist:
