@@ -3,7 +3,12 @@ from uuid import UUID
 from datetime import datetime, date as Date
 from ninja import Schema
 
-from app.canteen.application.dtos import DailyMenuInDTO, DailyMenuUpdateDTO, LeftouversLunchInDTO, LeftouversLunchUpdateDTO
+from app.canteen.application.dtos import (
+    DailyMenuInDTO,
+    DailyMenuUpdateDTO,
+    LeftouversLunchInDTO,
+    LeftouversLunchUpdateDTO,
+)
 
 
 class DailyMenuIn(Schema):
@@ -48,6 +53,7 @@ class DailyMenuUpdate(Schema):
     def to_dto(self) -> DailyMenuUpdateDTO:
         return DailyMenuUpdateDTO(date=self.date, main_course=self.main_course)
 
+
 class LeftouversLunchIn(Schema):
     school: UUID
     leftouvers_kg: int
@@ -59,8 +65,9 @@ class LeftouversLunchIn(Schema):
             school=self.school,
             leftouvers_kg=self.leftouvers_kg,
             amount_students=self.amount_students,
-            user=self.user
+            user=self.user,
         )
+
 
 class LeftouversLunchOut(Schema):
     id: UUID
@@ -78,8 +85,9 @@ class LeftouversLunchOut(Schema):
             leftouvers_kg=entity.leftouvers_kg,
             amount_students=entity.amount_students,
             user=entity.user,
-            created_at=entity.created_at
+            created_at=entity.created_at,
         )
+
 
 class LeftouversLunchUpdate(Schema):
     leftouvers_kg: Optional[int] = None
@@ -88,5 +96,5 @@ class LeftouversLunchUpdate(Schema):
     def to_dto(self) -> LeftouversLunchUpdateDTO:
         return LeftouversLunchUpdateDTO(
             leftouvers_kg=self.leftouvers_kg,
-            amount_students=self.amount_students
+            amount_students=self.amount_students,
         )

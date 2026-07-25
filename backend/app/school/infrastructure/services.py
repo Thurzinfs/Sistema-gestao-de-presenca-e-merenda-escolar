@@ -20,13 +20,18 @@ class TokenService(ITokenService):
             'email': user.email,
             'role': user.role,
             'school': str(user.school),
-            'exp': datetime.now(timezone.utc) + timedelta(minutes=settings.JWT_EXP_MINUTES)
+            'exp': datetime.now(timezone.utc)
+            + timedelta(minutes=settings.JWT_EXP_MINUTES),
         }
         return jwt.encode(
-            payload=payload, key=settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHIM
+            payload=payload,
+            key=settings.JWT_SECRET_KEY,
+            algorithm=settings.JWT_ALGORITHIM,
         )
-    
-    def generate_refresh_token(self, user: ManagerEntity) -> tuple[str, RefreshTokenEntity]:
+
+    def generate_refresh_token(
+        self, user: ManagerEntity
+    ) -> tuple[str, RefreshTokenEntity]:
         raw_token = str(uuid4())
 
         hash_token = self.hash_token(raw_token)
@@ -34,20 +39,22 @@ class TokenService(ITokenService):
         refresh = RefreshTokenEntity(
             token=hash_token,
             user=user.id,
-            expire_at= datetime.now() + timedelta(days=settings.JWT_EXP_DAYS)
+            expire_at=datetime.now() + timedelta(days=settings.JWT_EXP_DAYS),
         )
 
         return raw_token, refresh
-    
+
     def decode_token(self, token: str) -> dict:
         try:
             return jwt.decode(
-                token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHIM]
+                token,
+                settings.JWT_SECRET_KEY,
+                algorithms=[settings.JWT_ALGORITHIM],
             )
 
         except jwt.ExpiredSignatureError:
             raise BaseDomainException('token expired')
-    
+
     def hash_token(self, raw_token: str) -> str:
         import hashlib
 
@@ -56,10 +63,10 @@ class TokenService(ITokenService):
 
 pwd_context = CryptContext(schemes=['bcrypt'])
 
+
 class HashService(IHashService):
     def hash(self, raw_password: str) -> str:
         return pwd_context.hash(raw_password)
-    
+
     def verify(self, raw_password: str, hashed_password: str) -> bool:
         return pwd_context.verify(raw_password, hashed_password)
-    

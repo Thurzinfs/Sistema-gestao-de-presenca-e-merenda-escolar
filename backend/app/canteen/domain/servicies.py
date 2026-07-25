@@ -11,6 +11,7 @@ class IPickDatesService(ABC):
     ) -> List[DailyMenuEntity]:
         ...
 
+
 class IVerifyLeftouverLunchExistsService(ABC):
     @abstractmethod
     def verify(self) -> bool:

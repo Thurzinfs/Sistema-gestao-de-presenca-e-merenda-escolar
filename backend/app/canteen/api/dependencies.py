@@ -8,11 +8,20 @@ from app.canteen.application.use_cases import (
     RegisterLeftouversLunchUseCase,
     ReturnLeftouversLunchWithIdUseCase,
     ReturnLeftouversLunchWithMonthUseCase,
-    UpdateLeftouversLunchUseCase
+    UpdateLeftouversLunchUseCase,
 )
-from app.canteen.infrastructure.repository import DailyMenuRepository, LeftouversLunchRepository
-from app.canteen.infrastructure.service import PickDatesService, VerifyLeftouverLunchExistsService
-from app.school.infrastructure.repository import DjangoManagerRepository, DjangoSchoolRepository
+from app.canteen.infrastructure.repository import (
+    DailyMenuRepository,
+    LeftouversLunchRepository,
+)
+from app.canteen.infrastructure.service import (
+    PickDatesService,
+    VerifyLeftouverLunchExistsService,
+)
+from app.school.infrastructure.repository import (
+    DjangoManagerRepository,
+    DjangoSchoolRepository,
+)
 
 
 class DailyMenuContainer(containers.DeclarativeContainer):
@@ -32,16 +41,20 @@ class DailyMenuContainer(containers.DeclarativeContainer):
     )
 
     return_with_date_range_use_case = providers.Factory(
-        ReturnDailyMenuWithDateRangeUseCase, pick_dates_service=pick_dates_service
+        ReturnDailyMenuWithDateRangeUseCase,
+        pick_dates_service=pick_dates_service,
     )
 
     return_with_id_use_case = providers.Factory(
-        ReturnDailyMenuWithIdUseCase, daily_menu_repo = daily_menu_repo
+        ReturnDailyMenuWithIdUseCase, daily_menu_repo=daily_menu_repo
     )
+
 
 class LeftouversLunchContainer(containers.DeclarativeContainer):
     leftouvers_lunch_repo = providers.Factory(LeftouversLunchRepository)
-    leftouvers_lunch_exists_service = providers.Factory(VerifyLeftouverLunchExistsService)
+    leftouvers_lunch_exists_service = providers.Factory(
+        VerifyLeftouverLunchExistsService
+    )
     manager_repo = providers.Factory(DjangoManagerRepository)
     school_repo = providers.Factory(DjangoSchoolRepository)
 
@@ -49,15 +62,18 @@ class LeftouversLunchContainer(containers.DeclarativeContainer):
         RegisterLeftouversLunchUseCase,
         leftouvers_lunch_repo=leftouvers_lunch_repo,
         leftouvers_lunch_exists_service=leftouvers_lunch_exists_service,
-        manager_repo = manager_repo,
-        school_repo = school_repo
+        manager_repo=manager_repo,
+        school_repo=school_repo,
     )
     return_with_id_leftouvers_lunch_use_case = providers.Factory(
-        ReturnLeftouversLunchWithIdUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo
+        ReturnLeftouversLunchWithIdUseCase,
+        leftouvers_lunch_repo=leftouvers_lunch_repo,
     )
     return_with_month_leftouvers_lunch_use_case = providers.Factory(
-        ReturnLeftouversLunchWithMonthUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo
+        ReturnLeftouversLunchWithMonthUseCase,
+        leftouvers_lunch_repo=leftouvers_lunch_repo,
     )
     update_leftouvers_lunch_use_case = providers.Factory(
-        UpdateLeftouversLunchUseCase, leftouvers_lunch_repo=leftouvers_lunch_repo
+        UpdateLeftouversLunchUseCase,
+        leftouvers_lunch_repo=leftouvers_lunch_repo,
     )

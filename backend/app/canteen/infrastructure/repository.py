@@ -1,6 +1,9 @@
 from uuid import UUID
 from datetime import date as Date
-from app.canteen.domain.repositories import IDailyMenuRepository, ILeftouversLunchRepository
+from app.canteen.domain.repositories import (
+    IDailyMenuRepository,
+    ILeftouversLunchRepository,
+)
 from app.canteen.domain.entities import DailyMenuEntity, LeftouversLunchEntity
 from app.canteen.infrastructure.models import DailyMenu, LeftouversLunch
 
@@ -47,6 +50,7 @@ class DailyMenuRepository(IDailyMenuRepository):
             created_at=model.created_at,
         )
 
+
 class LeftouversLunchRepository(ILeftouversLunchRepository):
     def save(self, entity: LeftouversLunchEntity) -> LeftouversLunchEntity:
         LeftouversLunch.objects.update_or_create(
@@ -56,8 +60,8 @@ class LeftouversLunchRepository(ILeftouversLunchRepository):
                 'leftouvers_kg': entity.leftouvers_kg,
                 'amount_students': entity.amount_students,
                 'user_id': entity.user,
-                'created_at': entity.created_at
-            }
+                'created_at': entity.created_at,
+            },
         )
         return entity
 
@@ -80,5 +84,5 @@ class LeftouversLunchRepository(ILeftouversLunchRepository):
             leftouvers_kg=model.leftouvers_kg,
             amount_students=model.amount_students,
             user=model.user.id,
-            created_at=model.created_at
+            created_at=model.created_at,
         )

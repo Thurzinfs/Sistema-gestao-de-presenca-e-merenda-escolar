@@ -20,6 +20,7 @@ class DailyMenuEntity:
         if main_course:
             self.main_course = main_course
 
+
 @dataclass
 class LeftouversLunchEntity:
     id: UUID = field(default_factory=uuid4)

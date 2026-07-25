@@ -35,11 +35,13 @@ class DailyMenuUpdateDTO(BaseModel):
     date: Optional[Date] = None
     main_course: Optional[str] = None
 
+
 class LeftouversLunchInDTO(BaseModel):
     school: UUID
     leftouvers_kg: int
     amount_students: int
     user: UUID
+
 
 class LeftouversLunchOutDTO(BaseModel):
     id: UUID
@@ -57,8 +59,9 @@ class LeftouversLunchOutDTO(BaseModel):
             leftouvers_kg=entity.leftouvers_kg,
             amount_students=entity.amount_students,
             user=entity.user,
-            created_at=entity.created_at
+            created_at=entity.created_at,
         )
+
 
 class LeftouversLunchUpdateDTO(BaseModel):
     leftouvers_kg: Optional[int] = None

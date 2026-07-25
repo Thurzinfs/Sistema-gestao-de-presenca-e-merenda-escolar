@@ -6,19 +6,28 @@ from app.canteen.application.dtos import (
     DailyMenuUpdateDTO,
     LeftouversLunchInDTO,
     LeftouversLunchOutDTO,
-    LeftouversLunchUpdateDTO
+    LeftouversLunchUpdateDTO,
 )
 from app.canteen.domain.entities import DailyMenuEntity, LeftouversLunchEntity
 from app.canteen.domain.exceptions import (
     AlreadyExistsCanteenException,
     InvalidDateFieldCanteenException,
     NotFoundCanteenException,
-    InvalidMonthCanteenException
+    InvalidMonthCanteenException,
 )
-from app.canteen.domain.repositories import IDailyMenuRepository, ILeftouversLunchRepository
+from app.canteen.domain.repositories import (
+    IDailyMenuRepository,
+    ILeftouversLunchRepository,
+)
 from datetime import date as Date
-from app.canteen.domain.servicies import IPickDatesService, IVerifyLeftouverLunchExistsService
-from app.school.domain.repositories import IManagerRepository, ISchoolRepository
+from app.canteen.domain.servicies import (
+    IPickDatesService,
+    IVerifyLeftouverLunchExistsService,
+)
+from app.school.domain.repositories import (
+    IManagerRepository,
+    ISchoolRepository,
+)
 from app.school.domain.role import ManagerRole
 
 
@@ -88,6 +97,7 @@ class ReturnDailyMenuWithDateRangeUseCase:
         entities = self.pick_dates_service.pick_dates(from_date, to_date)
         return [DailyMenuOutDTO.from_domain(entity) for entity in entities]
 
+
 class ReturnDailyMenuWithIdUseCase:
     def __init__(self, daily_menu_repo: IDailyMenuRepository):
         self.daily_menu_repo = daily_menu_repo
@@ -96,11 +106,18 @@ class ReturnDailyMenuWithIdUseCase:
         daily_menu = self.daily_menu_repo.find_by_id(id)
         if not daily_menu:
             raise NotFoundCanteenException('not found this daily menu')
-        
+
         return DailyMenuOutDTO.from_domain(daily_menu)
 
+
 class RegisterLeftouversLunchUseCase:
-    def __init__(self, leftouvers_lunch_repo: ILeftouversLunchRepository, leftouvers_lunch_exists_service: IVerifyLeftouverLunchExistsService, manager_repo: IManagerRepository, school_repo: ISchoolRepository):
+    def __init__(
+        self,
+        leftouvers_lunch_repo: ILeftouversLunchRepository,
+        leftouvers_lunch_exists_service: IVerifyLeftouverLunchExistsService,
+        manager_repo: IManagerRepository,
+        school_repo: ISchoolRepository,
+    ):
         self.leftouvers_lunch_repo = leftouvers_lunch_repo
         self.leftouvers_lunch_exists_service = leftouvers_lunch_exists_service
         self.manager_repo = manager_repo
@@ -116,19 +133,22 @@ class RegisterLeftouversLunchUseCase:
 
         if user.role != ManagerRole.canteen:
             raise NotFoundCanteenException('the user role is invalid')
-        
+
         if self.leftouvers_lunch_exists_service.verify():
-            raise AlreadyExistsCanteenException('a report has already been created this month')
+            raise AlreadyExistsCanteenException(
+                'a report has already been created this month'
+            )
 
         leftouvers_lunch = LeftouversLunchEntity(
             school=dto.school,
             leftouvers_kg=dto.leftouvers_kg,
             amount_students=dto.amount_students,
-            user=dto.user
+            user=dto.user,
         )
 
         leftouvers_lunch = self.leftouvers_lunch_repo.save(leftouvers_lunch)
         return LeftouversLunchOutDTO.from_domain(leftouvers_lunch)
+
 
 class ReturnLeftouversLunchWithIdUseCase:
     def __init__(self, leftouvers_lunch_repo: ILeftouversLunchRepository):
@@ -141,6 +161,7 @@ class ReturnLeftouversLunchWithIdUseCase:
 
         return LeftouversLunchOutDTO.from_domain(leftouvers_lunch)
 
+
 class ReturnLeftouversLunchWithMonthUseCase:
     def __init__(self, leftouvers_lunch_repo: ILeftouversLunchRepository):
         self.leftouvers_lunch_repo = leftouvers_lunch_repo
@@ -148,22 +169,35 @@ class ReturnLeftouversLunchWithMonthUseCase:
     def execute(self, month: int) -> LeftouversLunchOutDTO:
         leftouvers_lunch = self.leftouvers_lunch_repo.find_by_month(month)
         if not leftouvers_lunch:
-            raise NotFoundCanteenException('not found leftouvers lunch by date')
+            raise NotFoundCanteenException(
+                'not found leftouvers lunch by date'
+            )
 
         return LeftouversLunchOutDTO.from_domain(leftouvers_lunch)
 
+
 class UpdateLeftouversLunchUseCase:
-    def __init__(self, leftouvers_lunch_repo: ILeftouversLunchRepository, leftouvers_lunch_exists_service: IVerifyLeftouverLunchExistsService):
-        self.leftouvers_lunch_repo  = leftouvers_lunch_repo
+    def __init__(
+        self,
+        leftouvers_lunch_repo: ILeftouversLunchRepository,
+        leftouvers_lunch_exists_service: IVerifyLeftouverLunchExistsService,
+    ):
+        self.leftouvers_lunch_repo = leftouvers_lunch_repo
         self.leftouvers_lunch_exists_service = leftouvers_lunch_exists_service
 
-    def execute(self, id: UUID, dto: LeftouversLunchUpdateDTO) -> LeftouversLunchOutDTO:
+    def execute(
+        self, id: UUID, dto: LeftouversLunchUpdateDTO
+    ) -> LeftouversLunchOutDTO:
         entity = self.leftouvers_lunch_repo.find_by_id(id)
         if not entity:
-            raise NotFoundCanteenException('not exists this leftouvers lunch by id')
+            raise NotFoundCanteenException(
+                'not exists this leftouvers lunch by id'
+            )
 
         if self.leftouvers_lunch_exists_service.verify():
-            raise InvalidMonthCanteenException('this report is not for the current month')
+            raise InvalidMonthCanteenException(
+                'this report is not for the current month'
+            )
 
         if dto.leftouvers_kg:
             entity.change_leftouvers_kg(dto.leftouvers_kg)

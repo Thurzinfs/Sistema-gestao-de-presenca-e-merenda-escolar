@@ -25,9 +25,12 @@ class IDailyMenuRepository(ABC):
     def verify_by_date(self, date: date) -> bool:
         ...
 
+
 class ILeftouversLunchRepository(ABC):
     @abstractmethod
-    def save(self, leftouvers_lunch: LeftouversLunchEntity) -> LeftouversLunchEntity:
+    def save(
+        self, leftouvers_lunch: LeftouversLunchEntity
+    ) -> LeftouversLunchEntity:
         ...
 
     @abstractmethod

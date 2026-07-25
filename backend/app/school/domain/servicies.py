@@ -9,7 +9,9 @@ class ITokenService(ABC):
         ...
 
     @abstractmethod
-    def generate_refresh_token(self, user: ManagerEntity) -> tuple[str, RefreshTokenEntity]:
+    def generate_refresh_token(
+        self, user: ManagerEntity
+    ) -> tuple[str, RefreshTokenEntity]:
         ...
 
     @abstractmethod
@@ -29,4 +31,3 @@ class IHashService(ABC):
     @abstractmethod
     def verify(self, raw_password: str, hashed_password: str) -> bool:
         ...
-    
