@@ -12,11 +12,11 @@ class DailyMenuEntity:
     manager: UUID | None = field(default=None)
     created_at: datetime = field(default_factory=datetime.now)
 
-    def change_date(self, date):
+    def change_date(self, date: Date):
         if date:
             self.date = date
 
-    def change_main_course(self, main_course):
+    def change_main_course(self, main_course: str):
         if main_course:
             self.main_course = main_course
 
@@ -29,10 +29,10 @@ class LeftouversLunchEntity:
     user: UUID | None = field(default=None)
     created_at: datetime = field(default_factory=datetime.now)
 
-    def change_leftouvers_kg(self, leftouvers_kg):
+    def change_leftouvers_kg(self, leftouvers_kg: int):
         if leftouvers_kg:
             self.leftouvers_kg = leftouvers_kg
 
-    def change_amount_students(self, amount_students):
+    def change_amount_students(self, amount_students: int):
         if amount_students:
             self.amount_students = amount_students
