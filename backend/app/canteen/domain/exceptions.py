@@ -15,3 +15,6 @@ class AlreadyExistsCanteenException(BaseDomainException):
 
 class InvalidDateFieldCanteenException(BaseDomainException):
     pass
+
+class InvalidMonthCanteenException(BaseDomainException):
+    ...
