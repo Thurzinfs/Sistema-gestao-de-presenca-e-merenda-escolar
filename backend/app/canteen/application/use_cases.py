@@ -13,6 +13,7 @@ from app.canteen.domain.exceptions import (
     AlreadyExistsCanteenException,
     InvalidDateFieldCanteenException,
     NotFoundCanteenException,
+    InvalidMonthCanteenException
 )
 from app.canteen.domain.repositories import IDailyMenuRepository, ILeftouversLunchRepository
 from datetime import date as Date
@@ -152,13 +153,17 @@ class ReturnLeftouversLunchWithMonthUseCase:
         return LeftouversLunchOutDTO.from_domain(leftouvers_lunch)
 
 class UpdateLeftouversLunchUseCase:
-    def __init__(self, leftouvers_lunch_repo: ILeftouversLunchRepository):
+    def __init__(self, leftouvers_lunch_repo: ILeftouversLunchRepository, leftouvers_lunch_exists_service: IVerifyLeftouverLunchExistsService):
         self.leftouvers_lunch_repo  = leftouvers_lunch_repo
+        self.leftouvers_lunch_exists_service = leftouvers_lunch_exists_service
 
     def execute(self, id: UUID, dto: LeftouversLunchUpdateDTO) -> LeftouversLunchOutDTO:
         entity = self.leftouvers_lunch_repo.find_by_id(id)
         if not entity:
             raise NotFoundCanteenException('not exists this leftouvers lunch by id')
+
+        if self.leftouvers_lunch_exists_service.verify():
+            raise InvalidMonthCanteenException('this report is not for the current month')
 
         if dto.leftouvers_kg:
             entity.change_leftouvers_kg(dto.leftouvers_kg)
