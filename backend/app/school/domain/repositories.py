@@ -2,7 +2,11 @@ from abc import ABC, abstractmethod
 from typing import List
 from uuid import UUID
 
-from app.school.domain.entites import ManagerEntity, RefreshTokenEntity, SchoolEntity
+from app.school.domain.entites import (
+    ManagerEntity,
+    RefreshTokenEntity,
+    SchoolEntity,
+)
 
 
 class ISchoolRepository(ABC):
@@ -47,7 +51,7 @@ class IManagerRepository(ABC):
     @abstractmethod
     def lists_managers_by_actives(self) -> List[ManagerEntity]:
         ...
-    
+
 
 class IRefreshTokenRepository(ABC):
     @abstractmethod

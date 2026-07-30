@@ -4,6 +4,7 @@ from uuid import UUID, uuid4
 
 from app.academic.domain.exceptions import ConflictFieldException
 
+
 @dataclass
 class ClassroomEntity:
     id: UUID = field(default_factory=uuid4)
@@ -21,6 +22,7 @@ class ClassroomEntity:
         if not self.active:
             raise ConflictFieldException('Classroom already deactivate')
         self.active = False
+
 
 @dataclass
 class StudentsEntity:

@@ -5,7 +5,16 @@ from ninja import Router
 
 from app.school.api.bearer import AuthBearer
 from app.school.api.dependencies import SchoolContainer
-from app.school.api.schemas import LoginIn, LoginOut, ManagerIn, ManagerOut, ManagerUpdate, SchoolIn, SchoolOut, SchoolUpdate
+from app.school.api.schemas import (
+    LoginIn,
+    LoginOut,
+    ManagerIn,
+    ManagerOut,
+    ManagerUpdate,
+    SchoolIn,
+    SchoolOut,
+    SchoolUpdate,
+)
 
 from django.db.transaction import atomic
 
@@ -29,16 +38,15 @@ def register_school(request, data: SchoolIn):
 
     return SchoolOut.from_domain(school)
 
+
 @router_school.get('/list/actives', response={200: List[SchoolOut]})
 def list_schools(request):
     use_case = container.list_schools_use_case()
 
     schools = use_case.execute()
 
-    return 200, [
-        SchoolOut.from_domain(school)
-        for school in schools
-    ]
+    return 200, [SchoolOut.from_domain(school) for school in schools]
+
 
 @router_school.get('/{id}', response={200: SchoolOut})
 def response_school(request, id: UUID):
@@ -112,6 +120,7 @@ def deactive_manager(request, id: UUID):
 
     return ManagerOut.from_domain(manager)
 
+
 @router_auth.post('/', response={201: LoginOut})
 def login(request, data: LoginIn):
     dto = data.to_dto()
@@ -121,6 +130,7 @@ def login(request, data: LoginIn):
     login = use_case.execute(dto)
 
     return 201, LoginOut.from_domain(login)
+
 
 @router_auth.get('/me', response={200: ManagerOut}, auth=AuthBearer())
 def request_me(request):

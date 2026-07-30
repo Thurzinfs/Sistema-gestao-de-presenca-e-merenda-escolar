@@ -45,7 +45,7 @@ class RefreshToken(models.Model):
     user = models.ForeignKey(
         'school.Manager',
         on_delete=models.CASCADE,
-        related_name='refresh_token'
+        related_name='refresh_token',
     )
     created_at = models.DateTimeField(auto_now_add=True)
     expire_at = models.DateTimeField(null=True)

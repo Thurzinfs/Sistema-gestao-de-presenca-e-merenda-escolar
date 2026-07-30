@@ -31,5 +31,5 @@ class DailyMenuContainer(containers.DeclarativeContainer):
     )
 
     return_with_id_use_case = providers.Factory(
-        ReturnWithIdUseCase, daily_menu_repo = daily_menu_repo
+        ReturnWithIdUseCase, daily_menu_repo=daily_menu_repo
     )

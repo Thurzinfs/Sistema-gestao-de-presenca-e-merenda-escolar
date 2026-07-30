@@ -1,7 +1,22 @@
 from dependency_injector import containers, providers
 
-from app.school.application.use_cases import DeactiveManagerUseCase, DeactiveSchoolUseCase, ListSchoolActivesUseCase, LoginUseCase, RegisterManagerUseCase, RegisterSchoolUseCase, ResponseManagerByIDUseCase, ResponseSchoolUseCase, UpdateManagerUseCase, UpdateSchoolUseCase
-from app.school.infrastructure.repository import DjangoManagerRepository, DjangoRefreshTokenRepository, DjangoSchoolRepository
+from app.school.application.use_cases import (
+    DeactiveManagerUseCase,
+    DeactiveSchoolUseCase,
+    ListSchoolActivesUseCase,
+    LoginUseCase,
+    RegisterManagerUseCase,
+    RegisterSchoolUseCase,
+    ResponseManagerByIDUseCase,
+    ResponseSchoolUseCase,
+    UpdateManagerUseCase,
+    UpdateSchoolUseCase,
+)
+from app.school.infrastructure.repository import (
+    DjangoManagerRepository,
+    DjangoRefreshTokenRepository,
+    DjangoSchoolRepository,
+)
 from app.school.infrastructure.services import HashService, TokenService
 
 
@@ -10,13 +25,9 @@ class SchoolContainer(containers.DeclarativeContainer):
 
     token_repo = providers.Factory(DjangoRefreshTokenRepository)
 
-    token_service = providers.Factory(
-        TokenService
-    )
+    token_service = providers.Factory(TokenService)
 
-    hash_service = providers.Factory(
-        HashService
-    )
+    hash_service = providers.Factory(HashService)
 
     register_school_use_case = providers.Factory(
         RegisterSchoolUseCase, school_repo=school_repo
@@ -39,7 +50,7 @@ class SchoolContainer(containers.DeclarativeContainer):
     register_manager_use_case = providers.Factory(
         RegisterManagerUseCase,
         manager_repo=manager_repo,
-        hash_service=hash_service
+        hash_service=hash_service,
     )
 
     response_manager_use_case = providers.Factory(
@@ -47,8 +58,7 @@ class SchoolContainer(containers.DeclarativeContainer):
     )
 
     list_schools_use_case = providers.Factory(
-        ListSchoolActivesUseCase,
-        school_repo=school_repo
+        ListSchoolActivesUseCase, school_repo=school_repo
     )
 
     update_manager_use_case = providers.Factory(
@@ -64,5 +74,5 @@ class SchoolContainer(containers.DeclarativeContainer):
         user_repo=manager_repo,
         token_repo=token_repo,
         token_service=token_service,
-        hash_service=hash_service
+        hash_service=hash_service,
     )

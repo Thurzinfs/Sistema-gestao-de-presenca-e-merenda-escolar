@@ -137,10 +137,8 @@ class LoginIn(Schema):
     password: str
 
     def to_dto(self) -> LoginInDTO:
-        return LoginInDTO(
-            email=str(self.email),
-            password=self.password
-        )
+        return LoginInDTO(email=str(self.email), password=self.password)
+
 
 class LoginOut(Schema):
     access_token: str
@@ -149,7 +147,5 @@ class LoginOut(Schema):
     @staticmethod
     def from_domain(dto: LoginOutDTO):
         return LoginOut(
-            access_token=dto.access_token,
-            refresh_token=dto.refresh_token
+            access_token=dto.access_token, refresh_token=dto.refresh_token
         )
-
