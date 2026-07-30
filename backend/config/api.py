@@ -1,7 +1,7 @@
 from ninja import NinjaAPI
 
 from app.school.api.views import router_school, router_manager, router_auth
-
+from app.academic.api.views import route_classroom, route_students
 from app.canteen.api.views import router as router_canteen
 
 
@@ -15,3 +15,5 @@ app.add_router('/auth', router_auth, tags=['Auth'])
 app.add_router('/school', router_school, tags=['School'])
 app.add_router('/school/manager', router_manager, tags=['Manager'])
 app.add_router('/canteen', router_canteen, tags=['Canteen'])
+app.add_router('/academic', route_classroom, tags=['Classroom'])
+app.add_router('/students', route_students, tags=['Students'])
