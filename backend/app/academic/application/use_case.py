@@ -170,6 +170,8 @@ class StudentsUpdateUseCase:
             if self.students_repo.verify_students_by_ra(ra=dto.ra):
                 raise StudentAlreadyExistsException('This RA already exists')
 
+            student.change_ra(dto.ra)
+
         if dto.qr_code:
             student.change_qr_code(dto.qr_code)
 
