@@ -12,3 +12,15 @@ class DailyMenu(models.Model):
 
     class Meta:
         db_table = 'daily_menu'
+
+
+class LeftouversLunch(models.Model):
+    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
+    school = models.ForeignKey('school.School', on_delete=models.CASCADE)
+    leftouvers_kg = models.IntegerField()
+    amount_students = models.IntegerField()
+    user = models.ForeignKey('school.Manager', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'leftouvers_lunch'
