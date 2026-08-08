@@ -15,6 +15,7 @@ class SchoolEntity:
     id: UUID = field(default_factory=uuid4)
     name: str = field(default='')
     time_closing_presence: SchoolTimeVO | None = field(default=None)
+    time_send_snack_morning: SchoolTimeVO | None = field(default=None)      
     time_send_lunch: SchoolTimeVO | None = field(default=None)
     time_send_snack_afternoon: SchoolTimeVO | None = field(default=None)
     number_whats: str | None = field(default='')

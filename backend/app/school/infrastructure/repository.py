@@ -1,6 +1,10 @@
 from typing import List
 from uuid import UUID
 
+from datetime import time
+
+from django.db.models import Q
+
 from app.school.domain.entites import (
     ManagerEntity,
     RefreshTokenEntity,
@@ -23,6 +27,9 @@ class DjangoSchoolRepository(ISchoolRepository):
                 'name': entity.name,
                 'time_closing_presence': entity.time_closing_presence.value
                 if entity.time_closing_presence
+                else None,
+                'time_send_snack_morning': entity.time_send_snack_morning.value 
+                if entity.time_send_snack_morning
                 else None,
                 'time_send_lunch': entity.time_send_lunch.value
                 if entity.time_send_lunch
@@ -64,6 +71,19 @@ class DjangoSchoolRepository(ISchoolRepository):
         except School.DoesNotExist:
             return []
 
+    def list_schools_by_time_send_lunch(self, now: time) -> List[SchoolEntity]:
+        try:
+            return [
+                self._to_model(entity)
+                for entity in School.objects.filter(deleted_at__isnull=True).filter(
+                    Q(time_send_snack_morning__lte=now) |
+                    Q(time_send_lunch__lte=now) |
+                    Q(time_send_snack_afternoon__lte=now)
+                )
+            ]
+        except School.DoesNotExist:
+            return []
+
     def verify_exists_school_by_name(self, name: str) -> bool:
         return School.objects.filter(name=name).exists()
 
@@ -72,6 +92,7 @@ class DjangoSchoolRepository(ISchoolRepository):
             id=model.id,
             name=model.name,
             time_closing_presence=SchoolTimeVO(model.time_closing_presence),
+            time_send_snack_morning=SchoolTimeVO(model.time_send_snack_morning) if model.time_send_snack_morning else None,
             time_send_lunch=SchoolTimeVO(model.time_send_lunch),
             time_send_snack_afternoon=SchoolTimeVO(
                 model.time_send_snack_afternoon

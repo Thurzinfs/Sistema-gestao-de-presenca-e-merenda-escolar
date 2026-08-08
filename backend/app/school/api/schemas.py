@@ -21,6 +21,7 @@ from app.school.domain.role import ManagerRole
 class SchoolIn(Schema):
     name: str
     time_closing_presence: time
+    time_send_snack_morning: time
     time_send_lunch: time
     time_send_snack_afternoon: time
     number_whats: str
@@ -29,6 +30,7 @@ class SchoolIn(Schema):
         return SchoolInDTO(
             name=self.name,
             time_closing_presence=self.time_closing_presence,
+            time_send_snack_morning=self.time_send_snack_morning,
             time_send_lunch=self.time_send_lunch,
             time_send_snack_afternoon=self.time_send_snack_afternoon,
             number_whats=self.number_whats,
@@ -39,6 +41,7 @@ class SchoolOut(Schema):
     id: UUID
     name: str
     time_closing_presence: time
+    time_send_snack_morning: time
     time_send_lunch: time
     time_send_snack_afternoon: time
     number_whats: str
@@ -51,6 +54,7 @@ class SchoolOut(Schema):
             id=dto.id,
             name=dto.name,
             time_closing_presence=dto.time_closing_presence,
+            time_send_snack_morning=dto.time_send_snack_morning,
             time_send_lunch=dto.time_send_lunch,
             time_send_snack_afternoon=dto.time_send_snack_afternoon,
             number_whats=dto.number_whats,

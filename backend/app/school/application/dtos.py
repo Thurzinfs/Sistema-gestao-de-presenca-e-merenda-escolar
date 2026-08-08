@@ -10,6 +10,7 @@ from app.school.domain.role import ManagerRole
 class SchoolInDTO(BaseModel):
     name: str
     time_closing_presence: time
+    time_send_snack_morning: time
     time_send_lunch: time
     time_send_snack_afternoon: time
     number_whats: str
@@ -19,6 +20,7 @@ class SchoolOutDTO(BaseModel):
     id: UUID
     name: str
     time_closing_presence: time
+    time_send_snack_morning: time
     time_send_lunch: time
     time_send_snack_afternoon: time
     number_whats: str
@@ -31,6 +33,7 @@ class SchoolOutDTO(BaseModel):
             id=model.id,
             name=model.name,
             time_closing_presence=model.time_closing_presence.value,
+            time_send_snack_morning=model.time_send_snack_morning.value,
             time_send_lunch=model.time_send_lunch.value,
             time_send_snack_afternoon=model.time_send_snack_afternoon.value,
             number_whats=model.number_whats,

@@ -40,6 +40,7 @@ class RegisterSchoolUseCase:
         school = SchoolEntity(
             name=dto.name,
             time_closing_presence=SchoolTimeVO(dto.time_closing_presence),
+            time_send_snack_morning=SchoolTimeVO(dto.time_send_snack_morning),
             time_send_lunch=SchoolTimeVO(dto.time_send_lunch),
             time_send_snack_afternoon=SchoolTimeVO(
                 dto.time_send_snack_afternoon

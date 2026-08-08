@@ -30,6 +30,10 @@ class ISchoolRepository(ABC):
     def lists_schools_actives(self) -> List[SchoolEntity]:
         ...
 
+    @abstractmethod
+    def list_schools_by_time_send_lunch(self, now: str) -> List[SchoolEntity]:
+        ...
+
 
 class IManagerRepository(ABC):
     @abstractmethod
