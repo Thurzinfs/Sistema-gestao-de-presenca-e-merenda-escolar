@@ -3,19 +3,22 @@ from uuid import UUID
 
 from app.academic.domain.entities import ClassroomEntity, StudentsEntity
 from app.academic.infrastructure.models import Classroom, Student
-from app.academic.domain.repositories import IClassroomRepository, IStudentsRepository
+from app.academic.domain.repositories import (
+    IClassroomRepository,
+    IStudentsRepository,
+)
 
 
 class ClassroomRepository(IClassroomRepository):
     def save(self, entity: ClassroomEntity) -> ClassroomEntity:
         Classroom.objects.update_or_create(
-            id=entity.id, 
+            id=entity.id,
             defaults={
                 'school_id': entity.school,
                 'name': entity.name,
                 'active': entity.active,
-                'created_at': entity.created_at
-            }
+                'created_at': entity.created_at,
+            },
         )
         return entity
 
@@ -34,7 +37,9 @@ class ClassroomRepository(IClassroomRepository):
     def verify_classroom_by_name(self, name: str) -> bool:
         return Classroom.objects.filter(name=name).exists()
 
-    def list_classroom_active(self, active: bool | None) -> List[ClassroomEntity]:
+    def list_classroom_active(
+        self, active: bool | None
+    ) -> List[ClassroomEntity]:
         qs = Classroom.objects.all()
         if active is not None:
             qs = qs.filter(active=active)
@@ -46,21 +51,22 @@ class ClassroomRepository(IClassroomRepository):
             school=model.school.id,
             name=model.name,
             active=model.active,
-            created_at=model.created_at
+            created_at=model.created_at,
         )
+
 
 class StudentsRepository(IStudentsRepository):
     def save(self, entity: StudentsEntity) -> StudentsEntity:
         Student.objects.update_or_create(
-            id=entity.id, 
+            id=entity.id,
             defaults={
                 'classroom_id': entity.classroom,
                 'name': entity.name,
                 'ra': entity.ra,
                 'active': entity.active,
                 'qr_code': entity.qr_code,
-                'created_at': entity.created_at
-            }
+                'created_at': entity.created_at,
+            },
         )
         return entity
 
@@ -70,7 +76,9 @@ class StudentsRepository(IStudentsRepository):
         except Student.DoesNotExist:
             return None
 
-    def find_students_by_classroom(self, classroom: UUID) -> StudentsEntity | None:
+    def find_students_by_classroom(
+        self, classroom: UUID
+    ) -> StudentsEntity | None:
         try:
             return self._to_entity(Student.objects.get(classroom=classroom))
         except Student.DoesNotExist:
@@ -104,5 +112,5 @@ class StudentsRepository(IStudentsRepository):
             name=model.name,
             ra=model.ra,
             qr_code=model.qr_code,
-            created_at=model.created_at
+            created_at=model.created_at,
         )

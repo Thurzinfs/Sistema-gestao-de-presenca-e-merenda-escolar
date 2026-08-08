@@ -1,13 +1,12 @@
 from django.db import models
 from uuid import uuid4
 
-from  app.presence.domain.role import MomentRole
+from app.presence.domain.role import MomentRole
+
 
 class Readings(models.Model):
     id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
-    student_id = models.ForeignKey(
-
-    )
+    student_id = models.ForeignKey()
     moment = models.CharField(
         max_length=20, choices=MomentRole, default=MomentRole.snack_morning
     )
@@ -16,4 +15,3 @@ class Readings(models.Model):
 
     class Meta:
         db_table = 'readings'
-

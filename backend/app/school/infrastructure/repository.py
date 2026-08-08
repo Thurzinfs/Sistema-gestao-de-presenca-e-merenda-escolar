@@ -1,8 +1,16 @@
 from typing import List
 from uuid import UUID
 
-from app.school.domain.entites import ManagerEntity, RefreshTokenEntity, SchoolEntity
-from app.school.domain.repositories import IManagerRepository, IRefreshTokenRepository, ISchoolRepository
+from app.school.domain.entites import (
+    ManagerEntity,
+    RefreshTokenEntity,
+    SchoolEntity,
+)
+from app.school.domain.repositories import (
+    IManagerRepository,
+    IRefreshTokenRepository,
+    ISchoolRepository,
+)
 from app.school.domain.value_objects import SchoolTimeVO
 from app.school.infrastructure.models import Manager, RefreshToken, School
 
@@ -136,7 +144,7 @@ class DjangoManagerRepository(IManagerRepository):
             active=model.active,
             created_at=model.created_at,
         )
-    
+
 
 class DjangoRefreshTokenRepository(IRefreshTokenRepository):
     def save(self, entity: RefreshTokenEntity) -> RefreshTokenEntity:
@@ -147,22 +155,22 @@ class DjangoRefreshTokenRepository(IRefreshTokenRepository):
                 'revoked': entity.revoked,
                 'user_id': entity.user,
                 'created_at': entity.created_at,
-                'expire_at': entity.expire_at
-            }
+                'expire_at': entity.expire_at,
+            },
         )
 
         return entity
-    
+
     def find_by_hash(self, hash: str) -> RefreshTokenEntity | None:
         try:
             return self._to_model(RefreshToken.objects.get(token=hash))
 
         except RefreshToken.DoesNotExist:
             return None
-        
+
     def revoke_all_by_user(self, user_id: UUID) -> None:
         RefreshToken.objects.filter(user=user_id).update(revoked=True)
-    
+
     def _to_model(self, model: RefreshToken) -> RefreshTokenEntity:
         return RefreshTokenEntity(
             id=model.id,
@@ -170,5 +178,5 @@ class DjangoRefreshTokenRepository(IRefreshTokenRepository):
             revoked=model.revoked,
             user=model.user.id,
             created_at=model.created_at,
-            expire_at=model.expire_at
+            expire_at=model.expire_at,
         )

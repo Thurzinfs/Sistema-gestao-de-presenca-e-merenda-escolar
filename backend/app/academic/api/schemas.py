@@ -1,10 +1,14 @@
 from datetime import datetime
-from os import name
 from typing import Optional
 from uuid import UUID
 from ninja import Schema
 
-from app.academic.application.dtos import ClassroomInDTO, ClassroomUpdateDTO, StudentsInDTO, StudentsUpdateDTO
+from app.academic.application.dtos import (
+    ClassroomInDTO,
+    ClassroomUpdateDTO,
+    StudentsInDTO,
+    StudentsUpdateDTO,
+)
 
 
 class ClassroomIn(Schema):
@@ -12,10 +16,8 @@ class ClassroomIn(Schema):
     name: str
 
     def to_dto(self) -> ClassroomInDTO:
-        return ClassroomInDTO(
-            school=self.school,
-            name=self.name
-        )
+        return ClassroomInDTO(school=self.school, name=self.name)
+
 
 class ClassroomOut(Schema):
     id: UUID
@@ -31,16 +33,15 @@ class ClassroomOut(Schema):
             school=dto.school,
             name=dto.name,
             active=dto.active,
-            created_at=dto.created_at
+            created_at=dto.created_at,
         )
+
 
 class ClassroomUpdate(Schema):
     name: Optional[str] = None
 
     def to_dto(self) -> ClassroomUpdateDTO:
-        return ClassroomUpdateDTO(
-            name=self.name
-        )
+        return ClassroomUpdateDTO(name=self.name)
 
 
 class StudentsIn(Schema):
@@ -54,8 +55,9 @@ class StudentsIn(Schema):
             classroom=self.classroom,
             name=self.name,
             ra=self.ra,
-            qr_code=self.qr_code
+            qr_code=self.qr_code,
         )
+
 
 class StudentsOut(Schema):
     id: UUID
@@ -75,8 +77,9 @@ class StudentsOut(Schema):
             ra=dto.ra,
             qr_code=dto.qr_code,
             active=dto.active,
-            created_at=dto.created_at
+            created_at=dto.created_at,
         )
+
 
 class StudentsUpdate(Schema):
     name: Optional[str] = None
@@ -85,7 +88,5 @@ class StudentsUpdate(Schema):
 
     def to_dto(self) -> StudentsUpdateDTO:
         return StudentsUpdateDTO(
-            name=self.name,
-            ra=self.ra,
-            qr_code=self.qr_code
+            name=self.name, ra=self.ra, qr_code=self.qr_code
         )

@@ -4,6 +4,7 @@ from uuid import UUID
 
 from app.academic.domain.entities import ClassroomEntity, StudentsEntity
 
+
 class IClassroomRepository(ABC):
     @abstractmethod
     def save(self, entity: ClassroomEntity) -> ClassroomEntity:
@@ -12,7 +13,6 @@ class IClassroomRepository(ABC):
     @abstractmethod
     def find_by_id(self, id: UUID) -> ClassroomEntity | None:
         ...
-
 
     @abstractmethod
     def find_classroom_by_school(self, school: UUID) -> ClassroomEntity | None:
@@ -24,8 +24,11 @@ class IClassroomRepository(ABC):
         ...
 
     @abstractmethod
-    def list_classroom_active(self, active: Optional[bool]) -> List[ClassroomEntity]:
+    def list_classroom_active(
+        self, active: Optional[bool]
+    ) -> List[ClassroomEntity]:
         ...
+
 
 class IStudentsRepository(ABC):
     @abstractmethod
@@ -37,7 +40,9 @@ class IStudentsRepository(ABC):
         ...
 
     @abstractmethod
-    def find_students_by_classroom(self, classroom: UUID) -> StudentsEntity | None:
+    def find_students_by_classroom(
+        self, classroom: UUID
+    ) -> StudentsEntity | None:
         ...
 
     @abstractmethod
@@ -58,5 +63,7 @@ class IStudentsRepository(ABC):
         ...
 
     @abstractmethod
-    def list_students_active(self, active: Optional[bool]) -> List[StudentsEntity]:
+    def list_students_active(
+        self, active: Optional[bool]
+    ) -> List[StudentsEntity]:
         ...

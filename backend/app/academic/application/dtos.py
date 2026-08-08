@@ -4,12 +4,11 @@ from uuid import UUID
 from pydantic import BaseModel
 
 
-# Inp Classroom
 class ClassroomInDTO(BaseModel):
     school: UUID
     name: str
 
-# Outp Classroom
+
 class ClassroomOutDTO(BaseModel):
     id: UUID
     school: UUID
@@ -24,21 +23,21 @@ class ClassroomOutDTO(BaseModel):
             school=model.school,
             name=model.name,
             active=model.active,
-            created_at=model.created_at
+            created_at=model.created_at,
         )
 
-# Update Classroom
+
 class ClassroomUpdateDTO(BaseModel):
     name: Optional[str] = None
 
-# Inp Students
+
 class StudentsInDTO(BaseModel):
     classroom: UUID
     name: str
     ra: str
     qr_code: str
 
-# Outp Students
+
 class StudentsOutDTO(BaseModel):
     id: UUID
     classroom: UUID
@@ -57,11 +56,11 @@ class StudentsOutDTO(BaseModel):
             ra=model.ra,
             qr_code=model.qr_code,
             active=model.active,
-            created_at=model.created_at
+            created_at=model.created_at,
         )
 
-# Update Students
+
 class StudentsUpdateDTO(BaseModel):
     name: Optional[str] = None
     ra: Optional[str] = None
-    qr_code: Optional[str] = None    
+    qr_code: Optional[str] = None

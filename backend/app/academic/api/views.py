@@ -5,8 +5,14 @@ from ninja import Router
 from django.db.transaction import atomic
 
 from app.academic.api.dependencies import AcademicContainer
-from app.academic.api.schemas import ClassroomIn, ClassroomOut, ClassroomUpdate, StudentsIn, StudentsOut, StudentsUpdate
-from app.academic.application import use_case
+from app.academic.api.schemas import (
+    ClassroomIn,
+    ClassroomOut,
+    ClassroomUpdate,
+    StudentsIn,
+    StudentsOut,
+    StudentsUpdate,
+)
 
 
 route_classroom = Router()
@@ -27,10 +33,7 @@ def register_classroom(request, data: ClassroomIn):
 def list_active_classroom(request):
     use_case = container.classroom_list_use_case()
     classroom = use_case.execute(active=True)
-    return 200, [
-        ClassroomOut.from_domain(room)
-        for room in classroom
-    ]
+    return 200, [ClassroomOut.from_domain(room) for room in classroom]
 
 
 @route_classroom.get('/list/all', response={200: List[ClassroomOut]})
@@ -38,8 +41,7 @@ def list_all_classroom(request):
     use_case = container.classroom_list_use_case()
     classrooms = use_case.execute(active=None)
     return 200, [
-        ClassroomOut.from_domain(classroom)
-        for classroom in classrooms
+        ClassroomOut.from_domain(classroom) for classroom in classrooms
     ]
 
 
@@ -66,6 +68,7 @@ def deactive_classroom(request, id: UUID):
     classroom = use_case.execute(id)
     return 200, ClassroomOut.from_domain(classroom)
 
+
 # Routes from Students
 @route_students.post('/', response={201: StudentsOut})
 @atomic
@@ -80,20 +83,14 @@ def register_students(request, data: StudentsIn):
 def list_active_students(request):
     use_case = container.students_list_use_case()
     students = use_case.execute(active=True)
-    return 200, [
-        StudentsOut.from_domain(student)
-        for student in students
-    ]
+    return 200, [StudentsOut.from_domain(student) for student in students]
 
 
 @route_students.get('/list/all', response={200: List[StudentsOut]})
 def list_all_students(request):
     use_case = container.students_list_use_case()
     students = use_case.execute(active=None)
-    return 200, [
-        StudentsOut.from_domain(student)
-        for student in students
-    ]
+    return 200, [StudentsOut.from_domain(student) for student in students]
 
 
 @route_students.get('/{id}', response={200: StudentsOut})
