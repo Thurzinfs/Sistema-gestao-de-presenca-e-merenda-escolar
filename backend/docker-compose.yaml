@@ -49,5 +49,29 @@ services:
     volumes:
       - .:/app
 
+  worker:
+    build: .
+    command: celery -A config worker --loglevel=info
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - database
+      - waha
+
+  beat:
+    build: .
+    command: celery -A config beat --loglevel=info
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - database
+      - waha
+
 volumes:
   pg_data:
+  waha_sessions:
+  waha_media:
