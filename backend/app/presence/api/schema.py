@@ -4,7 +4,7 @@ from ninja import Schema
 
 from uuid import UUID
 
-from app.presence.application.dtos import FrequencyInDTO, ReadingInDTO, RegisterSnackInDTO, ReadingOutDTO
+from app.presence.application.dtos import FrequencyInDTO, FrequencyOutDTO, ReadingInDTO, RegisterSnackInDTO, ReadingOutDTO, RegisterSnackOutDTO
 from app.presence.domain.role import MomentRole, SnackRole
 
 
@@ -25,7 +25,7 @@ class ReadingOut(Schema):
     date_time: datetime
 
     @staticmethod
-    def from_domain(model):
+    def from_domain(model: ReadingOutDTO):
         return ReadingOut(
             id=model.id,
             student=model.student,
@@ -54,7 +54,7 @@ class FrequencyOut(Schema):
     on_time: bool
     reading: UUID 
 
-    def from_domain(model):
+    def from_domain(model: FrequencyOutDTO):
         return FrequencyOut(
             id=model.id,
             student=model.student,
@@ -94,7 +94,7 @@ class RegisterSnackOut(Schema):
     type_snack: SnackRole | str
     reading: UUID
 
-    def from_domain(model):
+    def from_domain(model: RegisterSnackOutDTO):
         return RegisterSnackOut(
             id=model.id,
             student=model.student,
