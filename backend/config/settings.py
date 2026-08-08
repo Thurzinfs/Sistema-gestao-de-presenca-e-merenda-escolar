@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'app.school',
     'app.canteen',
     'app.academic',
+    'app.notifications'
 ]
 
 MIDDLEWARE = [
@@ -120,6 +121,8 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+TIME_ZONE = 'America/Sao_Paulo'
+
 USE_TZ = True
 
 
@@ -133,3 +136,17 @@ JWT_EXP_DAYS = 7
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+WAHA_API_KEY = os.getenv('WAHA_API_KEY', '')
+
+WAHA_SESSION = os.getenv('WAHA_SESSION', '')
+WAHA_URL = os.getenv('WAHA_URL', '')
+
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+
+CELERY_BEAT_SCHEDULE = {
+    'verify_school_send_report': {
+        'task': 'verify_school_send_report',
+        'schedule': 60,
+    }
+}
