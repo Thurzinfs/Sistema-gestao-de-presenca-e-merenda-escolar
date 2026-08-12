@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date as Date, datetime
 
 from ninja import Schema
 
@@ -35,7 +35,7 @@ class ReadingOut(Schema):
     
 class FrequencyIn(Schema):
     student: UUID
-    date: datetime
+    date: Date
     on_time: bool
     reading: UUID
 
@@ -50,7 +50,7 @@ class FrequencyIn(Schema):
 class FrequencyOut(Schema):
     id: UUID
     student: UUID
-    date: datetime
+    date: Date
     on_time: bool
     reading: UUID 
 
@@ -67,13 +67,13 @@ class FrequencyOut(Schema):
 class FrequencyUpdate(Schema):
     id: UUID | None = None
     student: UUID | None = None
-    date: datetime | None = None
+    date: Date | None = None
     on_time: bool | None = None
     reading: UUID | None = None
 
 class RegisterSnackIn(Schema):
     student: UUID
-    date: datetime
+    date: Date
     moment: MomentRole | str
     type_snack: SnackRole | str
     reading: UUID
@@ -90,7 +90,7 @@ class RegisterSnackIn(Schema):
 class RegisterSnackOut(Schema):
     id: UUID
     student: UUID
-    date: datetime
+    date: Date
     moment: MomentRole | str
     type_snack: SnackRole | str
     reading: UUID
