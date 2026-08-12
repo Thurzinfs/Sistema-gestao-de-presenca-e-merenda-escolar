@@ -1,5 +1,5 @@
 from dataclasses import dataclass,field
-from datetime import datetime
+from datetime import datetime, date as Date
 from uuid import UUID,uuid4
 
 from app.presence.domain.role import MomentRole, SnackRole
@@ -15,7 +15,7 @@ class ReadingEntity:
 class FrequencyEntity:
     id: UUID = field(default_factory=uuid4)
     student: UUID | None = field(default=None)
-    date: datetime = field(default_factory=datetime.now)
+    date: Date = field(default_factory=datetime.now)
     on_time: bool = field(default=False)
     reading: UUID | None = field(default=None)
 
@@ -23,7 +23,7 @@ class FrequencyEntity:
 class RegisterSnackEntity:
     id: UUID = field(default_factory=uuid4)
     student: UUID | None = field(default=None)
-    date: datetime = field(default_factory=datetime.now)
+    date: Date = field(default_factory=datetime.now)
     moment: MomentRole | str = field(default=MomentRole.snack_afternoon)
     type_snack: SnackRole | str = field(default=SnackRole.normal)
     reading: UUID | None = field(default=None)

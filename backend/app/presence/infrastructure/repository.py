@@ -70,7 +70,7 @@ class FrequencyRepository(IFrequencyRepository):
         return FrequencyEntity(
             id=model.id,
             student=model.student.id,
-            date=model.date,  # type: ignore
+            date=model.date, 
             on_time=model.on_time,
             reading=model.reading.id
         )
@@ -125,11 +125,11 @@ class RegisterSnackRepository(IRegisterSnackRepository):
         except RegisterSnack.DoesNotExist:
             return []
 
-    def _to_model(self, model: RegisterSnack) -> RegisterSnackEntity:
+    def _to_model(self, model: RegisterSnack):
         return RegisterSnackEntity(
             id=model.id,
             student=model.id,
-            date=model.date,  # type: ignore
+            date=model.date,
             moment=model.moment,
             type_snack=model.type_snack,
             reading=model.reading.id
