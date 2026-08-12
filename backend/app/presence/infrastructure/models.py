@@ -4,12 +4,6 @@ from uuid import uuid4
 
 from  app.presence.domain.role import MomentRole, SnackRole
 
-class Readings(models.Model):
-    id = models.UUIDField(primary_key=True, editable=False, default=uuid4)
-    student = models.ForeignKey(
-        'academic.Student', on_delete=models.CASCADE
-    )
-
 from app.presence.domain.role import MomentRole
 
 
