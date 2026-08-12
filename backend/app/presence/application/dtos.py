@@ -1,7 +1,7 @@
 
 from pydantic import BaseModel
 from uuid import UUID
-from datetime import date, datetime
+from datetime import date as Date, datetime
 from app.presence.domain.role import MomentRole, SnackRole
 
 class ReadingInDTO(BaseModel):
@@ -25,14 +25,14 @@ class ReadingOutDTO(BaseModel):
 
 class FrequencyInDTO(BaseModel):
     student: UUID
-    date: datetime
+    date: Date
     on_time: bool
     reading: UUID
 
 class FrequencyOutDTO(BaseModel):
     id: UUID
     student: UUID
-    date: datetime
+    date: Date
     on_time: bool
     reading: UUID
 
@@ -48,7 +48,7 @@ class FrequencyOutDTO(BaseModel):
 
 class RegisterSnackInDTO(BaseModel):
     student: UUID
-    date: datetime
+    date: Date
     moment: MomentRole | str
     type_snack: SnackRole | str
     reading: UUID
@@ -56,7 +56,7 @@ class RegisterSnackInDTO(BaseModel):
 class RegisterSnackOutDTO(BaseModel):
     id: UUID
     student: UUID
-    date: datetime
+    date: Date
     moment: MomentRole | str
     type_snack: SnackRole | str
     reading: UUID
