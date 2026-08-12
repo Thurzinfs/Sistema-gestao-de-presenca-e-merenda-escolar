@@ -43,7 +43,7 @@ class ReadingAllUseCase:
         return  [ReadingOutDTO.from_domain(entity) for entity in self.reading_repo.list_readings_all()]
 
 class FrequencyRegisterUseCase:
-    def __init__(self, frequency_repo: IReadingRepository):
+    def __init__(self, frequency_repo: IFrequencyRepository):
         self.reading_repo = frequency_repo
 
     def execute(self, dto: FrequencyInDTO) -> FrequencyOutDTO:
@@ -91,7 +91,7 @@ class ResponseAllRegisterSnackUseCase:
     def __init__(self, register_snack_repo: IRegisterSnackRepository):
         self.register_snack_repo = register_snack_repo
 
-    def execute(self) -> List[RegisterSnackOut]:
+    def execute(self) -> List[RegisterSnackOutDTO]:
         register_snacks = self.register_snack_repo.list_register_snack_all()
 
         return [RegisterSnackOutDTO.from_domain(register_snack) for register_snack in register_snacks]
@@ -100,7 +100,7 @@ class ResponseRegisterSnackByDateUseCase:
     def __init__(self, register_snack_repo: IRegisterSnackRepository):
         self.register_snack_repo = register_snack_repo
 
-    def execute(self, date: datetime) -> List[RegisterSnackOut]:
+    def execute(self, date: datetime) -> List[RegisterSnackOutDTO]:
         if not date:
             raise Exception('Date not privided.')
 
@@ -115,7 +115,7 @@ class ResponseRegisterSnackByMomentUseCase:
     def __init__(self, register_snack_repo: IRegisterSnackRepository):
         self.register_snack_repo = register_snack_repo
 
-    def execute(self, moment: MomentRole) -> List[RegisterSnackOut]:
+    def execute(self, moment: MomentRole) -> List[RegisterSnackOutDTO]:
         if not moment:
             raise Exception('Moment not privided.')
 
@@ -130,7 +130,7 @@ class ResponseRegisterSnackByTypeSnackUseCase:
     def __init__(self, register_snack_repo: IRegisterSnackRepository):
         self.register_snack_repo = register_snack_repo
 
-    def execute(self, type_snack: SnackRole) -> List[RegisterSnackOut]:
+    def execute(self, type_snack: SnackRole) -> List[RegisterSnackOutDTO]:
         if not type_snack:
             raise Exception('Date not privided.')
 
