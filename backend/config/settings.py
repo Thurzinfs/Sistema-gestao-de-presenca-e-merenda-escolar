@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'app.canteen',
     'app.academic',
     'app.notifications'
+    'app.presence',
 ]
 
 MIDDLEWARE = [

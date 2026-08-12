@@ -38,7 +38,7 @@ class CanteenContainer(containers.DeclarativeContainer):
     school_repo = providers.Factory(DjangoSchoolRepository)
 
     # daily menu use cases
-    daily_menu_register_use_case = providers.Factory(
+    register_daily_menu_use_case = providers.Factory(
         RegisterDailyMenuUseCase, daily_menu_repo=daily_menu_repo
     )
 
