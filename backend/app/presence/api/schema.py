@@ -54,6 +54,7 @@ class FrequencyOut(Schema):
     on_time: bool
     reading: UUID 
 
+    @staticmethod
     def from_domain(model: FrequencyOutDTO):
         return FrequencyOut(
             id=model.id,
@@ -94,6 +95,7 @@ class RegisterSnackOut(Schema):
     type_snack: SnackRole | str
     reading: UUID
 
+    @staticmethod
     def from_domain(model: RegisterSnackOutDTO):
         return RegisterSnackOut(
             id=model.id,
