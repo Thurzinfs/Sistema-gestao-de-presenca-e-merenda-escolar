@@ -66,11 +66,11 @@ class FrequencyRepository(IFrequencyRepository):
     def very_exists_frequency_by_id(self, frequency_id: UUID) -> bool:
         return Frequency.objects.filter(id=frequency_id).exists()
 
-    def _to_model(self, model) -> FrequencyEntity:
+    def _to_model(self, model: Frequency) -> FrequencyEntity:
         return FrequencyEntity(
             id=model.id,
             student=model.student.id,
-            date=model.date,
+            date=model.date, 
             on_time=model.on_time,
             reading=model.reading.id
         )
@@ -92,7 +92,7 @@ class RegisterSnackRepository(IRegisterSnackRepository):
     def very_exist_register_snack_by_student_id(self, student_id: UUID) -> bool:
         return RegisterSnack.objects.filter(student_id=student_id).exists()
 
-    def list_register_snack_by_date(self, date: datetime) -> List[RegisterSnackOut]:
+    def list_register_snack_by_date(self, date: datetime) -> List[RegisterSnackEntity]:
         try:
             return [
                 self._to_model(register_snack) 
@@ -101,7 +101,7 @@ class RegisterSnackRepository(IRegisterSnackRepository):
         except RegisterSnack.DoesNotExist:
             return []
 
-    def list_register_snack_by_moment(self, moment: MomentRole) -> List[RegisterSnackOut]:
+    def list_register_snack_by_moment(self, moment: MomentRole) -> List[RegisterSnackEntity]:
         try:
             return [
                 self._to_model(register_snack) 
@@ -116,7 +116,7 @@ class RegisterSnackRepository(IRegisterSnackRepository):
             for registes_snack in RegisterSnack.objects.all()
         ]
 
-    def list_register_snack_by_type_snack(self, type_snack: SnackRole) -> List[RegisterSnackOut]:
+    def list_register_snack_by_type_snack(self, type_snack: SnackRole) -> List[RegisterSnackEntity]:
         try:
             return [
                 self._to_model(register_snack) 
@@ -125,7 +125,7 @@ class RegisterSnackRepository(IRegisterSnackRepository):
         except RegisterSnack.DoesNotExist:
             return []
 
-    def _to_model(self, model):
+    def _to_model(self, model: RegisterSnack):
         return RegisterSnackEntity(
             id=model.id,
             student=model.id,
