@@ -33,3 +33,7 @@ app.add_router('/presence/registerSnack', register_snack_router, tags=['Register
 app.add_router(
     '/canteen/leftouvers', leftouverslunch_router, tags=['Leftouvers Lunch']
 )
+
+@app.get('/health/', tags=['Health'])
+def request_health(request):
+    return 200
