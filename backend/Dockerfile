@@ -35,4 +35,4 @@ COPY --chown=appuser:appuser . .
 
 USER appuser
 
-CMD python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+CMD python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:${PORT:-8000}
