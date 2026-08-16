@@ -3,7 +3,7 @@
 <!-- [Head] start -->
 
 <head>
-  <title>User List | Light Able Admin & Dashboard Template</title>
+  <title>Lista de Estudantes</title>
   <!-- [Meta] -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
@@ -584,7 +584,7 @@
             </div>
             <div class="col-md-12">
               <div class="page-header-title">
-                <h2 class="mb-0">User List</h2>
+                <h2 class="mb-0">Lista de Estudantes</h2>
               </div>
             </div>
           </div>
@@ -664,10 +664,9 @@
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
+                      <th>RA</th>
+                      <th>QRCode</th>
+                      <th>Sala de Aula</th>
                       <th>Status</th>
                     </tr>
                   </thead>
@@ -880,12 +879,8 @@
 
   <!-- [Page Specific JS] start -->
   <script src="../assets/js/plugins/simple-datatables.js"></script>
-  <script>
-    const dataTable = new simpleDatatables.DataTable('#pc-dt-simple', {
-      sortable: false,
-      perPage: 5
-    });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="module" src="../request/application/user-list.js"></script>
   <!-- [Page Specific JS] end -->
   <div class="offcanvas border-0 pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
     <div class="offcanvas-header justify-content-between">
