@@ -13,16 +13,19 @@ def verify_school_send_report():
     from app.notifications.infrastructure.adapters import TaskSendMessageAdapter
     from app.notifications.infrastructure.repository import DjangoWhatsAppMessageRepository
 
+    from app.presence.infrastructure.repository import RegisterSnackRepository
     from app.school.infrastructure.repository import DjangoSchoolRepository
 
     school_repo = DjangoSchoolRepository()
     whatsapp_repo = DjangoWhatsAppMessageRepository()
+    register_snack_repo = RegisterSnackRepository()
     task_adapter = TaskSendMessageAdapter()
 
     use_case = ListSchoolsByTimeAndSendLunchUseCase(
-        school_repo=school_repo, 
-        whatsapp_repo=whatsapp_repo, 
-        sender_message=task_adapter
+        school_repo=school_repo,
+        whatsapp_repo=whatsapp_repo,
+        sender_message=task_adapter,
+        register_snack_repo=register_snack_repo,
     )
 
     use_case.execute()
