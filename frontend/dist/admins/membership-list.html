@@ -147,10 +147,6 @@
           </ul>
         </li>
 
-        
-        
-        
-        
       </ul>
     </div>
     <div class="card pc-user-card">
@@ -585,6 +581,8 @@
   <!-- [ Main Content ] start -->
   <div class="pc-container">
     <div class="pc-content">
+
+      
       <!-- [ breadcrumb ] start -->
       <div class="page-header">
         <div class="page-block">
@@ -592,13 +590,13 @@
             <div class="col-md-12">
               <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="../dashboard/index.html">Home</a></li>
-                <li class="breadcrumb-item"><a href="javascript: void(0)">Membership</a></li>
-                <li class="breadcrumb-item" aria-current="page">Membership List</li>
+                <li class="breadcrumb-item"><a href="javascript: void(0)">Students</a></li>
+                <li class="breadcrumb-item" aria-current="page">Students List</li>
               </ul>
             </div>
             <div class="col-md-12">
               <div class="page-header-title">
-                <h2 class="mb-0">Membership List</h2>
+                <h2 class="mb-0">Lista de Estudantes</h2>
               </div>
             </div>
           </div>
@@ -606,6 +604,43 @@
       </div>
       <!-- [ breadcrumb ] end -->
 
+      <div class="row">
+        <!-- [ Row 1 ] start -->
+        <div class="col-md-12 col-xxl-4">
+          <div class="card statistics-card-1">
+            <div class="card-body">
+              <img src="../assets/images/widget/img-status-2.svg" alt="img" class="img-fluid img-bg" />
+              <div class="d-flex align-items-center">
+                <div>
+                  <p class="text-muted mb-0">Alunos</p>
+                  <div class="d-flex align-items-end">
+                    <h2 class="mb-0 f-w-500" id="count-all-students">0</h2>
+                    <span class="badge bg-light-success ms-2">Cadastrados</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+        <div class="col-md-6 col-xxl-4">
+          <div class="card statistics-card-1">
+            <div class="card-body">
+              <img src="../assets/images/widget/img-status-1.svg" alt="img" class="img-fluid img-bg" />
+              <div class="d-flex align-items-center">
+                <div class="avtar bg-brand-color-2 text-white me-3">
+                  <i class="ph-duotone ph-scales f-26"></i>
+                </div>
+                <div>
+                  <p class="text-muted mb-0">Conversion Rate</p>
+                  <div class="d-flex align-items-end">
+                    <h2 class="mb-0 f-w-500">8.57<small class="text-muted">%</small></h2>
+                    <span class="badge bg-light-danger ms-2"><i class="ti ti-chevrons-down"></i> 3.6%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       <!-- [ Main Content ] start -->
       <div class="row">
         <div class="col-12">
@@ -618,12 +653,11 @@
                 <table class="table table-hover" id="pc-dt-simple">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Mobile</th>
-                      <th>Start Date</th>
-                      <th>Status</th>
-                      <th>Plan</th>
-                      <th>Action</th>
+                      <th>Nome</th>
+                      <th>RA</th>
+                      <th>Sala de Aula</th>
+                      <th>Ativo</th>
+                      <th>Ação</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -985,6 +1019,8 @@
 <script src="../assets/js/fonts/custom-font.js"></script>
 <script src="../assets/js/pcoded.js"></script>
 <script src="../assets/js/plugins/feather.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="module" src="../request/application/user-list.js"></script>
 
 
 
@@ -1012,10 +1048,7 @@
 
 <script>preset_change("preset-1");</script>
 
-  <script type="module">
-    import {DataTable} from "../assets/js/plugins/module.js"
-    window.dt = new DataTable("#pc-dt-simple");
-  </script>
+  <script src="../assets/js/plugins/simple-datatables.js"></script>
   <div class="offcanvas border-0 pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
     <div class="offcanvas-header justify-content-between">
       <h5 class="offcanvas-title">Settings</h5>

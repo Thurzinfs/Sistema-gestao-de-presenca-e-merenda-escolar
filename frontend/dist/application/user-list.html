@@ -3,7 +3,7 @@
 <!-- [Head] start -->
 
 <head>
-  <title>User List | Light Able Admin & Dashboard Template</title>
+  <title>Lista de Estudantes</title>
   <!-- [Meta] -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
@@ -57,21 +57,6 @@
     </div>
     <div class="navbar-content">
       <ul class="pc-navbar">
-        <li class="pc-item pc-caption">
-          <label>Navigation</label>
-        </li>
-        <li class="pc-item pc-hasmenu">
-          <a href="#!" class="pc-link">
-            <span class="pc-micon">
-              <i class="ph-duotone ph-gauge"></i>
-            </span>
-            <span class="pc-mtext">Dashboard</span>
-            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-          </a>
-          <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="../dashboard/affiliate.html">Affiliate</a></li>
-          </ul>
-        </li>
         <li class="pc-item pc-hasmenu">
           <ul class="pc-submenu">
             <li class="pc-item"><a class="pc-link" href="../demo/layout-horizontal.html">Horizontal</a></li>
@@ -142,7 +127,8 @@
           ></a>
           <ul class="pc-submenu">
             <li class="pc-item"><a class="pc-link" href="../application/account-profile.html">Account Profile</a></li>
-            <li class="pc-item"><a class="pc-link" href="../application/user-card.html">User Card</a></li>
+            <li class="pc-item"><a class="pc-link" href="../application/user-card-v1.html">User Card</a></li>
+            <li class="pc-item"><a class="pc-link" href="../application/leftouvers-card.html">Refeição Card</a></li>
             <li class="pc-item"><a class="pc-link" href="../application/user-list.html">User List</a></li>
           </ul>
         </li>
@@ -598,13 +584,74 @@
             </div>
             <div class="col-md-12">
               <div class="page-header-title">
-                <h2 class="mb-0">User List</h2>
+                <h2 class="mb-0">Lista de Estudantes</h2>
               </div>
             </div>
           </div>
         </div>
       </div>
       <!-- [ breadcrumb ] end -->
+
+      <!-- Inserido: bloco de estatísticas/affiliates copiado de affiliate.html -->
+      <div class="row">
+        <!-- [ Row 1 ] start -->
+        <div class="col-md-12 col-xxl-4">
+          <div class="card statistics-card-1">
+            <div class="card-body">
+              <img src="../assets/images/widget/img-status-2.svg" alt="img" class="img-fluid img-bg" />
+              <div class="d-flex align-items-center">
+                <div class="avtar bg-brand-color-1 text-white me-3">
+                  <i class="ph-duotone ph-currency-dollar f-26"></i>
+                </div>
+                <div>
+                  <p class="text-muted mb-0">Referrals</p>
+                  <div class="d-flex align-items-end">
+                    <h2 class="mb-0 f-w-500">$134.6K</h2>
+                    <span class="badge bg-light-success ms-2"><i class="ti ti-chevrons-up"></i> 55%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xxl-4">
+          <div class="card statistics-card-1">
+            <div class="card-body">
+              <img src="../assets/images/widget/img-status-1.svg" alt="img" class="img-fluid img-bg" />
+              <div class="d-flex align-items-center">
+                <div class="avtar bg-brand-color-2 text-white me-3">
+                  <i class="ph-duotone ph-scales f-26"></i>
+                </div>
+                <div>
+                  <p class="text-muted mb-0">Conversion Rate</p>
+                  <div class="d-flex align-items-end">
+                    <h2 class="mb-0 f-w-500">8.57<small class="text-muted">%</small></h2>
+                    <span class="badge bg-light-danger ms-2"><i class="ti ti-chevrons-down"></i> 3.6%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xxl-4">
+          <div class="card statistics-card-1">
+            <div class="card-body">
+              <img src="../assets/images/widget/img-status-3.svg" alt="img" class="img-fluid img-bg" />
+              <div class="d-flex align-items-center">
+                <div class="avtar bg-brand-color-3 text-white me-3">
+                  <i class="ph-duotone ph-users-four f-26"></i>
+                </div>
+                <div>
+                  <p class="text-muted mb-0">Visits</p>
+                  <div class="d-flex align-items-end">
+                    <h2 class="mb-0 f-w-500">278</h2>
+                    <span class="badge bg-light-success ms-2"><i class="ti ti-chevrons-up"></i> 7%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
       <!-- [ Main Content ] start -->
       <div class="row">
@@ -617,10 +664,9 @@
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
+                      <th>RA</th>
+                      <th>QRCode</th>
+                      <th>Sala de Aula</th>
                       <th>Status</th>
                     </tr>
                   </thead>
@@ -833,12 +879,8 @@
 
   <!-- [Page Specific JS] start -->
   <script src="../assets/js/plugins/simple-datatables.js"></script>
-  <script>
-    const dataTable = new simpleDatatables.DataTable('#pc-dt-simple', {
-      sortable: false,
-      perPage: 5
-    });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="module" src="../request/application/user-list.js"></script>
   <!-- [Page Specific JS] end -->
   <div class="offcanvas border-0 pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
     <div class="offcanvas-header justify-content-between">
