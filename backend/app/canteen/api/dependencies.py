@@ -78,4 +78,5 @@ class CanteenContainer(containers.DeclarativeContainer):
     leftouvers_lunch_update_use_case = providers.Factory(
         UpdateLeftouversLunchUseCase,
         leftouvers_lunch_repo=leftouvers_lunch_repo,
+        leftouvers_lunch_exists_service=leftouvers_lunch_exists_service
     )

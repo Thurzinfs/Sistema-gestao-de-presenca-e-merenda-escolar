@@ -194,7 +194,7 @@ class UpdateLeftouversLunchUseCase:
                 'not exists this leftouvers lunch by id'
             )
 
-        if self.leftouvers_lunch_exists_service.verify():
+        if not self.leftouvers_lunch_exists_service.verify():
             raise InvalidMonthCanteenException(
                 'this report is not for the current month'
             )
