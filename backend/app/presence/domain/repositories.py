@@ -1,5 +1,5 @@
 from abc import ABC,abstractmethod
-from datetime import datetime
+from datetime import date as Date, datetime
 from typing import List
 from uuid import UUID
 
@@ -51,7 +51,6 @@ class IRegisterSnackRepository(ABC):
     def save(self, entity: RegisterSnackEntity) -> RegisterSnackEntity:
         ...
 
-
     @abstractmethod
     def very_exist_register_snack_by_student_id(self, student_id: UUID) -> bool:
         ...
@@ -61,7 +60,7 @@ class IRegisterSnackRepository(ABC):
         ...
 
     @abstractmethod
-    def list_register_snack_by_date(self, date: datetime) -> List[RegisterSnackEntity]:
+    def list_register_snack_by_date(self, date: Date) -> List[RegisterSnackEntity]:
         ...
 
     @abstractmethod
@@ -70,6 +69,12 @@ class IRegisterSnackRepository(ABC):
 
     @abstractmethod
     def list_register_snack_by_type_snack(self, type_snack: SnackRole) -> List[RegisterSnackEntity]:
+        ...
+
+    @abstractmethod
+    def filter_by_school_and_moment(
+        self, school_id: UUID, moment: MomentRole, date: Date
+    ) -> List[str]:
         ...
 
     @abstractmethod

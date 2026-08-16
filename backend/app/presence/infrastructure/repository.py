@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date as Date, datetime
 
 from typing import List
 from uuid import UUID
@@ -92,7 +92,7 @@ class RegisterSnackRepository(IRegisterSnackRepository):
     def very_exist_register_snack_by_student_id(self, student_id: UUID) -> bool:
         return RegisterSnack.objects.filter(student_id=student_id).exists()
 
-    def list_register_snack_by_date(self, date: datetime) -> List[RegisterSnackEntity]:
+    def list_register_snack_by_date(self, date: Date) -> List[RegisterSnackEntity]:
         try:
             return [
                 self._to_model(register_snack) 
@@ -124,6 +124,17 @@ class RegisterSnackRepository(IRegisterSnackRepository):
             ]
         except RegisterSnack.DoesNotExist:
             return []
+
+    def filter_by_school_and_moment(
+        self, school_id: UUID, moment: MomentRole, date: Date
+    ) -> List[str]:
+        registers = RegisterSnack.objects.filter(
+            student__classroom__school_id=school_id,
+            moment=moment,
+            date=date,
+        )
+
+        return list(registers.values_list('type_snack', flat=True))
 
     def _to_model(self, model: RegisterSnack):
         return RegisterSnackEntity(
