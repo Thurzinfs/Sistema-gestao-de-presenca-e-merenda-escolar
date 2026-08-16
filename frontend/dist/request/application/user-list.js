@@ -1,9 +1,11 @@
-import { getStudentList, getClassroom } from '../api.js';
+import { getStudentList, getClassroom, getSnackRegisters } from '../api.js';
 
 const users = await getStudentList();
+const snacks = await getSnackRegisters();
 
 const tbody = document.querySelector('#pc-dt-simple tbody');
 const countStudents = document.querySelector('#count-students');
+const countSnack = document.querySelector('#count-snack')
 
 async function getClassroomName(id) {
   const response = await getClassroom(id);
@@ -11,9 +13,11 @@ async function getClassroomName(id) {
   return response?.name ?? 'Sem sala de aula';
 };
 
-if (countStudents && Array.isArray(users)) {
-  countStudents.textContent = `${users.length}`
+if (countStudents && countSnack && Array.isArray(users)) {
+  countStudents.textContent = `${users.length}`;
+  countSnack.textContent = `${snacks.length}`
 }
+
 
 if (tbody && Array.isArray(users)) {
   tbody.innerHTML = '';
