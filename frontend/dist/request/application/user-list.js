@@ -1,35 +1,59 @@
-import { getStudentList } from '../api.js';
+import { getStudentList, getClassroom } from '../api.js';
 
 const users = await getStudentList();
+
 const tbody = document.querySelector('#pc-dt-simple tbody');
+const countStudents = document.querySelector('#count-students');
+
+async function getClassroomName(id) {
+  const response = await getClassroom(id);
+
+  return response?.name ?? 'Sem sala de aula';
+};
+
+if (countStudents && Array.isArray(users)) {
+  countStudents.textContent = `${users.length}`
+}
 
 if (tbody && Array.isArray(users)) {
   tbody.innerHTML = '';
 
-  users.forEach((u) => {
+  for (const u of users) {
+    const classroom = await getClassroomName(u.classroom);
+
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>
-        <div class="d-inline-block align-middle">
-          <div class="d-inline-block">
-            <h6 class="m-b-0">${u.name || u.full_name || ''}</h6>
-            <p class="m-b-0 text-primary">${u.title || ''}</p>
-          </div>
-        </div>
-      </td>
-      <td>${String(u.ra || '')}</td>
-      <td>${String(u.qr_code || '')}</td>
-      <td>${String(u.classroom || '')}</td>
-      <td>
-        <span class="badge ${u.active === 'Active' ? 'bg-light-success' : 'bg-light-danger'}">${u.active || ''}</span>
-        <div class="overlay-edit">
-          <ul class="list-inline mb-0">
-            <li class="list-inline-item m-0"><a href="#" class="avtar avtar-s btn btn-primary"><i class="ti ti-pencil f-18"></i></a></li>
-            <li class="list-inline-item m-0"><a href="#" class="avtar avtar-s btn bg-white btn-link-danger"><i class="ti ti-trash f-18"></i></a></li>
-          </ul>
-        </div>
-      </td>
+      <tr>
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="flex-grow-1 ms-3">
+                <h6 class="mb-0">${u.name}</h6>
+              </div>
+            </div>
+          </td>
+          <td>${classroom}</td>
+          <td>${u.active}</td>
+          <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Active</td>
+          <td>
+            <a href="#" class="avtar avtar-xs btn-link-secondary">
+              <i class="ti ti-eye f-20"></i>
+            </a>
+            <a href="#" class="avtar avtar-xs btn-link-secondary">
+              <i class="ti ti-edit f-20"></i>
+            </a>
+            <a href="#" class="avtar avtar-xs btn-link-secondary">
+              <i class="ti ti-trash f-20"></i>
+            </a>
+          </td>
+        </tr>
     `;
     tbody.appendChild(tr);
-  });
+    
+  }
 };
+
+new window.simpleDatatables.DataTable('#pc-dt-simple', {
+  searchable: true,
+  perPage: 10,
+  perPageSelect: [5, 10, 15, 20]
+});
