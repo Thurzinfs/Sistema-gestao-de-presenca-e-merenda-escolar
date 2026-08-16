@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'app.school',
     'app.canteen',
     'app.academic',
-    'app.notifications'
+    'app.notifications',
     'app.presence',
     'corsheaders'
 ]
