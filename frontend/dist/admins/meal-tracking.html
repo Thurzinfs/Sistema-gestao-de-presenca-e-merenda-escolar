@@ -106,11 +106,12 @@
             <span class="pc-micon">
               <i class="ph-duotone ph-identification-badge"></i>
             </span>
-            <span class="pc-mtext">Membership</span>
+            <span class="pc-mtext">Refeições</span>
             <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
           </a>
           <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="../admins/membership-list.html">List</a></li>
+            <li class="pc-item"><a class="pc-link" href="../admins/meal-tracking.html">Controle de refeições</a></li>
+            <li class="pc-item"><a class="pc-link" href="../admins/weekly-menu.html">Cardapio Semanal</a></li>
           </ul>
         </li>
         
@@ -119,13 +120,13 @@
             <span class="pc-micon">
               <i class="ph-duotone ph-user-circle"></i>
             </span>
-            <span class="pc-mtext">Users</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span
+            <span class="pc-mtext">Salas de Aula</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span
           ></a>
           <ul class="pc-submenu">
             <li class="pc-item"><a class="pc-link" href="../application/account-profile.html">Account Profile</a></li>
             <li class="pc-item"><a class="pc-link" href="../application/user-card-v1.html">User Card</a></li>
             <li class="pc-item"><a class="pc-link" href="../application/leftouvers-card.html">Refeição Card</a></li>
-            <li class="pc-item"><a class="pc-link" href="../application/user-list.html">User List</a></li>
+            <li class="pc-item"><a class="pc-link" href="../application/user-list.html">Turmas</a></li>
           </ul>
         </li>
       </ul>
@@ -568,14 +569,14 @@
           <div class="row align-items-center">
             <div class="col-md-12">
               <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="../dashboard/index.html">Home</a></li>
-                <li class="breadcrumb-item"><a href="javascript: void(0)">Membership</a></li>
-                <li class="breadcrumb-item" aria-current="page">Membership List</li>
+                <li class="breadcrumb-item"><a href="../dashboard/index.html">Casa</a></li>
+                <li class="breadcrumb-item"><a href="javascript: void(0)">Refeições</a></li>
+                <li class="breadcrumb-item" aria-current="page">Controle de refeições</li>
               </ul>
             </div>
             <div class="col-md-12">
               <div class="page-header-title">
-                <h2 class="mb-0">Estudantes</h2>
+                <h2 class="mb-0">Controle de Refeições</h2>
               </div>
             </div>
           </div>
@@ -607,7 +608,7 @@
               <img src="../assets/images/widget/img-status-1.svg" alt="img" class="img-fluid img-bg" />
               <div class="d-flex align-items-center">
                 <div>
-                  <p class="text-muted mb-0">Irão almoçar</p>
+                  <p class="text-muted mb-0">Irão almoçar a quant. normal</p>
                   <div class="d-flex align-items-end">
                     <h2 class="mb-0 f-w-500" id="count-snack">0</small></h2>
                   </div>
@@ -625,10 +626,9 @@
                   <i class="ph-duotone ph-users-four f-26"></i>
                 </div>
                 <div>
-                  <p class="text-muted mb-0">Visits</p>
+                  <p class="text-muted mb-0">Irão almoçar pouco</p>
                   <div class="d-flex align-items-end">
-                    <h2 class="mb-0 f-w-500">278</h2>
-                    <span class="badge bg-light-success ms-2"><i class="ti ti-chevrons-up"></i> 7%</span>
+                    <h2 class="mb-0 f-w-500" id="count-snack-little">0</h2>
                   </div>
                 </div>
               </div>

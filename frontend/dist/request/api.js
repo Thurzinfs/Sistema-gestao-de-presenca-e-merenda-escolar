@@ -10,6 +10,16 @@ const api = axios.create({
   },
 });
 
+export const getStudentById = async (id) => {
+  try {
+    const response = await api.get(`/api/v1/academic/students/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error: ', error);
+    throw error;
+  }
+}
+
 export const getStudentList = async () => {
   try {
     const response = await api.get('/api/v1/academic/students/list/all');
@@ -24,7 +34,7 @@ export const getClassroom = async (id) => {
   try {
     const response = await api.get(`/api/v1/academic/classroom/${id}`);
     return response.data;
-  } catch (eror) {
+  } catch (error) {
     console.error('Error: ', error);
     throw error;
   }
@@ -33,6 +43,26 @@ export const getClassroom = async (id) => {
 export const getSnackRegisters = async () => {
   try {
     const response = await api.get(`/api/v1/presence/registerSnack/`)
+    return response.data;
+  } catch (error) {
+    console.error('Error: ', error);
+    throw error;
+  }
+}
+
+export const getAllSnacksByType = async (type) => {
+  try {
+     const response = await api.get(`/api/v1/presence/registerSnack/type/${type}`)
+    return response.data;
+  } catch (error) {
+    console.error('Error: ', error);
+    throw error;
+  }
+}
+
+export const getPresenceFrequency = async () => {
+  try {
+    const response = await api.get(`/api/v1/presence/frequency/`)
     return response.data;
   } catch (error) {
     console.error('Error: ', error);

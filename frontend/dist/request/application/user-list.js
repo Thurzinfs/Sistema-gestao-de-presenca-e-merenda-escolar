@@ -1,11 +1,11 @@
-import { getStudentList, getClassroom, getSnackRegisters } from '../api.js';
+import { getStudentList, getClassroom, getSnackRegisters, getAllSnacksByType, getPresenceFrequency, getStudentById } from '../api.js';
 
-const users = await getStudentList();
-const snacks = await getSnackRegisters();
+const frequency = await getPresenceFrequency();
 
 const tbody = document.querySelector('#pc-dt-simple tbody');
 const countStudents = document.querySelector('#count-students');
-const countSnack = document.querySelector('#count-snack')
+const countSnack = document.querySelector('#count-snack');
+const countSnackLittle = document.querySelector("#count-snack-little")
 
 async function getClassroomName(id) {
   const response = await getClassroom(id);
@@ -13,17 +13,31 @@ async function getClassroomName(id) {
   return response?.name ?? 'Sem sala de aula';
 };
 
-if (countStudents && countSnack && Array.isArray(users)) {
-  countStudents.textContent = `${users.length}`;
-  countSnack.textContent = `${snacks.length}`
+async function getCountSnacksByNormal() {
+  const response = await getAllSnacksByType('NORMAL');
+  return response?.length ?? 0
 }
 
+async function getCountSnacksByLittle() {
+  const response = await getAllSnacksByType('LITTLE');
+  return response?.length ?? 0
+}
 
-if (tbody && Array.isArray(users)) {
+if (countStudents && countSnack && Array.isArray(frequency)) {
+  const snackNormal = await getCountSnacksByNormal();
+  const snackLitte = await getCountSnacksByLittle();
+
+  countStudents.textContent = `${frequency.length}`;
+  countSnack.textContent = `${snackNormal}`
+  countSnackLittle.textContent = `${snackLitte}`
+}
+
+if (tbody && Array.isArray(frequency)) {
   tbody.innerHTML = '';
 
-  for (const u of users) {
-    const classroom = await getClassroomName(u.classroom);
+  for (const u of frequency) {
+    const student = await getStudentById(u.student)
+    const classroom = await getClassroomName(student.classroom);
 
     const tr = document.createElement('tr');
     tr.innerHTML = `
@@ -31,12 +45,12 @@ if (tbody && Array.isArray(users)) {
           <td>
             <div class="d-flex align-items-center">
               <div class="flex-grow-1 ms-3">
-                <h6 class="mb-0">${u.name}</h6>
+                <h6 class="mb-0">${student.name}</h6>
               </div>
             </div>
           </td>
+          <td>${student.ra}</td>
           <td>${classroom}</td>
-          <td>${u.active}</td>
           <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Active</td>
           <td>
             <a href="#" class="avtar avtar-xs btn-link-secondary">
