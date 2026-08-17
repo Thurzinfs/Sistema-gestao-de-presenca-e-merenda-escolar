@@ -69,7 +69,6 @@ class LeftouversLunchUpdateDTO(BaseModel):
 
 class IngredientInDTO(BaseModel):
     component: str
-    daily_menu: UUID
 
 class IngredientOutDTO(BaseModel):
     id: UUID
