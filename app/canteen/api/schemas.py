@@ -102,12 +102,10 @@ class LeftouversLunchUpdate(Schema):
 
 class IngredientIn(Schema):
     component: str
-    daily_menu: UUID
 
     def to_dto(self):
         return IngredientInDTO(
-            component=self.component,
-            daily_menu=self.daily_menu
+            component=self.component
         )
 
 class IngredientOut(Schema):
