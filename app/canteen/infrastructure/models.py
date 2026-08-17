@@ -27,4 +27,5 @@ class LeftouversLunch(models.Model):
 
 class Ingredient(models.Model):
     id = models.UUIDField(primary_key=True, editable=True, default=uuid4)
-    comp
+    component = models.CharField(max_length=255)
+    daily_menu = models.ForeignKey('canteen.DailyMenu', on_delete=models.CASCADE)
