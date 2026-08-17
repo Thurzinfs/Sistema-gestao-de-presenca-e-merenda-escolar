@@ -224,7 +224,7 @@ class RegisterIngredientUseCase:
         ingredient_entity = self.ingredient_repo.save(ingredient_entity)
         return IngredientOutDTO.from_domain(ingredient_entity)
 
-class ReturnIngredientWithId:
+class ReturnIngredientWithIdUseCase:
     def __init__(self, ingredient_repo: IIngredientRepository):
         self.ingredient_repo = ingredient_repo
 
