@@ -7,8 +7,10 @@ from app.canteen.application.dtos import (
     LeftouversLunchInDTO,
     LeftouversLunchOutDTO,
     LeftouversLunchUpdateDTO,
+    IngredientInDTO,
+    IngredientOutDTO
 )
-from app.canteen.domain.entities import DailyMenuEntity, LeftouversLunchEntity
+from app.canteen.domain.entities import DailyMenuEntity, LeftouversLunchEntity, IngredientEntity
 from app.canteen.domain.exceptions import (
     AlreadyExistsCanteenException,
     InvalidDateFieldCanteenException,
@@ -18,6 +20,7 @@ from app.canteen.domain.exceptions import (
 from app.canteen.domain.repositories import (
     IDailyMenuRepository,
     ILeftouversLunchRepository,
+    IIngredientRepository
 )
 from datetime import date as Date
 from app.canteen.domain.servicies import (
@@ -207,3 +210,16 @@ class UpdateLeftouversLunchUseCase:
 
         self.leftouvers_lunch_repo.save(entity)
         return LeftouversLunchOutDTO.from_domain(entity)
+
+class RegisterIngredientUseCase:
+    def __init__(self, ingredient_repo: IIngredientRepository):
+        self.ingredient_repo = ingredient_repo
+
+    def execute(self, dto: IngredientInDTO) -> IngredientOutDTO:
+        ingredient_entity = IngredientEntity(
+            component=dto.component,
+            daily_menu=dto.daily_menu
+        )
+
+        ingredient_entity = self.ingredient_repo.save(ingredient_entity)
+        return IngredientOutDTO.from_domain(ingredient_entity)
