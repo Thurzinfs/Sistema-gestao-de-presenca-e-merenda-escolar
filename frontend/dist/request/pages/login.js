@@ -1,7 +1,4 @@
-import { loginUser } from "../api";
-
-const inputEmail = document.querySelector('#input-email-login');
-const inputPassword = document.querySelector('#input-password-login');
+import { loginUser } from "../api.js";
 
 const btnLogin = document.querySelector("#btn-login");
 
@@ -15,17 +12,16 @@ async function loginManager(email, password) {
     const response = await loginUser(data);
     return response
 }
-console.log('ola')
 
 btnLogin.addEventListener('click', async (e) => {
     e.preventDefault();
-    
-    if (inputEmail.value && inputPassword.value) {
-        const login = loginManager(inputEmail.value, inputPassword.value)
-        if (login) {
-            console.log(localStorage.getItem('access_token'))
 
-            window.location.href = '../../application/user-card-v1.html'
-        }
+    const inputEmail = document.getElementById('floatingInput')?.value;
+    const inputPassword = document.getElementById('floatingInput1').value;
+
+    const response = await loginManager(inputEmail, inputPassword)
+
+    if (response == true) {
+        window.location.href = '../../../dist/application/user-card-v1.html'
     }
 })
