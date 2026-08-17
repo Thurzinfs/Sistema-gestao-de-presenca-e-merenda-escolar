@@ -80,3 +80,21 @@ export const registerUSer = async (data) => {
     return {data: null, status: error.status}
   }
 }
+
+export const loginUser = async (data) => {
+  try {
+    const response = await api.post('/api/v1/auth/', data);
+    if (response.status == 200 || response.status == 201) {
+
+      localStorage.setItem('access_token', response.data.access_token);
+      localStorage.setItem('refresh_token', response.data.refresh_token);
+
+      return true
+    } else {
+      return false
+    }
+  } catch (error) {
+    console.log(error);
+    console.log(error.status)
+  }
+}
