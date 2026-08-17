@@ -98,3 +98,13 @@ class LeftouversLunchUpdate(Schema):
             leftouvers_kg=self.leftouvers_kg,
             amount_students=self.amount_students,
         )
+
+class IngredientIn(Schema):
+    component: str
+    daily_menu: UUID
+
+    def to_dto(self):
+        return IngredientIn(
+            component=self.component,
+            daily_menu=self.daily_menu
+        )
