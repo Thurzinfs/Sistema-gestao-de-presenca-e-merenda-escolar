@@ -66,3 +66,7 @@ class LeftouversLunchOutDTO(BaseModel):
 class LeftouversLunchUpdateDTO(BaseModel):
     leftouvers_kg: Optional[int] = None
     amount_students: Optional[int] = None
+
+class IngredientInDTO(BaseModel):
+    component: str
+    daily_menu: UUID
