@@ -223,3 +223,14 @@ class RegisterIngredientUseCase:
 
         ingredient_entity = self.ingredient_repo.save(ingredient_entity)
         return IngredientOutDTO.from_domain(ingredient_entity)
+
+class ReturnIngredientWithId:
+    def __init__(self, ingredient_repo: IIngredientRepository):
+        self.ingredient_repo = ingredient_repo
+
+    def execute(self, id: UUID) -> IngredientOutDTO:
+        ingredient = self.ingredient_repo.find_by_id(id)
+        if not ingredient:
+            raise NotFoundCanteenException('not found ingredient with this id')
+
+        return IngredientOutDTO.from_domain(ingredient)
