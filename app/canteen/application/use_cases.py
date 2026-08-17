@@ -234,3 +234,10 @@ class ReturnIngredientWithIdUseCase:
             raise NotFoundCanteenException('not found ingredient with this id')
 
         return IngredientOutDTO.from_domain(ingredient)
+
+class ReturnIngredientWithDailyMenuUseCase:
+    def __init__(self, ingredient_repo: IIngredientRepository):
+        self.ingredient_repo = ingredient_repo
+
+    def execute(self, daily_menu_id: UUID) -> List[IngredientOutDTO]:
+        return [IngredientOutDTO.from_domain(entity) for entity in self.ingredient_repo.find_by_daily_menu(daily_menu_id)]
