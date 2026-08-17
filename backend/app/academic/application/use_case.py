@@ -151,6 +151,9 @@ class ResponseStudentsUseCase:
         if students is None:
             raise StudentsNotFoundException('Student not found')
 
+        if students.active is False:
+            raise StudentsNotFoundException('Student not active')
+
         return StudentsOutDTO.from_domain(students)
 
 
