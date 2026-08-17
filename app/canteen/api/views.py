@@ -10,11 +10,14 @@ from app.canteen.api.schemas import (
     LeftouversLunchIn,
     LeftouversLunchOut,
     LeftouversLunchUpdate,
+    IngredientIn,
+    IngredientOut
 )
 from datetime import date as Date
 
 router = Router()
 leftouverslunch_router = Router()
+ingredients_router = Router()
 
 canteen_container = CanteenContainer()
 
@@ -93,3 +96,10 @@ def update_leftouvers_lunch(request, id: UUID, data: LeftouversLunchUpdate):
     dto = data.to_dto()
     response = use_case.execute(id, dto)
     return 200, LeftouversLunchOut.from_domain(response)
+
+@ingredients_router.get('/{id}', response={200: IngredientOut})
+def view_ingredient(request, id: UUID):
+    use_case = canteen_container.ingredients_return_with_id_use_case()
+
+    response = use_case.execute(id)
+    return 200, IngredientOut.from_domain(response)
