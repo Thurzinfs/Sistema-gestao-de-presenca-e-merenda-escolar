@@ -35,10 +35,11 @@ from app.school.domain.role import ManagerRole
 
 
 class RegisterDailyMenuUseCase:
-    def __init__(self, daily_menu_repo: IDailyMenuRepository):
+    def __init__(self, daily_menu_repo: IDailyMenuRepository, ingredient_repo: IIngredientRepository):
         self.daily_menu_repo = daily_menu_repo
+        self.ingredient_repo = ingredient_repo
 
-    def execute(self, dto: DailyMenuInDTO) -> DailyMenuOutDTO:
+    def execute(self, dto: DailyMenuInDTO, ingredients: List[IngredientInDTO]) -> DailyMenuOutDTO:
         if self.daily_menu_repo.verify_by_date(dto.date):
             raise AlreadyExistsCanteenException(
                 'daily menu already exists by date'
@@ -52,6 +53,12 @@ class RegisterDailyMenuUseCase:
         )
 
         daily_Menu = self.daily_menu_repo.save(daily_Menu)
+        for ingredient in ingredients:
+            ingredient = IngredientEntity(
+                component=ingredient.component,
+                daily_menu=daily_Menu.id
+            )
+            self.ingredient_repo.save(ingredient)
         return DailyMenuOutDTO.from_domain(daily_Menu)
 
 
@@ -211,19 +218,6 @@ class UpdateLeftouversLunchUseCase:
         self.leftouvers_lunch_repo.save(entity)
         return LeftouversLunchOutDTO.from_domain(entity)
 
-class RegisterIngredientUseCase:
-    def __init__(self, ingredient_repo: IIngredientRepository):
-        self.ingredient_repo = ingredient_repo
-
-    def execute(self, dto: IngredientInDTO) -> IngredientOutDTO:
-        ingredient_entity = IngredientEntity(
-            component=dto.component,
-            daily_menu=dto.daily_menu
-        )
-
-        ingredient_entity = self.ingredient_repo.save(ingredient_entity)
-        return IngredientOutDTO.from_domain(ingredient_entity)
-
 class ReturnIngredientWithIdUseCase:
     def __init__(self, ingredient_repo: IIngredientRepository):
         self.ingredient_repo = ingredient_repo
@@ -240,4 +234,5 @@ class ReturnIngredientWithDailyMenuUseCase:
         self.ingredient_repo = ingredient_repo
 
     def execute(self, daily_menu_id: UUID) -> List[IngredientOutDTO]:
-        return [IngredientOutDTO.from_domain(entity) for entity in self.ingredient_repo.find_by_daily_menu(daily_menu_id)]
+        ingredients = self.ingredient_repo.find_by_daily_menu(daily_menu_id)
+        return [IngredientOutDTO.from_domain(entity) for entity in ingredients]
