@@ -1,6 +1,6 @@
 import axios from 'https://cdn.jsdelivr.net/npm/axios/+esm';
 
-import API_BASE_URL from '../../config.js';
+import API_BASE_URL from '../config.js';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -67,5 +67,16 @@ export const getPresenceFrequency = async () => {
   } catch (error) {
     console.error('Error: ', error);
     throw error;
+  }
+}
+
+export const registerUSer = async (data) => {
+  try {
+    const response = await api.post(`/api/v1/school/manager/`, data)
+    return {dados: response.data, status: response.status};
+
+  } catch (error) {
+    console.error('Error: ', error.response.status);
+    return {data: null, status: error.status}
   }
 }
