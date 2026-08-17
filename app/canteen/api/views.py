@@ -24,10 +24,10 @@ canteen_container = CanteenContainer()
 
 @router.post('/', response={201: DailyMenuOut})
 @atomic
-def register_daily_menu(request, data: DailyMenuIn):
+def register_daily_menu(request, data: DailyMenuIn, ingredients: List[IngredientIn]):
     use_case = canteen_container.register_daily_menu_use_case()
     dto = data.to_dto()
-    response = use_case.execute(dto)
+    response = use_case.execute(dto, [ingredient.to_dto() for ingredient in ingredients])
     return 201, DailyMenuOut.from_domain(response)
 
 @router.get('/{id}', response={200: DailyMenuOut})
@@ -96,6 +96,13 @@ def update_leftouvers_lunch(request, id: UUID, data: LeftouversLunchUpdate):
     dto = data.to_dto()
     response = use_case.execute(id, dto)
     return 200, LeftouversLunchOut.from_domain(response)
+
+@ingredients_router.get('/by-menu', response={200: List[IngredientOut]})
+def view_by_daily_menu(request, daily_menu_id: UUID):
+    use_case = canteen_container.ingredients_return_with_daily_menu_use_case()
+
+    response = use_case.execute(daily_menu_id)
+    return 200, [IngredientOut.from_domain(entity) for entity in response]
 
 @ingredients_router.get('/{id}', response={200: IngredientOut})
 def view_ingredient(request, id: UUID):
