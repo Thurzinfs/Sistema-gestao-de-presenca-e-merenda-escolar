@@ -8,6 +8,7 @@ from app.canteen.application.dtos import (
     DailyMenuUpdateDTO,
     LeftouversLunchInDTO,
     LeftouversLunchUpdateDTO,
+    IngredientInDTO
 )
 
 
@@ -104,7 +105,7 @@ class IngredientIn(Schema):
     daily_menu: UUID
 
     def to_dto(self):
-        return IngredientIn(
+        return IngredientInDTO(
             component=self.component,
             daily_menu=self.daily_menu
         )
