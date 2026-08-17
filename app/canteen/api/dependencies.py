@@ -9,7 +9,6 @@ from app.canteen.application.use_cases import (
     ReturnLeftouversLunchWithIdUseCase,
     ReturnLeftouversLunchWithMonthUseCase,
     UpdateLeftouversLunchUseCase,
-    RegisterIngredientUseCase,
     ReturnIngredientWithIdUseCase,
     ReturnIngredientWithDailyMenuUseCase
 )
@@ -46,13 +45,13 @@ class CanteenContainer(containers.DeclarativeContainer):
 
     # daily menu use cases
     register_daily_menu_use_case = providers.Factory(
-        RegisterDailyMenuUseCase, daily_menu_repo=daily_menu_repo
+        RegisterDailyMenuUseCase, daily_menu_repo=daily_menu_repo, ingredient_repo = ingredient_repo
     )
 
     daily_menu_return_use_case = providers.Factory(
         ReturnDailyMenuUseCase, daily_menu_repo=daily_menu_repo
     )
-
+    
     daily_menu_update_use_case = providers.Factory(
         UpdateDailyMenuUseCase, daily_menu_repo=daily_menu_repo
     )
@@ -88,10 +87,6 @@ class CanteenContainer(containers.DeclarativeContainer):
     )
 
     # ingredients use cases
-    ingredients_register_use_case = providers.Factory(
-        RegisterIngredientUseCase,
-        ingredient_repo = ingredient_repo
-    )
     ingredients_return_with_id_use_case = providers.Factory(
         ReturnIngredientWithIdUseCase,
         ingredient_repo = ingredient_repo
