@@ -140,3 +140,31 @@ export const getSchool = async (id) => {
     console.log(error.status)
   }
 }
+export const getMenuCanteen = async (from_date, to_date) => {
+  try {
+    const response = await api.get(`/api/v1/canteen/date_range/`, {
+      params: {
+        from_date: from_date,
+        to_date: to_date
+      }
+    })
+    return response.data;
+  } catch (error) {
+    console.error('Error: ', error);
+    throw error;
+  }
+}
+
+export const getMenuCanteenDate = async (date) => {
+  try {
+    const response = await api.get(`/api/v1/canteen/`, {
+      params: {
+        date: date,
+      }
+    })
+    return response.data;
+  } catch (error) {
+    console.error('Error: ', error);
+    throw error;
+  }
+}

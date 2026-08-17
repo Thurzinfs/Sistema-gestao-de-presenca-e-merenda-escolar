@@ -592,9 +592,9 @@
               <img src="../assets/images/widget/img-status-2.svg" alt="img" class="img-fluid img-bg" />
               <div class="d-flex align-items-center">
                 <div>
-                  <p class="text-muted mb-0">Alunos</p>
+                  <p class="text-muted mb-0" id="label-data">Alunos</p>
                   <div class="d-flex align-items-end">
-                    <h2 class="mb-0 f-w-500" id="count-students">0</h2>
+                    <h2 class="mb-0 f-w-500" id="almoc-label">0</h2>
                     <span class="badge bg-light-success ms-2">Cadastrados</span>
                   </div>
                 </div>
@@ -642,21 +642,19 @@
         <div class="col-12">
           <div class="card table-card">
             <div class="card-header">
-              <h5>Lista de Estudantes</h5>              
+              <h5>Cardápio da semana</h5>              
             </div>
             <div class="card-body pt-3">
               <div class="table-responsive">
                 <table class="table table-hover" id="pc-dt-simple">
                   <thead>
                     <tr>
-                      <th>Nome</th>
-                      <th>RA</th>
-                      <th>Sala de Aula</th>
-                      <th>Ativo</th>
-                      <th>Ação</th>
+                      <th>Data</th>
+                      <th>Prato principal</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="cardapio">
+                    
                   </tbody>
                 </table>
               </div>
@@ -665,6 +663,9 @@
         </div>
       </div>
       <!-- [ Main Content ] end -->
+
+    
+    
     </div>
   </div>
   <!-- [ Main Content ] end -->
@@ -689,7 +690,7 @@
 <script src="../assets/js/pcoded.js"></script>
 <script src="../assets/js/plugins/feather.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script type="module" src="../request/application/user-list.js"></script>
+<script type="module" src="../request/weekly-menu/cardapio-request.js"></script>
 
 
 <script>layout_change('light');</script>
