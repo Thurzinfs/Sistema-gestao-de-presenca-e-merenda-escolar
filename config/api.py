@@ -10,6 +10,7 @@ from app.school.api.views import router_school, router_manager, router_auth
 from app.canteen.api.views import (
     leftouverslunch_router,
     router as router_canteen,
+    ingredients_router
 )
 
 
@@ -27,6 +28,7 @@ app.add_router('/school/manager', router_manager, tags=['Manager'])
 app.add_router('/academic/classroom', route_classroom, tags=['Classroom'])
 app.add_router('/academic/students', route_students, tags=['Students'])
 app.add_router('/canteen', router_canteen, tags=['Canteen'])
+app.add_router('/ingredients', ingredients_router, tags=['Ingredient'])
 app.add_router('/presence/readings', reading_router, tags=['Readings'])
 app.add_router('/presence/frequency', frequency_router, tags=['Frequency'])
 app.add_router('/presence/registerSnack', register_snack_router, tags=['Register snack'])
