@@ -109,3 +109,16 @@ class IngredientIn(Schema):
             component=self.component,
             daily_menu=self.daily_menu
         )
+
+class IngredientOut(Schema):
+    id: UUID
+    component: str
+    daily_menu: UUID
+
+    @staticmethod
+    def from_domain(entity):
+        return IngredientOut(
+            id=entity.id,
+            component=entity.component,
+            daily_menu=entity.daily_menu
+        )
