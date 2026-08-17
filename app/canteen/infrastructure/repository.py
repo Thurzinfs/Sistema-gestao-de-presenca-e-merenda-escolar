@@ -95,7 +95,7 @@ class IngredientRepository(IIngredientRepository):
             id=ingredient.id,
             defaults={
                 "component": ingredient.component,
-                "daily_menu": ingredient.daily_menu
+                "daily_menu_id": ingredient.daily_menu
             }
         )
         return ingredient
@@ -107,11 +107,12 @@ class IngredientRepository(IIngredientRepository):
             return None
 
     def find_by_daily_menu(self, daily_menu_id: UUID) -> List[IngredientEntity]:
-        return [self.to_entity(entity) for entity in Ingredient.objects.filter(daily_menu=daily_menu_id)]
+        return [self.to_entity(entity) for entity in Ingredient.objects.filter(daily_menu__id=daily_menu_id)]
 
     def to_entity(self, model: Ingredient):
         return IngredientEntity(
             id=model.id,
             component=model.component,
-            daily_menu=model.daily_menu
+            daily_menu=model.daily_menu.id
         )
+    
