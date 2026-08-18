@@ -7,8 +7,10 @@ from app.canteen.application.dtos import (
     LeftouversLunchInDTO,
     LeftouversLunchOutDTO,
     LeftouversLunchUpdateDTO,
+    IngredientInDTO,
+    IngredientOutDTO
 )
-from app.canteen.domain.entities import DailyMenuEntity, LeftouversLunchEntity
+from app.canteen.domain.entities import DailyMenuEntity, LeftouversLunchEntity, IngredientEntity
 from app.canteen.domain.exceptions import (
     AlreadyExistsCanteenException,
     InvalidDateFieldCanteenException,
@@ -18,6 +20,7 @@ from app.canteen.domain.exceptions import (
 from app.canteen.domain.repositories import (
     IDailyMenuRepository,
     ILeftouversLunchRepository,
+    IIngredientRepository
 )
 from datetime import date as Date
 from app.canteen.domain.servicies import (
@@ -32,10 +35,11 @@ from app.school.domain.role import ManagerRole
 
 
 class RegisterDailyMenuUseCase:
-    def __init__(self, daily_menu_repo: IDailyMenuRepository):
+    def __init__(self, daily_menu_repo: IDailyMenuRepository, ingredient_repo: IIngredientRepository):
         self.daily_menu_repo = daily_menu_repo
+        self.ingredient_repo = ingredient_repo
 
-    def execute(self, dto: DailyMenuInDTO) -> DailyMenuOutDTO:
+    def execute(self, dto: DailyMenuInDTO, ingredients: List[IngredientInDTO]) -> DailyMenuOutDTO:
         if self.daily_menu_repo.verify_by_date(dto.date):
             raise AlreadyExistsCanteenException(
                 'daily menu already exists by date'
@@ -49,6 +53,12 @@ class RegisterDailyMenuUseCase:
         )
 
         daily_Menu = self.daily_menu_repo.save(daily_Menu)
+        for ingredient in ingredients:
+            ingredient = IngredientEntity(
+                component=ingredient.component,
+                daily_menu=daily_Menu.id
+            )
+            self.ingredient_repo.save(ingredient)
         return DailyMenuOutDTO.from_domain(daily_Menu)
 
 
@@ -207,3 +217,22 @@ class UpdateLeftouversLunchUseCase:
 
         self.leftouvers_lunch_repo.save(entity)
         return LeftouversLunchOutDTO.from_domain(entity)
+
+class ReturnIngredientWithIdUseCase:
+    def __init__(self, ingredient_repo: IIngredientRepository):
+        self.ingredient_repo = ingredient_repo
+
+    def execute(self, id: UUID) -> IngredientOutDTO:
+        ingredient = self.ingredient_repo.find_by_id(id)
+        if not ingredient:
+            raise NotFoundCanteenException('not found ingredient with this id')
+
+        return IngredientOutDTO.from_domain(ingredient)
+
+class ReturnIngredientWithDailyMenuUseCase:
+    def __init__(self, ingredient_repo: IIngredientRepository):
+        self.ingredient_repo = ingredient_repo
+
+    def execute(self, daily_menu_id: UUID) -> List[IngredientOutDTO]:
+        ingredients = self.ingredient_repo.find_by_daily_menu(daily_menu_id)
+        return [IngredientOutDTO.from_domain(entity) for entity in ingredients]
