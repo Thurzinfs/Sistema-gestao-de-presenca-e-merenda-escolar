@@ -168,3 +168,13 @@ export const getMenuCanteenDate = async (date) => {
     throw error;
   }
 }
+
+export const getClassroomActives = async () => {
+  try {
+    const response = await api.get(`/api/v1/academic/classroom/list/actives`)
+    return response.data;
+  } catch (error) {
+    console.error('Error: ', error);
+    throw error;
+  }
+}

@@ -3,7 +3,7 @@
 <!-- [Head] start -->
 
 <head>
-  <title>Lista de Estudantes</title>
+  <title>Lista de Turmas</title>
   <!-- [Meta] -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
@@ -611,14 +611,15 @@
                 <table class="table table-hover" id="pc-dt-simple">
                   <thead>
                     <tr>
-                      <th>Nome</th>
-                      <th>RA</th>
-                      <th>Sala de Aula</th>
-                      <th>Status</th>
-                      <th>Ação</th>
+                      <th>Turmas</th>
+                      <th></th>
+                      <th></th>
+                      <th>Ativo</th>
                     </tr>
                   </thead>
-                  <tbody></tbody>
+                  <tbody id="turmas-table">
+
+                  </tbody>
                 </table>
               </div>
             </div>
@@ -680,7 +681,7 @@
   <!-- [Page Specific JS] start -->
   <script src="../assets/js/plugins/simple-datatables.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script type="module" src="../request/application/user-list.js"></script>
+  <script type="module" src="/dist/request/classroom/classrom-list.js"></script>
   <!-- [Page Specific JS] end -->
   <div class="offcanvas border-0 pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
     <div class="offcanvas-header justify-content-between">
