@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 from datetime import date, datetime as Datetime
 from uuid import UUID
-from app.canteen.domain.entities import DailyMenuEntity, LeftouversLunchEntity
+from typing import List
+from app.canteen.domain.entities import DailyMenuEntity, LeftouversLunchEntity, IngredientEntity
 
 
 class IDailyMenuRepository(ABC):
@@ -39,4 +40,17 @@ class ILeftouversLunchRepository(ABC):
 
     @abstractmethod
     def find_by_month(self, month: int) -> LeftouversLunchEntity | None:
+        ...
+
+class IIngredientRepository(ABC):
+    @abstractmethod
+    def save(self, ingredient: IngredientEntity) -> IngredientEntity:
+        ...
+
+    @abstractmethod
+    def find_by_id(self, id: UUID) -> IngredientEntity | None:
+        ...
+
+    @abstractmethod
+    def find_by_daily_menu(self, daily_menu_id: UUID) -> List[IngredientEntity]:
         ...
