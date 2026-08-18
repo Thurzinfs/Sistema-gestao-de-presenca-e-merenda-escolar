@@ -1,0 +1,96 @@
+from datetime import datetime, time
+from typing import Optional
+from uuid import UUID
+
+from pydantic import BaseModel, EmailStr
+
+from app.school.domain.role import ManagerRole
+
+
+class SchoolInDTO(BaseModel):
+    name: str
+    time_closing_presence: time
+    time_send_lunch: time
+    time_send_snack_afternoon: time
+    number_whats: str
+
+
+class SchoolOutDTO(BaseModel):
+    id: UUID
+    name: str
+    time_closing_presence: time
+    time_send_lunch: time
+    time_send_snack_afternoon: time
+    number_whats: str
+    created_at: datetime
+    deleted_at: Optional[datetime] = None
+
+    @classmethod
+    def from_domain(cls, model):
+        return cls(
+            id=model.id,
+            name=model.name,
+            time_closing_presence=model.time_closing_presence.value,
+            time_send_lunch=model.time_send_lunch.value,
+            time_send_snack_afternoon=model.time_send_snack_afternoon.value,
+            number_whats=model.number_whats,
+            created_at=model.created_at,
+            deleted_at=model.deleted_at,
+        )
+
+
+class SchoolInUpdateDTO(BaseModel):
+    name: Optional[str] = None
+    time_closing_presence: Optional[time] = None
+    time_send_lunch: Optional[time] = None
+    time_send_snack_afternoon: Optional[time] = None
+    number_whats: Optional[str] = None
+
+
+class ManagerInDTO(BaseModel):
+    school_id: UUID
+    role: ManagerRole | str
+    name: str
+    email: EmailStr | str
+    password: str
+
+
+class ManagerOutDTO(BaseModel):
+    id: UUID
+    school_id: UUID
+    role: ManagerRole | str
+    name: str
+    email: EmailStr | str
+    password: str
+    active: bool
+    created_at: datetime
+
+    @classmethod
+    def from_domain(cls, model):
+        return cls(
+            id=model.id,
+            school_id=model.school,
+            role=model.role,
+            name=model.name,
+            email=model.email,
+            password=model.password,
+            active=model.active,
+            created_at=model.created_at,
+        )
+
+
+class ManagerInUpdateDTO(BaseModel):
+    role: Optional[ManagerRole] = None
+    name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
+
+
+class LoginInDTO(BaseModel):
+    email: str
+    password: str
+
+
+class LoginOutDTO(BaseModel):
+    access_token: str
+    refresh_token: str
