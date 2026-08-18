@@ -67,3 +67,7 @@ class IStudentsRepository(ABC):
         self, active: Optional[bool]
     ) -> List[StudentsEntity]:
         ...
+
+    @abstractmethod
+    def list_by_classroom(self, classroom_id: UUID) -> List[StudentsEntity]:
+        ...
