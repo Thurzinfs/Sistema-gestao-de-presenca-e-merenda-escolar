@@ -1,8 +1,8 @@
-import { getStudentsAll } from "../api.js"
+import { getStudentsByClassRoom } from "../api.js"
 
 const tbody = document.getElementById('turmas-table')
 
-const students = await getStudentsAll()
+const students = await getStudentsByClassRoom(localStorage.getItem('id_sala'))
 
 console.log(students);
 

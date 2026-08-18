@@ -199,3 +199,17 @@ export const getStudentsAll = async () => {
     throw error;
   }
 }
+
+export const getStudentsByClassRoom = async (classroom_id) => {
+  try {
+    const response = await api.get(`/api/v1/academic/students/list-by-classroom`, {
+      params: {
+        classroom_id: classroom_id,
+      }
+    })
+    return response.data;
+  } catch (error) {
+    console.error('Error: ', error);
+    throw error;
+  }
+}
