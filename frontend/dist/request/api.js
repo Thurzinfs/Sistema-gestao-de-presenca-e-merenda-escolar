@@ -213,3 +213,46 @@ export const getStudentsByClassRoom = async (classroom_id) => {
     throw error;
   }
 }
+
+export const registerReading = async (data) => {
+  try {
+    const response = await api.post(`/api/v1/presence/readings/`, data)
+    return {dados: response.data, status: response.status};
+
+  } catch (error) {
+    console.error('Error: ', error.response.status);
+    return {data: null, status: error.status}
+  }
+}
+
+export const registerFrequency = async (data) => {
+  try {
+    const response = await api.post(`/api/v1/presence/frequency/`, data)
+    return {dados: response.data, status: response.status};
+
+  } catch (error) {
+    console.error('Error: ', error.response.status);
+    return {data: null, status: error.status}
+  }
+} 
+
+export const registerSnack = async (data) => {
+  try {
+    const response = await api.post(`/api/v1/presence/registerSnack/`, data)
+    return {dados: response.data, status: response.status};
+
+  } catch (error) {
+    console.error('Error: ', error.response.status);
+    return {data: null, status: error.status}
+  }
+} 
+
+export const getStudentbyQRCode = async (qrcode) => {
+  try {
+    const response = await api.get(`/api/v1/academic/students/qr_code/${qrcode}`)
+    return response.data;
+  } catch (error) {
+    console.error('Error: ', error);
+    throw error;
+  }
+} 

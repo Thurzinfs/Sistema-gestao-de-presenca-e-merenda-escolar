@@ -767,6 +767,47 @@
         </div>
       </div>
     </footer>
+    
+    <div class="modal fade" id="mealModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="mealModalStudentName">Aluno</h5>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label d-block">Vai lanchar?</label>
+              <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="snackOption" id="snackYes" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="snackYes">Sim</label>
+                <input type="radio" class="btn-check" name="snackOption" id="snackNo" autocomplete="off">
+                <label class="btn btn-outline-secondary" for="snackNo">Não</label>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label d-block">Vai almoçar?</label>
+              <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="lunchOption" id="lunchYes" autocomplete="off" checked>
+                <label class="btn btn-outline-primary" for="lunchYes">Sim</label>
+                <input type="radio" class="btn-check" name="lunchOption" id="lunchNo" autocomplete="off">
+                <label class="btn btn-outline-secondary" for="lunchNo">Não</label>
+              </div>
+            </div>
+            <div class="mb-3" id="lunchTypeWrapper">
+              <label class="form-label" for="lunchType">Tipo de almoço</label>
+              <select class="form-select" id="lunchType">
+                <option value="NORMAL">Normal</option>
+                <option value="LITTLE">Pouco</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary w-100" id="mealModalConfirm">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Required Js -->
     <script src="../assets/js/plugins/popper.min.js"></script>
     <script src="../assets/js/plugins/simplebar.min.js"></script>
