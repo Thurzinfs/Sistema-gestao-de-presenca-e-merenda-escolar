@@ -256,3 +256,12 @@ export const getStudentbyQRCode = async (qrcode) => {
     throw error;
   }
 } 
+export const getStudentList = async () => {
+  try {
+    const response = await api.get('/academic/students/list/active');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching student list:', error);
+    throw error;
+  }
+};

@@ -66,6 +66,7 @@ class StudentsRepository(IStudentsRepository):
                 'active': entity.active,
                 'qr_code': entity.qr_code,
                 'created_at': entity.created_at,
+                'active': entity.active,
             },
         )
         return entity
@@ -113,4 +114,5 @@ class StudentsRepository(IStudentsRepository):
             ra=model.ra,
             qr_code=model.qr_code,
             created_at=model.created_at,
+            active=model.active
         )
