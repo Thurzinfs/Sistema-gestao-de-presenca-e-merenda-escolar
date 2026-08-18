@@ -49,6 +49,10 @@ class IStudentsRepository(ABC):
     def find_students_by_ra(self, ra: str) -> StudentsEntity | None:
         ...
 
+    @abstractmethod
+    def find_students_by_qrcode(self, qr_code: str) -> StudentsEntity | None:
+        ...
+
     # verification
     @abstractmethod
     def verify_students_by_name(self, name: str) -> bool:
