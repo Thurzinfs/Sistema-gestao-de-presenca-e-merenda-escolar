@@ -57,10 +57,10 @@ if (tbody && Array.isArray(frequency)) {
               <i class="ti ti-eye f-20"></i>
             </a>
             <a href="#" class="avtar avtar-xs btn-link-secondary">
-              <i class="ti ti-edit f-20"></i>
+              <i class=""></i>
             </a>
             <a href="#" class="avtar avtar-xs btn-link-secondary">
-              <i class="ti ti-trash f-20"></i>
+              <i class=""></i>
             </a>
           </td>
         </tr>
