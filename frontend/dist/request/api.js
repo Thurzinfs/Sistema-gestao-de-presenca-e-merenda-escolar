@@ -178,8 +178,6 @@ export const getClassroomActives = async () => {
     throw error;
   }
 }
-<<<<<<< Updated upstream
-=======
 
 export const getStudentsAll = async () => {
   try {
@@ -190,4 +188,3 @@ export const getStudentsAll = async () => {
     throw error;
   }
 }
->>>>>>> Stashed changes
