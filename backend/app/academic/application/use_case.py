@@ -156,6 +156,19 @@ class ResponseStudentsUseCase:
 
         return StudentsOutDTO.from_domain(students)
 
+class ResponseStudentsQrcodeUseCase:
+    def __init__(self, students_repo: IStudentsRepository) -> None:
+        self.students_repo = students_repo
+
+    def execute(self, qr_code: str) -> StudentsOutDTO:
+        students = self.students_repo.find_students_by_qrcode(qr_code)
+        if students is None:
+            raise StudentsNotFoundException('Students not found')
+
+        if not students:
+            raise StudentsNotFoundException('Students not found QR code')
+
+        return StudentsOutDTO.from_domain(students)
 
 class StudentsUpdateUseCase:
     def __init__(self, students_repo: IStudentsRepository) -> None:
