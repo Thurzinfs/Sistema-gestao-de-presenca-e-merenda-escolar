@@ -23,7 +23,7 @@ for (const u of classrooms){
           <td></td>
           <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> ${u.active ? 'Ativo' : 'Desativada'}</td>
           <td>
-            <a href="#" class="avtar avtar-xs btn-link-secondary" id="btn-link">
+            <a href="#" class="btn-view avtar avtar-xs btn-link-secondary" id="btn-link">
               <i class="ti ti-eye f-20"></i>
             </a>
             <a href="#" class="avtar avtar-xs btn-link-secondary">
@@ -38,7 +38,10 @@ for (const u of classrooms){
 
     tbody.appendChild(tr);
 
-    document.querySelector('#btn-link').addEventListener('click', () => {
+    const btnView = tr.querySelector('.btn-view')
+
+    btnView.addEventListener('click', (event) => {
+        event.preventDefault()
         localStorage.setItem('id_sala', u.id)
         localStorage.setItem('name_classroom', u.name)
         window.location.href = '/dist/application/user-list-clasrrom.html'
