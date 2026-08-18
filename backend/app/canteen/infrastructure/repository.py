@@ -1,11 +1,13 @@
+from typing import List
 from uuid import UUID
 from datetime import date as Date
 from app.canteen.domain.repositories import (
     IDailyMenuRepository,
     ILeftouversLunchRepository,
+    IIngredientRepository
 )
-from app.canteen.domain.entities import DailyMenuEntity, LeftouversLunchEntity
-from app.canteen.infrastructure.models import DailyMenu, LeftouversLunch
+from app.canteen.domain.entities import DailyMenuEntity, IngredientEntity, LeftouversLunchEntity
+from app.canteen.infrastructure.models import DailyMenu, LeftouversLunch, Ingredient
 
 
 class DailyMenuRepository(IDailyMenuRepository):
@@ -86,3 +88,31 @@ class LeftouversLunchRepository(ILeftouversLunchRepository):
             user=model.user.id,
             created_at=model.created_at,
         )
+
+class IngredientRepository(IIngredientRepository):
+    def save(self, ingredient: IngredientEntity) -> IngredientEntity:
+        Ingredient.objects.update_or_create(
+            id=ingredient.id,
+            defaults={
+                "component": ingredient.component,
+                "daily_menu_id": ingredient.daily_menu
+            }
+        )
+        return ingredient
+
+    def find_by_id(self, id: UUID) -> IngredientEntity | None:
+        try:
+            return self.to_entity(Ingredient.objects.get(id=id))
+        except Ingredient.DoesNotExist:
+            return None
+
+    def find_by_daily_menu(self, daily_menu_id: UUID) -> List[IngredientEntity]:
+        return [self.to_entity(entity) for entity in Ingredient.objects.filter(daily_menu__id=daily_menu_id)]
+
+    def to_entity(self, model: Ingredient):
+        return IngredientEntity(
+            id=model.id,
+            component=model.component,
+            daily_menu=model.daily_menu.id
+        )
+    
