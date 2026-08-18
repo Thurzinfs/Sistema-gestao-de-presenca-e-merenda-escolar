@@ -97,6 +97,10 @@ class StudentsRepository(IStudentsRepository):
             qs = qs.filter(active=active)
         return [self._to_entity(students) for students in qs]
 
+    def list_by_classroom(self, classroom_id: UUID) -> List[StudentsEntity]:
+        models = Student.objects.filter(classroom=classroom_id)
+        return [self._to_entity(model) for model in models]
+
     def verify_students_by_name(self, name: str) -> bool:
         return Student.objects.filter(name=name).exists()
 
