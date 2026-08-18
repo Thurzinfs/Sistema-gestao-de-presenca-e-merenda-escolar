@@ -1,17 +1,23 @@
-import { getClassroomActives } from "../api.js"
+import { getStudentsAll } from "../api.js"
 
 const tbody = document.getElementById('turmas-table')
 
-const classrooms = await getClassroomActives();
+const students = await getStudentsAll()
 
-console.log(classrooms);
+console.log(students);
 
 tbody.innerHTML = '';
 
-for (const u of classrooms){
+const label = document.getElementById('label');
+
+label.textContent = ''
+
+label.textContent = localStorage.getItem('name_classroom')
+
+for (const u of students){
     const tr = document.createElement('tr')
     tr.innerHTML = `
-        <tr>
+      <tr>
           <td>
             <div class="d-flex align-items-center">
               <div class="flex-grow-1 ms-3">
@@ -19,11 +25,11 @@ for (const u of classrooms){
               </div>
             </div>
           </td>
+          <td>${u.ra}</td>
           <td></td>
-          <td></td>
-          <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> ${u.active ? 'Ativo' : 'Desativada'}</td>
+          <td class="text-success"><i class="fas fa-circle f-10 m-r-10"></i> Active</td>
           <td>
-            <a href="#" class="avtar avtar-xs btn-link-secondary" id="btn-link">
+            <a href="#" class="avtar avtar-xs btn-link-secondary">
               <i class="ti ti-eye f-20"></i>
             </a>
             <a href="#" class="avtar avtar-xs btn-link-secondary">
@@ -36,14 +42,5 @@ for (const u of classrooms){
         </tr>
     `
 
-    tbody.appendChild(tr);
-
-    document.querySelector('#btn-link').addEventListener('click', () => {
-        localStorage.setItem('id_sala', u.id)
-        localStorage.setItem('name_classroom', u.name)
-        window.location.href = '/dist/application/user-list-clasrrom.html'
-    })
-
+    tbody.append(tr)
 }
-
-

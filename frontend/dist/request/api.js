@@ -178,3 +178,16 @@ export const getClassroomActives = async () => {
     throw error;
   }
 }
+<<<<<<< Updated upstream
+=======
+
+export const getStudentsAll = async () => {
+  try {
+    const response = await api.get(`/api/v1/academic/students/list/active`)
+    return response.data;
+  } catch (error) {
+    console.error('Error: ', error);
+    throw error;
+  }
+}
+>>>>>>> Stashed changes
