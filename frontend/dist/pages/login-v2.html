@@ -66,13 +66,13 @@
         </div>
 
       </div>
-      <div class="auth-form">
+      <form class="auth-form">
         <div class="card my-5 mx-3">
           <div class="card-body">
-            <h4 class="f-w-500 mb-1">Login with your email</h4>
-            <p class="mb-3">Don't have an Account? <a href="../pages/register-v2.html" class="link-primary ms-1">Create Account</a></p>
+            <h4 class="f-w-500 mb-1">Logar com seu email</h4>
+            <p class="mb-3">Não tem uma conta? <a href="../pages/register-v2.html" class="link-primary ms-1">Crie a conta</a></p>
             <div class="mb-3">
-              <input type="email" class="form-control" id="floatingInput" placeholder="Email Address">
+              <input type="email" class="form-control" id="floatingInput" placeholder="Email Address" required>
             </div>
             <div class="mb-3">
               <input type="password" class="form-control" id="floatingInput1" placeholder="Password">
@@ -80,17 +80,17 @@
             <div class="d-flex mt-1 justify-content-between align-items-center">
               <div class="form-check">
                 <input class="form-check-input input-primary" type="checkbox" id="customCheckc1" checked="">
-                <label class="form-check-label text-muted" for="customCheckc1">Remember me?</label>
+                <label class="form-check-label text-muted" for="customCheckc1">Se lembre de mim?</label>
               </div>
               <a href="../pages/forgot-password-v2.html">
-                <h6 class="text-secondary f-w-400 mb-0">Forgot Password?</h6>
+                <h6 class="text-secondary f-w-400 mb-0">Esqueceu sua senha?</h6>
               </a>
             </div>
             <div class="d-grid mt-4">
-              <button type="button" class="btn btn-primary">Login</button>
+              <button type="submit" id="btn-login" class="btn btn-primary">Login</button>
             </div>
              <div class="saprator my-3">
-              <span>Or continue with</span>
+              <span>Ou continue com</span>
             </div>
             <div class="text-center">
               <ul class="list-inline mx-auto mt-3 mb-0">
@@ -113,7 +113,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
   <!-- [ Main Content ] end -->
@@ -124,6 +124,8 @@
   <script src="../assets/js/fonts/custom-font.js"></script>
   <script src="../assets/js/pcoded.js"></script>
   <script src="../assets/js/plugins/feather.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="module" src="../request/pages/login.js"></script>
 
   
   

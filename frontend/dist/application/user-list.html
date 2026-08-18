@@ -3,7 +3,7 @@
 <!-- [Head] start -->
 
 <head>
-  <title>User List | Light Able Admin & Dashboard Template</title>
+  <title>Lista de Turmas</title>
   <!-- [Meta] -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
@@ -57,21 +57,6 @@
     </div>
     <div class="navbar-content">
       <ul class="pc-navbar">
-        <li class="pc-item pc-caption">
-          <label>Navigation</label>
-        </li>
-        <li class="pc-item pc-hasmenu">
-          <a href="#!" class="pc-link">
-            <span class="pc-micon">
-              <i class="ph-duotone ph-gauge"></i>
-            </span>
-            <span class="pc-mtext">Dashboard</span>
-            <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-          </a>
-          <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="../dashboard/affiliate.html">Affiliate</a></li>
-          </ul>
-        </li>
         <li class="pc-item pc-hasmenu">
           <ul class="pc-submenu">
             <li class="pc-item"><a class="pc-link" href="../demo/layout-horizontal.html">Horizontal</a></li>
@@ -88,10 +73,6 @@
             <li class="pc-item"><a class="pc-link" href="../demo/layout-extended.html">Extended</a></li>
           </ul>
         </li>
-        <li class="pc-item pc-caption">
-          <label>Widget</label>
-          <i class="ph-duotone ph-chart-pie"></i>
-        </li>
         
         <li class="pc-item">
           <a href="../widget/w_user.html" class="pc-link">
@@ -101,19 +82,17 @@
             <span class="pc-mtext">User</span>
           </a>
         </li>
-        
+
         <li class="pc-item">
-          <a href="../widget/w_chart.html" class="pc-link">
+          <a href="../widget/reading_frequency.html" class="pc-link">
             <span class="pc-micon">
-              <i class="ph-duotone ph-chart-pie"></i>
+              <i class="ph-duotone ph-identification-card"></i>
             </span>
-            <span class="pc-mtext">Chart</span></a
-          >
+            <span class="pc-mtext">Frequencia</span>
+          </a>
         </li>
-        <li class="pc-item pc-caption">
-          <label>Application</label>
-          <i class="ph-duotone ph-buildings"></i>
-        </li>
+        
+        
         
         
         
@@ -125,11 +104,12 @@
             <span class="pc-micon">
               <i class="ph-duotone ph-identification-badge"></i>
             </span>
-            <span class="pc-mtext">Membership</span>
+            <span class="pc-mtext">Refeições</span>
             <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
           </a>
           <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="../admins/membership-list.html">List</a></li>
+            <li class="pc-item"><a class="pc-link" href="../admins/meal-tracking.html">Controle de refeições</a></li>
+            <li class="pc-item"><a class="pc-link" href="../admins/weekly-menu.html">Cardapio Semanal</a></li>
           </ul>
         </li>
         
@@ -138,12 +118,13 @@
             <span class="pc-micon">
               <i class="ph-duotone ph-user-circle"></i>
             </span>
-            <span class="pc-mtext">Users</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span
+            <span class="pc-mtext">Salas de Aula</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span
           ></a>
           <ul class="pc-submenu">
-            <li class="pc-item"><a class="pc-link" href="../application/account-profile.html">Account Profile</a></li>
-            <li class="pc-item"><a class="pc-link" href="../application/user-card.html">User Card</a></li>
-            <li class="pc-item"><a class="pc-link" href="../application/user-list.html">User List</a></li>
+            
+            <li class="pc-item"><a class="pc-link" href="../application/user-card-v1.html">Dados Pessoais do Aluno</a></li>
+            <li class="pc-item"><a class="pc-link" href="../application/leftouvers-card.html">Refeição Card</a></li>
+            <li class="pc-item"><a class="pc-link" href="../application/user-list.html">Turmas</a></li>
           </ul>
         </li>
 
@@ -153,60 +134,7 @@
         
       </ul>
     </div>
-    <div class="card pc-user-card">
-      <div class="card-body">
-        <div class="d-flex align-items-center">
-          <div class="flex-shrink-0">
-            <img src="../assets/images/user/avatar-1.jpg" alt="user-image" class="user-avtar wid-45 rounded-circle" />
-          </div>
-          <div class="flex-grow-1 ms-3">
-            <div class="dropdown">
-              <a href="#" class="arrow-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="0,20">
-                <div class="d-flex align-items-center">
-                  <div class="flex-grow-1 me-2">
-                    <h6 class="mb-0">Jonh Smith</h6>
-                    <small>Administrator</small>
-                  </div>
-                  <div class="flex-shrink-0">
-                    <div class="btn btn-icon btn-link-secondary avtar">
-                      <i class="ph-duotone ph-windows-logo"></i>    
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <div class="dropdown-menu">
-                <ul>
-                  <li>
-                    <a class="pc-user-links">
-                      <i class="ph-duotone ph-user"></i>
-                      <span>My Account</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="pc-user-links">
-                      <i class="ph-duotone ph-gear"></i>
-                      <span>Settings</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a class="pc-user-links">
-                      <i class="ph-duotone ph-lock-key"></i>
-                      <span>Lock Screen</span>
-                    </a>
-                    </li>
-                  <li>
-                    <a class="pc-user-links">
-                      <i class="ph-duotone ph-power"></i>
-                      <span>Logout</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    
   </div>
 </nav>
 <!-- [ Sidebar Menu ] end -->
@@ -306,10 +234,7 @@
       </a>
     </li>
     <li class="dropdown pc-h-item">
-      <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button"
-        aria-haspopup="false" aria-expanded="false">
-        <i class="ph-duotone ph-diamonds-four"></i>
-      </a>
+      
       <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
         <a href="#!" class="dropdown-item">
           <i class="ph-duotone ph-user"></i>
@@ -598,14 +523,13 @@
             </div>
             <div class="col-md-12">
               <div class="page-header-title">
-                <h2 class="mb-0">User List</h2>
+                <h2 class="mb-0">Lista de Turmas</h2>
               </div>
             </div>
           </div>
         </div>
       </div>
       <!-- [ breadcrumb ] end -->
-
       <!-- [ Main Content ] start -->
       <div class="row">
         <!-- [ sample-page ] start -->
@@ -613,162 +537,17 @@
           <div class="card border-0 table-card user-profile-list">
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-hover " id="pc-dt-simple">
+                <table class="table table-hover" id="pc-dt-simple">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Position</th>
-                      <th>Office</th>
-                      <th>Age</th>
-                      <th>Start date</th>
-                      <th>Status</th>
+                      <th>Turmas</th>
+                      <th></th>
+                      <th></th>
+                      <th>Ativo</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div class="d-inline-block align-middle">
-                          <img src="../assets/images/user/avatar-1.jpg" alt="user image" class="img-radius align-top m-r-15" style="width:40px;">
-                          <div class="d-inline-block">
-                            <h6 class="m-b-0">Quinn Flynn</h6>
-                            <p class="m-b-0 text-primary">Android developer</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>Support Lead</td>
-                      <td>Edinburgh</td>
-                      <td>61</td>
-                      <td>2011/04/25</td>
-                      <td>
-                        <span class="badge bg-light-success">Active</span>
-                        <div class="overlay-edit">
-                          <ul class="list-inline mb-0">
-                            <li class="list-inline-item m-0"><a href="#" class="avtar avtar-s btn btn-primary"><i class="ti ti-pencil f-18"></i></a></li>
-                            <li class="list-inline-item m-0"><a href="#" class="avtar avtar-s btn bg-white btn-link-danger"><i class="ti ti-trash f-18"></i></a></li>
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-inline-block align-middle">
-                          <img src="../assets/images/user/avatar-2.jpg" alt="user image" class="img-radius align-top m-r-15" style="width:40px;">
-                          <div class="d-inline-block">
-                            <h6 class="m-b-0">Garrett Winters</h6>
-                            <p class="m-b-0 text-primary">Android developer</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>Accountant</td>
-                      <td>Tokyo</td>
-                      <td>63</td>
-                      <td>2011/07/25</td>
-                      <td>
-                        <span class="badge bg-light-danger">Disabled</span>
-                        <div class="overlay-edit">
-                          <ul class="list-inline mb-0">
-                            <li class="list-inline-item m-0"><a href="#" class="avtar avtar-s btn btn-primary"><i class="ti ti-pencil f-18"></i></a></li>
-                            <li class="list-inline-item m-0"><a href="#" class="avtar avtar-s btn bg-white btn-link-danger"><i class="ti ti-trash f-18"></i></a></li>
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-inline-block align-middle">
-                          <img src="../assets/images/user/avatar-3.jpg" alt="user image" class="img-radius align-top m-r-15" style="width:40px;">
-                          <div class="d-inline-block">
-                            <h6 class="m-b-0">Ashton Cox</h6>
-                            <p class="m-b-0 text-primary">Android developer</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>Junior Technical Author</td>
-                      <td>San Francisco</td>
-                      <td>66</td>
-                      <td>2009/01/12</td>
-                      <td>
-                        <span class="badge bg-light-danger">Disabled</span>
-                        <div class="overlay-edit">
-                          <ul class="list-inline mb-0">
-                            <li class="list-inline-item m-0"><a href="#" class="avtar avtar-s btn btn-primary"><i class="ti ti-pencil f-18"></i></a></li>
-                            <li class="list-inline-item m-0"><a href="#" class="avtar avtar-s btn bg-white btn-link-danger"><i class="ti ti-trash f-18"></i></a></li>
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-inline-block align-middle">
-                          <img src="../assets/images/user/avatar-4.jpg" alt="user image" class="img-radius align-top m-r-15" style="width:40px;">
-                          <div class="d-inline-block">
-                            <h6 class="m-b-0">Cedric Kelly</h6>
-                            <p class="m-b-0 text-primary">Android developer</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>Senior Javascript Developer</td>
-                      <td>Edinburgh</td>
-                      <td>22</td>
-                      <td>2012/03/29</td>
-                      <td>
-                        <span class="badge bg-light-success">Active</span>
-                        <div class="overlay-edit">
-                          <ul class="list-inline mb-0">
-                            <li class="list-inline-item m-0"><a href="#" class="avtar avtar-s btn btn-primary"><i class="ti ti-pencil f-18"></i></a></li>
-                            <li class="list-inline-item m-0"><a href="#" class="avtar avtar-s btn bg-white btn-link-danger"><i class="ti ti-trash f-18"></i></a></li>
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-inline-block align-middle">
-                          <img src="../assets/images/user/avatar-4.jpg" alt="user image" class="img-radius align-top m-r-15" style="width:40px;">
-                          <div class="d-inline-block">
-                            <h6 class="m-b-0">Airi Satou</h6>
-                            <p class="m-b-0 text-primary">Android developer</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>Accountant</td>
-                      <td>Tokyo</td>
-                      <td>33</td>
-                      <td>2008/11/28</td>
-                      <td>
-                        <span class="badge bg-light-success">Active</span>
-                        <div class="overlay-edit">
-                          <ul class="list-inline mb-0">
-                            <li class="list-inline-item m-0"><a href="#" class="avtar avtar-s btn btn-primary"><i class="ti ti-pencil f-18"></i></a></li>
-                            <li class="list-inline-item m-0"><a href="#" class="avtar avtar-s btn bg-white btn-link-danger"><i class="ti ti-trash f-18"></i></a></li>
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="d-inline-block align-middle">
-                          <img src="../assets/images/user/avatar-5.jpg" alt="user image" class="img-radius align-top m-r-15" style="width:40px;">
-                          <div class="d-inline-block">
-                            <h6 class="m-b-0">Brielle Williamson</h6>
-                            <p class="m-b-0 text-primary">Android developer</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>Integration Specialist</td>
-                      <td>New York</td>
-                      <td>61</td>
-                      <td>2012/12/02</td>
-                      <td>
-                        <span class="badge bg-light-danger">Disabled</span>
-                        <div class="overlay-edit">
-                          <ul class="list-inline mb-0">
-                            <li class="list-inline-item m-0"><a href="#" class="avtar avtar-s btn btn-primary"><i class="ti ti-pencil f-18"></i></a></li>
-                            <li class="list-inline-item m-0"><a href="#" class="avtar avtar-s btn bg-white btn-link-danger"><i class="ti ti-trash f-18"></i></a></li>
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
+                  <tbody id="turmas-table">
+
                   </tbody>
                 </table>
               </div>
@@ -784,9 +563,6 @@
   <footer class="pc-footer">
     <div class="footer-wrapper container-fluid">
       <div class="row">
-        <div class="col-sm-6 my-1">
-          <p class="m-0">Made with &#9829; by Team <a href="https://themeforest.net/user/phoenixcoded" target="_blank"> Phoenixcoded</a></p>
-        </div>
         <div class="col-sm-6 ms-auto my-1">
           <ul class="list-inline footer-link mb-0 justify-content-sm-end d-flex">
             <li class="list-inline-item"><a href="../index.html">Home</a></li>
@@ -833,12 +609,8 @@
 
   <!-- [Page Specific JS] start -->
   <script src="../assets/js/plugins/simple-datatables.js"></script>
-  <script>
-    const dataTable = new simpleDatatables.DataTable('#pc-dt-simple', {
-      sortable: false,
-      perPage: 5
-    });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="module" src="/dist/request/classroom/classrom-list.js"></script>
   <!-- [Page Specific JS] end -->
   <div class="offcanvas border-0 pct-offcanvas offcanvas-end" tabindex="-1" id="offcanvas_pc_layout">
     <div class="offcanvas-header justify-content-between">

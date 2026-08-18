@@ -29,7 +29,7 @@ File: style.css
 21. Maintaince css
 22. Pages css
 23. Icon layouts css
-24. User card css
+24. Dados Pessoais do Aluno css
 25. Application css
 26. Sweetalert css
 27. Lightbox css
@@ -26326,7 +26326,7 @@ select[data-multiselectsplitter-secondselect-selector].dataTable-input {
   23. Icon layouts css end
 ==========================  **/
 /**  =====================
-  24. User card css start
+  24. Dados Pessoais do Aluno css start
 ==========================  **/
 .user-card .card-user-image {
   width: 60px;
@@ -26715,7 +26715,7 @@ select[data-multiselectsplitter-secondselect-selector].dataTable-input {
 }
 
 /**  =====================
-  24. User card css end
+  24. Dados Pessoais do Aluno css end
 ==========================  **/
 /**  =====================
   25. Application css start
