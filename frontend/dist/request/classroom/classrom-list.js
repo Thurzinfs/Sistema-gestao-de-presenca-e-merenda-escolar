@@ -48,5 +48,3 @@ for (const u of classrooms){
     })
 
 }
-
-

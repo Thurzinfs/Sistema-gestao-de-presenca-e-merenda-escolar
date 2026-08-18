@@ -1,4 +1,4 @@
-import { requestMe, getSchool } from "../api.js";
+import { requestMe, getSchool, getStudentById, getClassroom } from "../api.js";
 
 const nameUser = document.getElementById('nameUser');
 const roleUser = document.getElementById('roleUser');
@@ -11,12 +11,14 @@ async function getSchoolByID(id) {
     }
 }
 
-async function getMe() {
+async function getStudent() {
     const access_token = localStorage.getItem("access_token");
 
-    const response = await requestMe();
+    const id_student = localStorage.getItem("id_student");
 
-    const school = await getSchoolByID(response.school_id);
+    const response = await getStudentById(id_student);
+
+    const school = await getClassroom(response.classroom);
 
     console.log(response)
 
@@ -25,4 +27,4 @@ async function getMe() {
     schoolUser.textContent = school.name;
 }
 
-getMe();
+getStudent();
