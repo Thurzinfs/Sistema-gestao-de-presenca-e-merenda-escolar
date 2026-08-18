@@ -163,9 +163,6 @@ class ResponseStudentsQrcodeUseCase:
     def execute(self, qr_code: str) -> StudentsOutDTO:
         students = self.students_repo.find_students_by_qrcode(qr_code)
         if students is None:
-            raise StudentsNotFoundException('Students not found')
-
-        if not students:
             raise StudentsNotFoundException('Students not found QR code')
 
         return StudentsOutDTO.from_domain(students)
