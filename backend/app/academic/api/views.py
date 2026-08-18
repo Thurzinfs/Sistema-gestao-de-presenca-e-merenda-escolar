@@ -121,3 +121,9 @@ def deactive_students(request, id: UUID):
     use_case = container.students_deactive_use_case()
     students = use_case.execute(id)
     return 200, StudentsOut.from_domain(students)
+
+@route_students.get('/qr_code/{qr_code}', response={200: StudentsOut})
+def response_students_qrcode(request, qr_code: str):
+    use_case = container.students_response_qr_code_use_case()
+    students = use_case.execute(qr_code)
+    return 200, StudentsOut.from_domain(students)

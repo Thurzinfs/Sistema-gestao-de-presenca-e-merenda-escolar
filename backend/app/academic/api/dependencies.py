@@ -9,6 +9,7 @@ from app.academic.application.use_case import (
     RegisterStudentsUseCase,
     ResponseClassroomUseCase,
     ListClassroomUseCase,
+    ResponseStudentsQrcodeUseCase,
     ResponseStudentsUseCase,
     StudentsUpdateUseCase,
     ListStudentsByClassroom
@@ -76,4 +77,8 @@ class AcademicContainer(containers.DeclarativeContainer):
 
     students_deactive_use_case = providers.Factory(
         DeactiveStudentsUseCase, students_repo=students_repo
+    )
+
+    students_response_qr_code_use_case = providers.Factory(
+        ResponseStudentsQrcodeUseCase, students_repo=students_repo
     )
