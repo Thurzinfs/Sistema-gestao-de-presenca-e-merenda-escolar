@@ -109,6 +109,7 @@ function verificacaoData(data, dateDay){
             to_date = dateDay
             return {from_date, to_date}
         break;
+        
     }
 }
 
@@ -119,7 +120,7 @@ function traducaoData(dateEnglashe){
         'Mon':'Segunda',
         'Tue':'Terça',
         'Wed':'Quarta',
-        'Wed':'Quinta',
+        'Thu':'Quinta',
         'Fri': 'Sexta'
     }
 
