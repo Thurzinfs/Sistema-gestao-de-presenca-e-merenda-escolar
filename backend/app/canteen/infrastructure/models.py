@@ -24,3 +24,11 @@ class LeftouversLunch(models.Model):
 
     class Meta:
         db_table = 'leftouvers_lunch'
+
+class Ingredient(models.Model):
+    id = models.UUIDField(primary_key=True, editable=True, default=uuid4)
+    component = models.CharField(max_length=255)
+    daily_menu = models.ForeignKey('canteen.DailyMenu', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'ingredient'
