@@ -11,6 +11,7 @@ from app.academic.application.use_case import (
     ListClassroomUseCase,
     ResponseStudentsUseCase,
     StudentsUpdateUseCase,
+    ListStudentsByClassroom
 )
 from app.academic.infrastructure.repository import (
     ClassroomRepository,
@@ -66,6 +67,11 @@ class AcademicContainer(containers.DeclarativeContainer):
 
     students_list_use_case = providers.Factory(
         ListStudentsUseCase, students_repo=students_repo
+    )
+
+    students_list_by_classroom_use_case = providers.Factory(
+        ListStudentsByClassroom,
+        students_repo = students_repo
     )
 
     students_deactive_use_case = providers.Factory(
