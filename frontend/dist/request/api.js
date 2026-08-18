@@ -19,6 +19,17 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+      window.location.href = '../../dist/pages/login-v2.html'; 
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const getStudentById = async (id) => {
   try {
