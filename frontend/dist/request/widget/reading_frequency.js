@@ -12,10 +12,36 @@ const statusEl = document.getElementById('status');
 const logEl = document.getElementById('log');
 const box = document.getElementById('camera-box');
 
+const cardStats = document.getElementById('card-stats');
+const cardMessage = document.getElementById('card-message');
+const cardFund = document.getElementById('card-fund');
+const cardStatus = document.getElementById('card-status');
+
+const nameEl = document.getElementById('name');
+const btnEnviar = document.getElementById('btn-enviar');
+
+function showCards() {
+    cardStats?.classList.remove('d-none');
+    cardMessage?.classList.remove('d-none');
+    cardFund?.classList.remove('d-none');
+    cardStatus?.classList.remove('d-none');
+}
+
+function hideCards() {
+    cardStats?.classList.add('d-none');
+    cardMessage?.classList.add('d-none');
+    cardFund?.classList.add('d-none');
+    cardStatus?.classList.add('d-none');
+}
+
 let stream = null;
 let scanning = false;
 let animationId = null;
 let isProcessing = false; // Trava para evitar leituras duplicadas simultâneas
+
+// Guarda o aluno e a leitura atual, aguardando o clique em "Enviar"
+let currentStudent = null;
+let currentReading = null;
 
 function log(msg) {
     const item = document.createElement('div');
@@ -25,7 +51,7 @@ function log(msg) {
 
 async function sendReading(student) {
     const dataReading = {
-        student: student.id,
+        student: student,
         moment: "LUNCH"
     };
 
@@ -34,7 +60,7 @@ async function sendReading(student) {
         log('Leitura registrada com sucesso!');
         return response.dados;
     } else {
-        log('Erro ao registrar leitura.');
+        log('Leitura ja Registrada.');
         return null;
     }
 }
@@ -57,23 +83,31 @@ async function sendFrequency(studentId, readingId) {
     }
 }
 
-async function sendRegisterSnack(studentId, type_snack, readingId) {
+async function sendRegisterSnack(studentId, type_snack, readingId, moment = "LUNCH") {
     const dataSnack = {
         student: studentId,
         date: new Date().toISOString().split('T')[0],
-        moment: "LUNCH",
+        moment: moment,
         type_snack: type_snack,
         reading: readingId
     };
 
     const response = await registerSnack(dataSnack);
     if (response && (response.status === 201 || response.status === 200)) {
-        log('Lanche registrado com sucesso!');
+        log('Registro enviado com sucesso!');
         return response.dados;
     } else {
-        log('Erro ao registrar lanche.');
+        log('Erro ao registrar.');
         return null;
     }
+}
+
+function resetToScanning() {
+    currentStudent = null;
+    currentReading = null;
+    hideCards();
+    isProcessing = false;
+    statusEl.textContent = 'Procurando QR code...';
 }
 
 async function processQRCode(qrData) {
@@ -89,20 +123,27 @@ async function processQRCode(qrData) {
             log(`Aluno: ${student.name || student.id}`);
 
             // 1. Registra leitura
-            const reading = await sendReading(student);
+            const reading = await sendReading(student.id);
 
             if (reading && reading.id) {
                 console.log('reading', reading);
-                // 2. Registra frequência
+
+                // Guarda para uso no clique de "Enviar"
+                currentStudent = student;
+                currentReading = reading;
+
+                if (nameEl) {
+                    nameEl.textContent = student.name || student.id;
+                }
+
+                showCards();
+
+                // 2. Registra frequência (automático)
                 await sendFrequency(student.id, reading.id);
                 console.log('Frequência registrada para o aluno:', student.name || student.id);
 
-                const { wantsSnack, wantsLunch, lunchType: chosenLunchType } =
-                await askMealPreferences(student.name);
-
-                // 3. Registra lanche
-                await sendRegisterSnack(student.id, "STANDARD", reading.id);
-                console.log('Lanche registrado para o aluno:', student.name || student.id);
+                statusEl.textContent = 'Selecione as opções e clique em Enviar.';
+                return; // aguarda a ação do usuário no botão Enviar
             }
         } else {
             log('Aluno não encontrado para este QR Code.');
@@ -110,14 +151,47 @@ async function processQRCode(qrData) {
     } catch (error) {
         console.error(error);
         log('Erro ao processar requisições do QR Code.');
-    } finally {
-        // Pausa de 3 segundos para o usuário afastar o QR Code antes de ler o próximo
-        setTimeout(() => {
-            isProcessing = false;
-            statusEl.textContent = 'Procurando QR code...';
-        }, 3000);
     }
+
+    // Só libera a próxima leitura automaticamente se não chegou a exibir o card
+    setTimeout(() => {
+        isProcessing = false;
+        statusEl.textContent = 'Procurando QR code...';
+    }, 3000);
 }
+
+// Ação do botão "Enviar"
+btnEnviar?.addEventListener('click', async () => {
+    if (!currentStudent || !currentReading) {
+        log('Nenhum aluno pendente para envio.');
+        return;
+    }
+
+    btnEnviar.disabled = true;
+
+    try {
+        const wantsSnack = document.getElementById('lanchar-sim')?.checked;
+        const lunchType = document.getElementById('almoco-pouco')?.checked ? 'POUCO' : 'NORMAL';
+
+        // Lanche (só envia se "Sim")
+        if (wantsSnack) {
+            await sendRegisterSnack(currentStudent.id, 'NORMAL', currentReading.id, 'SNACK');
+        }
+
+        // Almoço (Pouco ou Normal)
+        await sendRegisterSnack(currentStudent.id, lunchType, currentReading.id, 'LUNCH');
+
+        log(`Preferências enviadas: Lanche = ${wantsSnack ? 'Sim' : 'Não'}, Almoço = ${lunchType}`);
+    } catch (error) {
+        console.error(error);
+        log('Erro ao enviar preferências.');
+    } finally {
+        btnEnviar.disabled = false;
+        setTimeout(() => {
+            resetToScanning();
+        }, 1500);
+    }
+});
 
 async function ligarCamera() {
     try {

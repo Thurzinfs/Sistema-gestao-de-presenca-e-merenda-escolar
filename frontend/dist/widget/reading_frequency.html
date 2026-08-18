@@ -572,7 +572,7 @@
           <!-- [ Row 1 ] start -->
 
           <!-- Card 1: William Bond stats -->
-          <div class="col-md-6 col-xl-4">
+          <div class="col-md-6 col-xl-4 d-none" id="card-status">
             <div class="card user-card">
               <div class="card-body">
                 <div class="user-cover-bg">
@@ -590,49 +590,42 @@
                 </div>
                 <div class="d-flex flex-wrap gap-2">
                   <div class="flex-grow-1">
-                    <h6 class="mb-1">William Bond</h6>
-                    <p class="text-muted text-sm mb-0">DM on <a href="#" class="text-primary">@williambond</a></p>
-                  </div>
-                  <div class="flex-shrink-0">
-                    <button class="btn btn-primary btn-sm">Message</button>
-                    <button class="btn btn-outline-secondary btn-sm ms-1">Follow</button>
+                    <h6 class="mb-1" id="name"></h6>
                   </div>
                 </div>
-                <div class="row g-3 my-3 text-center">
-                  <div class="col-4">
-                    <h5 class="mb-0">86</h5>
-                    <small class="text-muted">Post</small>
-                  </div>
-                  <div class="col-4 border border-top-0 border-bottom-0">
-                    <h5 class="mb-0">40</h5>
-                    <small class="text-muted">Project</small>
-                  </div>
-                  <div class="col-4">
-                    <h5 class="mb-0">4.5K</h5>
-                    <small class="text-muted">Members</small>
-                  </div>
-                </div>
+
                 <div class="saprator my-3">
-                  <span>Skills</span>
+                  <span>Refeições</span>
                 </div>
-                <div class="text-center">
-                  <span class="badge bg-light-secondary border rounded-pill border-secondary bg-transparent f-14 me-1 mt-1">UX</span>
-                  <span class="badge bg-light-secondary border rounded-pill border-secondary bg-transparent f-14 me-1 mt-1">Figma</span>
-                  <span class="badge bg-light-secondary border rounded-pill border-secondary bg-transparent f-14 me-1 mt-1">Backend</span>
-                </div>
-                <div class="saprator my-3">
-                  <span>Task completed</span>
-                </div>
-                <div class="d-flex align-items-center">
-                  <div class="flex-grow-1 me-2">
-                    <div class="progress" style="height: 8px;">
-                      <div class="progress-bar bg-primary" style="width: 60%"></div>
+
+                <div class="row g-3">
+                  <div class="col-6">
+                    <label class="form-label text-muted mb-1 d-block text-center">Lanchar</label>
+                    <div class="btn-group w-100" role="group" aria-label="Lanchar" data-bs-toggle="buttons">
+                      <input type="radio" class="btn-check" name="lanchar" id="lanchar-sim" autocomplete="off">
+                      <label class="btn btn-outline-success btn-sm" for="lanchar-sim">Sim</label>
+
+                      <input type="radio" class="btn-check" name="lanchar" id="lanchar-nao" autocomplete="off" checked>
+                      <label class="btn btn-outline-danger btn-sm" for="lanchar-nao">Não</label>
                     </div>
                   </div>
-                  <div class="flex-shrink-0">
-                    <h6 class="mb-0">30%</h6>
+
+                  <div class="col-6">
+                    <label class="form-label text-muted mb-1 d-block text-center">Almoço</label>
+                    <div class="btn-group w-100" role="group" aria-label="Almoço" data-bs-toggle="buttons">
+                      <input type="radio" class="btn-check" name="almoco" id="almoco-pouco" autocomplete="off">
+                      <label class="btn btn-outline-warning btn-sm" for="almoco-pouco">Pouco</label>
+
+                      <input type="radio" class="btn-check" name="almoco" id="almoco-normal" autocomplete="off" checked>
+                      <label class="btn btn-outline-primary btn-sm" for="almoco-normal">Normal</label>
+                    </div>
                   </div>
                 </div>
+
+                <div class="text-center mt-3">
+                  <button class="btn btn-primary w-100" id="btn-enviar">Enviar</button>
+                </div>
+
               </div>
             </div>
           </div>
@@ -655,101 +648,6 @@
             </div>
           </div>
           <canvas id="canvas" style="display:none;"></canvas>
-
-          <!-- Card 3: William Bond message card -->
-          <div class="col-md-6 col-xl-4">
-            <div class="card">
-              <div class="card-body position-relative">
-                <div class="text-center mt-3">
-                  <div class="chat-avtar d-inline-flex mx-auto">
-                    <img
-                      class="rounded-circle img-fluid wid-90 img-thumbnail"
-                      src="../assets/images/user/avatar-1.jpg"
-                      alt="User image"
-                    >
-                    <i class="chat-badge bg-danger me-2 mb-2"></i>
-                  </div>
-                  <h5 class="mb-0">William Bond</h5>
-                  <p class="text-muted text-sm">DM on <a href="#" class="link-primary"> @williambond </a> 😍</p>
-                  <div class="row">
-                    <div class="col-6">
-                      <div class="d-grid"><button class="btn btn-primary">Accept</button></div>
-                    </div>
-                    <div class="col-6">
-                      <div class="d-grid"><button class="btn btn-outline-secondary">Decline</button></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 4: Add Fund -->
-          <div class="col-md-6 col-xl-4">
-            <div class="card">
-              <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                  <h5 class="mb-0">Add Fund</h5>
-                  <div class="dropdown">
-                    <a
-                      class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
-                      href="#"
-                      data-bs-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      <i class="ti ti-dots-vertical f-18"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                      <a class="dropdown-item" href="#">Today</a>
-                      <a class="dropdown-item" href="#">Weekly</a>
-                      <a class="dropdown-item" href="#">Monthly</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="text-center">
-                  <p class="mb-1">Amount</p>
-                  <h3>$100</h3>
-                  <ul class="list-inline my-3">
-                    <li class="list-inline-item"><span class="badge border bg-light-primary">$100</span></li>
-                    <li class="list-inline-item"><span class="badge border bg-transparent border text-body">$150</span></li>
-                    <li class="list-inline-item"><span class="badge border bg-transparent border text-body">$200</span></li>
-                    <li class="list-inline-item"><span class="badge border bg-transparent border text-body">$250</span></li>
-                  </ul>
-                </div>
-                <div class="border rounded p-3 my-3">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                      <img src="../assets/images/user/avatar-1.jpg" alt="user-image" class="avtar rounded-circle wid-45 hei-45" >
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                      <h6 class="mb-0">Able pro</h6>
-                      <small class="text-muted">@ableprodevelop</small>
-                    </div>
-                    <div class="dropdown">
-                      <a
-                        class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
-                        href="#"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        <i class="ti ti-chevron-down f-18"></i>
-                      </a>
-                      <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="#">Active</a>
-                        <a class="dropdown-item" href="#">Disable</a>
-                        <a class="dropdown-item" href="#">Remove</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="d-grid">
-                  <button class="btn btn-primary">Confirm</button>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <!-- [ Row 1 ] end -->
         </div>
