@@ -91,7 +91,7 @@ class StudentsRepository(IStudentsRepository):
         except Student.DoesNotExist:
             return None
 
-    def find_students_by_qrcode(self, qr_code) -> StudentsEntity | None:
+    def find_students_by_qrcode(self, qr_code: str) -> StudentsEntity | None:
         try:
             return self._to_entity(Student.objects.get(qr_code=qr_code))
         except Student.DoesNotExist:
