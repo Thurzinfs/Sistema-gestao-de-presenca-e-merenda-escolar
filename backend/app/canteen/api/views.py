@@ -10,21 +10,24 @@ from app.canteen.api.schemas import (
     LeftouversLunchIn,
     LeftouversLunchOut,
     LeftouversLunchUpdate,
+    IngredientIn,
+    IngredientOut
 )
 from datetime import date as Date
 
 router = Router()
 leftouverslunch_router = Router()
+ingredients_router = Router()
 
 canteen_container = CanteenContainer()
 
 
 @router.post('/', response={201: DailyMenuOut})
 @atomic
-def register_daily_menu(request, data: DailyMenuIn):
+def register_daily_menu(request, data: DailyMenuIn, ingredients: List[IngredientIn]):
     use_case = canteen_container.register_daily_menu_use_case()
     dto = data.to_dto()
-    response = use_case.execute(dto)
+    response = use_case.execute(dto, [ingredient.to_dto() for ingredient in ingredients])
     return 201, DailyMenuOut.from_domain(response)
 
 @router.get('/{id}', response={200: DailyMenuOut})
@@ -74,13 +77,6 @@ def view_leftouvers_by_id(request, id: UUID):
     response = use_case.execute(id)
     return 200, LeftouversLunchOut.from_domain(response)
 
-@leftouverslunch_router.patch('/{id}', response={200: LeftouversLunchOut})
-@atomic
-def update_leftouvers_lunch(request, id: UUID, data: LeftouversLunchUpdate):
-    use_case = canteen_container.leftouvers_lunch_update_use_case()
-    dto = data.to_dto()
-    response = use_case.execute(id, dto)
-    return 200, LeftouversLunchOut.from_domain(response)
 
 @leftouverslunch_router.get(
     '/month/{month}', response={200: LeftouversLunchOut}
@@ -93,3 +89,24 @@ def view_leftouvers_by_month(request, month: int):
     return 200, LeftouversLunchOut.from_domain(response)
 
 
+@leftouverslunch_router.patch('/{id}', response={200: LeftouversLunchOut})
+@atomic
+def update_leftouvers_lunch(request, id: UUID, data: LeftouversLunchUpdate):
+    use_case = canteen_container.leftouvers_lunch_update_use_case()
+    dto = data.to_dto()
+    response = use_case.execute(id, dto)
+    return 200, LeftouversLunchOut.from_domain(response)
+
+@ingredients_router.get('/by-menu', response={200: List[IngredientOut]})
+def view_by_daily_menu(request, daily_menu_id: UUID):
+    use_case = canteen_container.ingredients_return_with_daily_menu_use_case()
+
+    response = use_case.execute(daily_menu_id)
+    return 200, [IngredientOut.from_domain(entity) for entity in response]
+
+@ingredients_router.get('/{id}', response={200: IngredientOut})
+def view_ingredient(request, id: UUID):
+    use_case = canteen_container.ingredients_return_with_id_use_case()
+
+    response = use_case.execute(id)
+    return 200, IngredientOut.from_domain(response)
