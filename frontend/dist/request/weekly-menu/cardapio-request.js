@@ -189,7 +189,11 @@ console.log(dateTra)
 
 labelData.textContent = `${dateTra['dia']}, ${dateTra['mesN']} de ${dateTra['mes']} de ${dateTra['ano']}`
 
-const menuHoje = await getMenuCanteenDate('2026-08-17')
+const toDay = `${date.getFullYear()}-0${date.getMonth() + 1}-${date.getDate()}`
+
+console.log(toDay)
+
+const menuHoje = await getMenuCanteenDate(toDay)
 
 console.log(menuHoje)
 
