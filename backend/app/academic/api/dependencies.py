@@ -9,8 +9,10 @@ from app.academic.application.use_case import (
     RegisterStudentsUseCase,
     ResponseClassroomUseCase,
     ListClassroomUseCase,
+    ResponseStudentsQrcodeUseCase,
     ResponseStudentsUseCase,
     StudentsUpdateUseCase,
+    ListStudentsByClassroom
 )
 from app.academic.infrastructure.repository import (
     ClassroomRepository,
@@ -68,6 +70,15 @@ class AcademicContainer(containers.DeclarativeContainer):
         ListStudentsUseCase, students_repo=students_repo
     )
 
+    students_list_by_classroom_use_case = providers.Factory(
+        ListStudentsByClassroom,
+        students_repo = students_repo
+    )
+
     students_deactive_use_case = providers.Factory(
         DeactiveStudentsUseCase, students_repo=students_repo
+    )
+
+    students_response_qr_code_use_case = providers.Factory(
+        ResponseStudentsQrcodeUseCase, students_repo=students_repo
     )

@@ -66,3 +66,19 @@ class LeftouversLunchOutDTO(BaseModel):
 class LeftouversLunchUpdateDTO(BaseModel):
     leftouvers_kg: Optional[int] = None
     amount_students: Optional[int] = None
+
+class IngredientInDTO(BaseModel):
+    component: str
+
+class IngredientOutDTO(BaseModel):
+    id: UUID
+    component: str
+    daily_menu: UUID
+
+    @classmethod
+    def from_domain(cls, entity):
+        return cls(
+            id=entity.id,
+            component=entity.component,
+            daily_menu=entity.daily_menu
+        )

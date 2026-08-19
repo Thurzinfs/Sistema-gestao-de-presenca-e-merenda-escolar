@@ -93,6 +93,11 @@ def list_all_students(request):
     students = use_case.execute(active=None)
     return 200, [StudentsOut.from_domain(student) for student in students]
 
+@route_students.get('/list-by-classroom', response={200: List[StudentsOut]})
+def list_by_classroom(request, classroom_id: UUID):
+    use_case = container.students_list_by_classroom_use_case()
+    students = use_case.execute(classroom_id)
+    return 200, [StudentsOut.from_domain(student) for student in students]
 
 @route_students.get('/{id}', response={200: StudentsOut})
 def response_students(request, id: UUID):
@@ -115,4 +120,10 @@ def update_students(request, id: UUID, data: StudentsUpdate):
 def deactive_students(request, id: UUID):
     use_case = container.students_deactive_use_case()
     students = use_case.execute(id)
+    return 200, StudentsOut.from_domain(students)
+
+@route_students.get('/qr_code/{qr_code}', response={200: StudentsOut})
+def response_students_qrcode(request, qr_code: str):
+    use_case = container.students_response_qr_code_use_case()
+    students = use_case.execute(qr_code)
     return 200, StudentsOut.from_domain(students)

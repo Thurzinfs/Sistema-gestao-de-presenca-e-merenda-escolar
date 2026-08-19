@@ -9,10 +9,13 @@ from app.canteen.application.use_cases import (
     ReturnLeftouversLunchWithIdUseCase,
     ReturnLeftouversLunchWithMonthUseCase,
     UpdateLeftouversLunchUseCase,
+    ReturnIngredientWithIdUseCase,
+    ReturnIngredientWithDailyMenuUseCase
 )
 from app.canteen.infrastructure.repository import (
     DailyMenuRepository,
     LeftouversLunchRepository,
+    IngredientRepository
 )
 from app.canteen.infrastructure.service import (
     PickDatesService,
@@ -37,15 +40,18 @@ class CanteenContainer(containers.DeclarativeContainer):
     manager_repo = providers.Factory(DjangoManagerRepository)
     school_repo = providers.Factory(DjangoSchoolRepository)
 
+    # dependencies of ingredients
+    ingredient_repo = providers.Factory(IngredientRepository)
+
     # daily menu use cases
     register_daily_menu_use_case = providers.Factory(
-        RegisterDailyMenuUseCase, daily_menu_repo=daily_menu_repo
+        RegisterDailyMenuUseCase, daily_menu_repo=daily_menu_repo, ingredient_repo = ingredient_repo
     )
 
     daily_menu_return_use_case = providers.Factory(
         ReturnDailyMenuUseCase, daily_menu_repo=daily_menu_repo
     )
-
+    
     daily_menu_update_use_case = providers.Factory(
         UpdateDailyMenuUseCase, daily_menu_repo=daily_menu_repo
     )
@@ -78,5 +84,15 @@ class CanteenContainer(containers.DeclarativeContainer):
     leftouvers_lunch_update_use_case = providers.Factory(
         UpdateLeftouversLunchUseCase,
         leftouvers_lunch_repo=leftouvers_lunch_repo,
-        leftouvers_lunch_exists_service=leftouvers_lunch_exists_service
+        leftouvers_lunch_exists_service = leftouvers_lunch_exists_service
+    )
+
+    # ingredients use cases
+    ingredients_return_with_id_use_case = providers.Factory(
+        ReturnIngredientWithIdUseCase,
+        ingredient_repo = ingredient_repo
+    )
+    ingredients_return_with_daily_menu_use_case = providers.Factory(
+        ReturnIngredientWithDailyMenuUseCase,
+        ingredient_repo = ingredient_repo
     )

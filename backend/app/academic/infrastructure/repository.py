@@ -91,11 +91,21 @@ class StudentsRepository(IStudentsRepository):
         except Student.DoesNotExist:
             return None
 
+    def find_students_by_qrcode(self, qr_code: str) -> StudentsEntity | None:
+        try:
+            return self._to_entity(Student.objects.get(qr_code=qr_code))
+        except Student.DoesNotExist:
+            return None
+
     def list_students_active(self, active: bool) -> List[StudentsEntity]:
         qs = Student.objects.all()
         if active is not None:
             qs = qs.filter(active=active)
         return [self._to_entity(students) for students in qs]
+
+    def list_by_classroom(self, classroom_id: UUID) -> List[StudentsEntity]:
+        models = Student.objects.filter(classroom=classroom_id)
+        return [self._to_entity(model) for model in models]
 
     def verify_students_by_name(self, name: str) -> bool:
         return Student.objects.filter(name=name).exists()

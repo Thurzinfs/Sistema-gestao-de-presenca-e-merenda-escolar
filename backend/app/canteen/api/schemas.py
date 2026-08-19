@@ -8,6 +8,7 @@ from app.canteen.application.dtos import (
     DailyMenuUpdateDTO,
     LeftouversLunchInDTO,
     LeftouversLunchUpdateDTO,
+    IngredientInDTO
 )
 
 
@@ -97,4 +98,25 @@ class LeftouversLunchUpdate(Schema):
         return LeftouversLunchUpdateDTO(
             leftouvers_kg=self.leftouvers_kg,
             amount_students=self.amount_students,
+        )
+
+class IngredientIn(Schema):
+    component: str
+
+    def to_dto(self):
+        return IngredientInDTO(
+            component=self.component
+        )
+
+class IngredientOut(Schema):
+    id: UUID
+    component: str
+    daily_menu: UUID
+
+    @staticmethod
+    def from_domain(entity):
+        return IngredientOut(
+            id=entity.id,
+            component=entity.component,
+            daily_menu=entity.daily_menu
         )

@@ -156,6 +156,16 @@ class ResponseStudentsUseCase:
 
         return StudentsOutDTO.from_domain(students)
 
+class ResponseStudentsQrcodeUseCase:
+    def __init__(self, students_repo: IStudentsRepository) -> None:
+        self.students_repo = students_repo
+
+    def execute(self, qr_code: str) -> StudentsOutDTO:
+        students = self.students_repo.find_students_by_qrcode(qr_code)
+        if students is None:
+            raise StudentsNotFoundException('Students not found QR code')
+
+        return StudentsOutDTO.from_domain(students)
 
 class StudentsUpdateUseCase:
     def __init__(self, students_repo: IStudentsRepository) -> None:
@@ -190,6 +200,13 @@ class ListStudentsUseCase:
         students = self.students_repo.list_students_active(active=active)
         return [StudentsOutDTO.from_domain(student) for student in students]
 
+class ListStudentsByClassroom:
+    def __init__(self, students_repo: IStudentsRepository) -> None:
+        self.students_repo = students_repo
+
+    def execute(self, classroom_id: UUID) -> List[StudentsOutDTO]:
+        entities = self.students_repo.list_by_classroom(classroom_id)
+        return [StudentsOutDTO.from_domain(entity) for entity in entities]
 
 class DeactiveStudentsUseCase:
     def __init__(self, students_repo: IStudentsRepository) -> None:

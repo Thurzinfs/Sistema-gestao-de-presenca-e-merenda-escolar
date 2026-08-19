@@ -37,3 +37,9 @@ class LeftouversLunchEntity:
     def change_amount_students(self, amount_students: int):
         if amount_students:
             self.amount_students = amount_students
+
+@dataclass
+class IngredientEntity:
+    id: UUID = field(default_factory=uuid4)
+    component: str = field(default='')
+    daily_menu: UUID | None = field(default=None)
