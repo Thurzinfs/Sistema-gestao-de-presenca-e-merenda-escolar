@@ -1,0 +1,45 @@
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+.label {
+    margin-bottom: 8px;
+    color: #707070;
+}
+
+.input {
+    background-color: #3e3e3f;
+    padding: 12px;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    padding-left: 14px;
+    color: #ffff;
+    width: 100%;
+    box-sizing: border-box; 
+}
+
+.inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.toggleButton {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px #3e3e3f inset !important;
+    -webkit-text-fill-color: #ffff !important;
+    transition: background-color 5000s ease-in-out 0s; 
+}

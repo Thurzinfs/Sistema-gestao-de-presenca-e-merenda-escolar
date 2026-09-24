@@ -1,0 +1,21 @@
+.container {
+    padding: 12px;
+    border-radius: 12px;
+    border: 0.5px solid rgba(231, 68, 3, 0.171);
+    background-color: #90909011;
+    padding-left: 24px;
+}
+.title {
+    color: #909090;
+    margin-bottom: 0;
+}
+
+.description {
+    color: #909090;
+    margin-top: 0;
+}
+
+.data {
+    color: #ffff;
+    margin: 4px 0;
+}

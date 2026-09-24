@@ -1,0 +1,56 @@
+.container {
+    min-height: 100vh;
+    display: flex;
+}
+
+.wrapperContent {
+    max-width: 1000px;
+    border: 1px;
+    flex: 1;
+    box-sizing: border-box;
+    margin: 0 auto;
+    min-width: 0;
+    max-width: 1000px;
+    padding: 24px 20px 40px;   
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+}
+
+.labelsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: #6d6d6d; 
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0 28px; 
+    box-sizing: border-box;
+    margin-bottom: 8px; 
+}
+
+.labelStudentInfo {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.labelFrequency {
+    display: flex;
+    flex-direction: row;
+    gap: 15px; 
+}
+
+.labelFrequency p {
+    margin: 0;
+    text-align: center; 
+}
+
+.labelStudentInfo p {
+    margin: 0;
+}

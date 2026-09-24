@@ -128,7 +128,7 @@ class RegisterSnackRepository(IRegisterSnackRepository):
     def _to_model(self, model: RegisterSnack):
         return RegisterSnackEntity(
             id=model.id,
-            student=model.id,
+            student=model.student.id,
             date=model.date,
             moment=model.moment,
             type_snack=model.type_snack,

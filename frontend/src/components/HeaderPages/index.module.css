@@ -1,0 +1,42 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 32px 24px;
+    align-items: center;
+    gap: 15px;
+}
+
+.icon {
+    background-color: #ff5500;
+    padding: 12px;
+    border-radius: 12px;
+    color: #fff;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    color: #8c8c8c;
+    font-weight: 900;
+    margin: 0;
+}
+
+.subTitle {
+    color: #737373;
+    font-size: 0.85rem;
+    margin: 0;
+    text-align: inherit;
+}
+
+.white {
+    color: #ffff;
+}
+
+.orange {
+    color: #ff5500;
+}

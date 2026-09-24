@@ -1,0 +1,59 @@
+.header {
+    background-color: #0d0d0d;
+    padding: 32px 24px;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.divReg {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 12px;
+    justify-content: center;
+}
+
+.textBox {
+    background-color: #ff5500;
+    color: #0d0d0d;
+    font-weight: 800;
+    font-size: 0.75rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    margin: 0; 
+}
+
+.title {
+    color: #8c8c8c;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.mainTitle {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    line-height: 1.1;
+}
+
+.white {
+    color: #ffffff; 
+}
+
+.orange {
+    color: #ff5500;
+}
+
+.description {
+    color: #737373;
+    font-size: 0.85rem;
+    margin: 0;
+    text-align: inherit;
+}
